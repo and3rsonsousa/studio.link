@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	.default-spacing {
+		@apply px-6 py-3;
+	}
+
+	.text-xx {
+		@apply text-[.625rem] tracking-wide;
+	}
+}
+
+@layer base {
+	body {
+		@apply bg-gray-900 font-light text-gray-500 antialiased;
+	}
+
+	a {
+		@apply text-gray-300 transition hover:text-brand-400;
+	}
+
+	h1 {
+		@apply mb-4 text-5xl font-bold tracking-tight;
+	}
+	h2 {
+		@apply mb-2 text-3xl font-bold tracking-tight;
+	}
+	h3 {
+		@apply mb-2 text-2xl font-bold tracking-tight;
+	}
+	h4 {
+		@apply mb-2 text-xl font-semibold;
+	}
+	h5 {
+		@apply font-semibold uppercase tracking-wide;
+	}
+}
+
+@layer components {
+	/* 
+	
+	
+	Forms 
+	
+	
+	*/
+
+	.field {
+		@apply w-full;
+	}
+	.field .before,
+	.field .after {
+		@apply py-3 px-4;
+	}
+
+	.field-button {
+		@apply flex items-center bg-transparent px-4 py-3 text-xs font-bold tracking-wide outline-none hover:text-gray-500 focus:text-gray-300;
+	}
+
+	.field-icon {
+		@apply text-2xl;
+	}
+
+	.field:focus-within .field-label {
+		@apply text-gray-300;
+	}
+	.field:focus-within .before {
+		@apply text-brand;
+	}
+
+	.field > *:first-child {
+		@apply rounded-l-xl;
+	}
+	.field > *:last-child {
+		@apply rounded-r-xl;
+	}
+
+	.field-label {
+		@apply mb-2 mt-4 block font-semibold transition;
+	}
+
+	.field-input-holder {
+		@apply flex w-full overflow-hidden rounded-xl bg-black/50 font-semibold  ring-brand/50 transition focus-within:ring-4 focus-within:ring-brand hover:bg-black/75 hover:ring-4;
+	}
+
+	.field-input-holder.error {
+		@apply ring-red-700;
+	}
+
+	.field-input {
+		@apply default-spacing w-full appearance-none bg-transparent text-gray-400 outline-none transition placeholder:text-gray-700 focus:text-gray-300;
+	}
+
+	/*
+	
+	
+	Button
+	
+	
+	*/
+
+	.button {
+		@apply default-spacing rounded-xl bg-gray-800 font-semibold tracking-wide text-gray-300 outline-none ring-brand transition hover:bg-gray-700 hover:text-white focus:bg-gray-700 focus:text-white focus:ring-4;
+	}
+
+	.button-primary {
+		@apply bg-brand text-white hover:bg-brand-700 focus:bg-brand-800;
+	}
+
+	.button-ghost {
+		@apply bg-transparent hover:bg-transparent focus:bg-transparent;
+	}
+
+	/* Error */
+
+	.error-banner {
+		@apply rounded-lg bg-red-700  px-4 py-1 text-sm font-semibold tracking-wide text-red-300;
+	}
+}
+
+.dropdown-content {
+	@apply overflow-hidden rounded-lg bg-gray-800 shadow-2xl;
+}
+
+.dropdown-trigger {
+	@apply text-gray-400 outline-none transition hover:text-gray-200;
+}
+.dropdown-item {
+	@apply default-spacing bg-gray-800 text-sm font-semibold text-gray-300 outline-none hover:bg-gray-700 hover:text-gray-200 focus:bg-gray-700 focus:text-gray-200;
+}
