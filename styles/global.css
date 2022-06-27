@@ -18,7 +18,7 @@
 	}
 
 	a {
-		@apply text-gray-300 transition hover:text-brand-400;
+		@apply rounded-lg font-semibold text-gray-300 underline-offset-4 outline-none transition hover:text-brand focus:text-brand focus:underline;
 	}
 
 	h1 {
@@ -85,6 +85,17 @@
 		@apply flex w-full overflow-hidden rounded-xl bg-black/50 font-semibold  ring-brand/50 transition focus-within:ring-4 focus-within:ring-brand hover:bg-black/75 hover:ring-4;
 	}
 
+	.field-checkbox-holder {
+		@apply mt-2 flex items-center space-x-4;
+	}
+	.field-checkbox-holder .field-label {
+		@apply my-3;
+	}
+
+	.field-checkbox {
+		@apply relative appearance-none rounded-lg bg-brand p-3 outline-none ring-brand transition after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-90 after:rounded  after:bg-white after:p-1.5 after:opacity-0 after:transition after:content-[""] checked:after:scale-100 checked:after:opacity-100 focus:bg-brand-800 focus:ring-4;
+	}
+
 	.field-input-holder.error {
 		@apply ring-red-700;
 	}
@@ -121,12 +132,19 @@
 }
 
 .dropdown-content {
-	@apply overflow-hidden rounded-lg bg-gray-800 shadow-2xl;
+	@apply overflow-hidden rounded-lg border border-white/10 bg-gray-600/20 shadow-2xl backdrop-blur;
 }
 
+.dropdown-divider {
+	@apply border-t border-white/10;
+}
 .dropdown-trigger {
 	@apply text-gray-400 outline-none transition hover:text-gray-200;
 }
-.dropdown-item {
-	@apply default-spacing bg-gray-800 text-sm font-semibold text-gray-300 outline-none hover:bg-gray-700 hover:text-gray-200 focus:bg-gray-700 focus:text-gray-200;
+.dropdown-item:not([data-disabled]) {
+	@apply default-spacing  text-sm font-semibold text-gray-300 outline-none hover:bg-brand hover:text-white focus:bg-brand focus:text-white;
+}
+
+[data-disabled] {
+	@apply default-spacing text-sm font-semibold text-gray-600 outline-none;
 }

@@ -10,18 +10,36 @@ export default function Field({
 	before,
 	after,
 	error,
+	value,
+	checked = false,
 }: {
 	name: string;
 	label: string;
 	required?: true;
-	type: "text" | "password" | "email";
+	type: "text" | "password" | "email" | "checkbox";
 	placeholder?: string;
 	autoFocus?: true | false;
 	before?: React.ReactChild;
 	after?: React.ReactChild;
 	error?: string;
+	value?: string;
+	checked?: boolean;
 }) {
-	return (
+	return type === "checkbox" ? (
+		<div className="field-checkbox-holder">
+			<input
+				type="checkbox"
+				className="field-checkbox"
+				name={name}
+				id={name}
+				value={value}
+				defaultChecked={checked}
+			/>
+			<label htmlFor={name} className="field-label">
+				{label}
+			</label>
+		</div>
+	) : (
 		<div className="field">
 			<label htmlFor={name} className="field-label">
 				{label}
@@ -37,6 +55,7 @@ export default function Field({
 						after ? "pr-2" : ""
 					}`}
 					autoFocus={autoFocus}
+					defaultValue={value}
 				/>
 				{after}
 			</div>

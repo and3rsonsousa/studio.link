@@ -1,4 +1,8 @@
-import type { ErrorBoundaryComponent, MetaFunction } from "@remix-run/node";
+import type {
+	ErrorBoundaryComponent,
+	LinksFunction,
+	MetaFunction,
+} from "@remix-run/node";
 import {
 	Link,
 	Links,
@@ -9,7 +13,6 @@ import {
 	ScrollRestoration,
 	useCatch,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node"; // or "@remix-run/cloudflare"
 
 // ...
 
@@ -32,6 +35,7 @@ export default function App() {
 			</head>
 			<body>
 				<Outlet />
+
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
