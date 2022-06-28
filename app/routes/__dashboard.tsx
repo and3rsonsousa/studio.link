@@ -1,9 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import Layout from "~/components/Layout/Layout";
 import { getUser } from "~/utils/auth.server";
 import { getAccounts, getPerson } from "~/utils/data";
+import { AccountModel } from "~/utils/models";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	const { user } = await getUser(request);
@@ -21,9 +22,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Index() {
+	const { accounts }: { accounts: AccountModel[] } = useLoaderData();
 	return (
 		<Layout>
-			<Outlet />
+			<Outlet context={{ accounts }} />
 		</Layout>
 	);
 }

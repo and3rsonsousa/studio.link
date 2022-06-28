@@ -7,13 +7,28 @@ const Button: React.FC<{
 	form?: string;
 	primary?: true;
 	ghost?: true;
+	small?: true;
+	large?: true;
 	onClick?: () => void;
-}> = ({ children, type, name, value, form, primary, ghost, onClick }) => {
+}> = ({
+	children,
+	type,
+	name,
+	value,
+	form,
+	primary,
+	ghost,
+	small,
+	large,
+	onClick,
+}) => {
 	return (
 		<button
 			className={`button ${primary && "button-primary"} ${
 				ghost && "button-ghost"
-			} whitespace-nowrap`}
+			} whitespace-nowrap ${small && "button-small"} ${
+				large && "button-large"
+			}`}
 			name={name}
 			value={value}
 			form={form}

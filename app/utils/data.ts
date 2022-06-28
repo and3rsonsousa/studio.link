@@ -4,7 +4,13 @@ export const getPerson = (id: string) =>
 	supabaseClient.from("Person").select("*").eq("user", id).single();
 
 export const getAccounts = (user: string) =>
-	supabaseClient.from("Account").select("*").contains("users", [user]);
+	supabaseClient
+		.from("Account")
+		.select("*")
+		.contains("users", [user])
+		.order("name", {
+			ascending: true,
+		});
 
 export const deleteAccount = async (id: string) => {
 	let { data, error } = await supabaseClient

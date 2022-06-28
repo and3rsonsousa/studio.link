@@ -15,7 +15,7 @@ export const Avatar = ({
 
 	return (
 		<div
-			className={`${sizeClasses} grid place-items-center overflow-hidden rounded-full bg-gray-800 uppercase text-gray-300`}
+			className={`${sizeClasses} grid cursor-pointer place-items-center overflow-hidden rounded-full  uppercase text-gray-300 transition hover:bg-gray-700`}
 		>
 			{text}
 		</div>

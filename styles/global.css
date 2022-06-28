@@ -88,12 +88,13 @@
 	.field-checkbox-holder {
 		@apply mt-2 flex items-center space-x-4;
 	}
+
 	.field-checkbox-holder .field-label {
 		@apply my-3;
 	}
 
 	.field-checkbox {
-		@apply relative appearance-none rounded-lg bg-brand p-3 outline-none ring-brand transition after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-90 after:rounded  after:bg-white after:p-1.5 after:opacity-0 after:transition after:content-[""] checked:after:scale-100 checked:after:opacity-100 focus:bg-brand-800 focus:ring-4;
+		@apply relative appearance-none rounded-lg bg-black/50 p-3 outline-none ring-brand transition after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-90 after:rounded  after:bg-brand after:p-1.5 after:opacity-0 after:transition after:content-[""] checked:after:scale-100 checked:after:opacity-100 focus:ring-4;
 	}
 
 	.field-input-holder.error {
@@ -124,6 +125,14 @@
 		@apply bg-transparent hover:bg-transparent focus:bg-transparent;
 	}
 
+	.button-small {
+		@apply rounded-lg px-4 py-2 text-sm;
+	}
+
+	.button-large {
+		@apply rounded-2xl px-8 py-4 text-lg;
+	}
+
 	/* Error */
 
 	.error-banner {
@@ -142,7 +151,7 @@
 	@apply text-gray-400 outline-none transition hover:text-gray-200;
 }
 .dropdown-item:not([data-disabled]) {
-	@apply default-spacing  text-sm font-semibold text-gray-300 outline-none hover:bg-brand hover:text-white focus:bg-brand focus:text-white;
+	@apply default-spacing  cursor-pointer text-sm font-semibold text-gray-300 outline-none hover:bg-brand hover:text-white focus:bg-brand focus:text-white;
 }
 
 [data-disabled] {
