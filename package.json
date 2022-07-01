@@ -11,6 +11,9 @@
 		"generate:css": "npx tailwindcss -i ./styles/global.css -o ./app/styles/app.css"
 	},
 	"dependencies": {
+		"@floating-ui/react-dom": "^0.7.2",
+		"@headlessui/react": "^1.6.5",
+		"@popperjs/core": "^2.11.5",
 		"@radix-ui/react-dropdown-menu": "^0.1.6",
 		"@radix-ui/react-popover": "^0.1.6",
 		"@radix-ui/react-select": "^0.1.1",
@@ -26,6 +29,7 @@
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-icons": "^4.4.0",
+		"react-popper": "^2.3.0",
 		"react-use-measure": "^2.1.1",
 		"remix-auth": "^3.2.2",
 		"remix-auth-supabase": "^4.0.0"

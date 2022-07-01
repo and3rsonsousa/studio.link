@@ -1,5 +1,9 @@
 import * as Select from "@radix-ui/react-select";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import {
+	HiOutlineChevronDown,
+	HiOutlineChevronUp,
+	HiOutlineExclamationCircle,
+} from "react-icons/hi";
 
 export default function Field({
 	name,
@@ -16,7 +20,7 @@ export default function Field({
 	checked = false,
 }: {
 	name: string;
-	label: string;
+	label?: string;
 	required?: true;
 	type:
 		| "text"
@@ -44,57 +48,62 @@ export default function Field({
 				value={value}
 				defaultChecked={checked}
 			/>
-			<label htmlFor={name} className="field-label">
-				{label}
-			</label>
+			{label && (
+				<label htmlFor={name} className="field-label">
+					{label}
+				</label>
+			)}
 		</div>
 	) : type === "select" ? (
-		<div className="field relative">
-			<label htmlFor={name} className="field-label">
-				{label}
-			</label>
-			<div className="field-input-holder relative">
+		<div className="field">
+			{label && (
+				<label htmlFor={name} className="field-label">
+					{label}
+				</label>
+			)}
+			<div className="field-input-holder">
 				{before}
-				<Select.Root>
-					<Select.Trigger className="field-input">
+				<Select.Root name={name}>
+					<Select.Trigger className="default-spacing text-left">
 						<Select.Value />
 					</Select.Trigger>
 
-					<Select.Content className="dropdown-content relative">
-						{/* <Select.ScrollUpButton />
-						<Select.Viewport> */}
-						<Select.Item
-							className="dropdown-item relative"
-							value=""
-						>
-							<Select.ItemText>selecione</Select.ItemText>
-						</Select.Item>
-						<Select.Item
-							className="dropdown-item relative"
-							value="1"
-						>
-							<Select.ItemText>teste</Select.ItemText>
-						</Select.Item>
-						{/* </Select.Viewport>
-						<Select.ScrollDownButton /> */}
+					<Select.Content className="dropdown-content">
+						<Select.ScrollUpButton className="grid place-items-center py-2 ">
+							<HiOutlineChevronUp className="h-6 w-6 " />
+						</Select.ScrollUpButton>
+						<Select.Viewport>
+							<Select.Item className="dropdown-item" value="">
+								<Select.ItemText>Selecione</Select.ItemText>
+							</Select.Item>
+							{options?.map((option) => (
+								<Select.Item
+									className="dropdown-item"
+									value={option.value}
+									key={option.id}
+								>
+									<Select.ItemText>
+										{option.text}
+									</Select.ItemText>
+								</Select.Item>
+							))}
+						</Select.Viewport>
+						<Select.ScrollUpButton className="grid place-items-center py-2 ">
+							<HiOutlineChevronDown className="h-6 w-6 " />
+						</Select.ScrollUpButton>
 					</Select.Content>
 				</Select.Root>
-				{/* <select name={name} id={name} className="field-input">
-					{<option value="">Selecione</option>}
-					{options?.map((option) => (
-						<option key={option.id} value={option.value}>
-							{option.text}
-						</option>
-					))}
-				</select> */}
+
 				{after}
 			</div>
 		</div>
 	) : (
 		<div className="field">
-			<label htmlFor={name} className="field-label">
-				{label}
-			</label>
+			{label && (
+				<label htmlFor={name} className="field-label">
+					{label}
+				</label>
+			)}
 			<div className="field-input-holder">
 				{before}
 				<input
