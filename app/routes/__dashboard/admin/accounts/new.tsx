@@ -1,9 +1,9 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { motion } from "framer-motion";
-import { Button, Field } from "~/components/Forms";
+import { Button, InputField } from "~/components/Forms";
 import Panel from "~/components/Layout/Panel";
-import { addAccount, deleteAccount } from "~/utils/data";
+import { addAccount, deleteAccount } from "~/utils/data.server";
 import type { PersonModel } from "~/utils/models";
 import { supabaseClient } from "~/utils/supabase";
 import { scaleUp } from "~/utils/transitions";
@@ -47,14 +47,14 @@ export default function () {
 			</Panel>
 			<Form method="post">
 				<input type="hidden" name="action" value="new" />
-				<Field
+				<InputField
 					label="Nome"
 					name="name"
 					type="text"
 					placeholder="Nome do Cliente"
 					required
 				/>
-				<Field
+				<InputField
 					label="Slug"
 					name="slug"
 					type="text"
@@ -62,7 +62,7 @@ export default function () {
 					required
 				/>
 				{persons.map((person) => (
-					<Field
+					<InputField
 						key={person.id}
 						label={person.name}
 						name="users"

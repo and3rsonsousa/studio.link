@@ -3,7 +3,7 @@ import { redirect } from "@remix-run/node";
 import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 import { HiOutlineLockClosed, HiOutlineLockOpen } from "react-icons/hi";
-import { Button, Field } from "~/components/Forms";
+import { Button, InputField } from "~/components/Forms";
 import Logo from "~/components/Layout/Logo";
 import Panel from "~/components/Layout/Panel";
 import { signIN, signUP } from "~/utils/auth.server";
@@ -76,7 +76,7 @@ export default function LoginPage() {
 						delay={duration / 3}
 					>
 						{action === "signup" && (
-							<Field
+							<InputField
 								name="name"
 								label="Nome"
 								type="text"
@@ -88,7 +88,7 @@ export default function LoginPage() {
 					</Panel>
 
 					<div>
-						<Field
+						<InputField
 							name="email"
 							label="E-mail"
 							type="email"
@@ -96,7 +96,7 @@ export default function LoginPage() {
 							autoFocus={true}
 							placeholder="Seu email"
 						/>
-						<Field
+						<InputField
 							name="password"
 							label="Senha"
 							type={showPassword ? "text" : "password"}

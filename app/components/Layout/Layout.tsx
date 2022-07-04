@@ -1,18 +1,28 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { Combobox } from "@headlessui/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import {
-	HiOutlineChevronDown,
-	HiOutlineChevronRight,
-	HiOutlineSearch,
-} from "react-icons/hi";
-import type { AccountModel, PersonModel } from "~/utils/models";
+import { Fragment, useEffect, useState } from "react";
+import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
+import type {
+	AccountModel,
+	DropdownOptions,
+	PersonModel,
+} from "~/utils/models";
 import { scaleUp } from "~/utils/transitions";
-import { Field } from "../Forms";
+import Dropdown from "./Dropdown";
 import Logo from "./Logo";
 
 const Layout: React.FC = ({ children }) => {
+	useEffect(() => {
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "?" || e.key === "/") {
+				document.getElementById("search")?.focus();
+			}
+		};
+		window.addEventListener("keydown", onKeyDown);
+		return () => window.removeEventListener("keydown", onKeyDown);
+	});
+
 	return (
 		<div className="flex h-screen flex-col bg-gray-900">
 			<div className="header flex-auto text-sm font-semibold">
@@ -25,22 +35,10 @@ const Layout: React.FC = ({ children }) => {
 					<div>
 						<AccountsMenu />
 					</div>
-					<div>
-						<Field
-							after={
-								<button
-									type="button"
-									className="field-icon field-button transition"
-								>
-									<HiOutlineSearch />
-								</button>
-							}
-							autoFocus
-							type="text"
-							name="search"
-							placeholder="Buscar"
-						/>
+					<div className="w-1/3">
+						<SearchBox />
 					</div>
+
 					{/* Right side */}
 					<div className="flex space-x-2">
 						<UserMenu />
@@ -53,7 +51,7 @@ const Layout: React.FC = ({ children }) => {
 			</div>
 
 			<div className="flex-auto">
-				<div className="border-t border-gray-800 py-2 text-center text-xs font-bold tracking-widest text-gray-700">
+				<div className="text-xx py-2 text-center font-bold tracking-widest text-gray-700">
 					{new Date().getFullYear()} © CNVT
 				</div>
 			</div>
@@ -61,158 +59,195 @@ const Layout: React.FC = ({ children }) => {
 	);
 };
 
-const AccountsMenu: React.FC = () => {
-	let { accounts }: { accounts: AccountModel[] } = useLoaderData();
-	let [isOpen, setIsOpen] = useState<boolean>(false);
-	const sideOffset = 4;
+const SearchBox: React.FC = () => {
+	const actions = [
+		{
+			name: "Ação 1",
+		},
+		{
+			name: "Ação 2",
+		},
+		{
+			name: "Ação 3",
+		},
+		{
+			name: "Ação 1",
+		},
+		{
+			name: "Ação 2",
+		},
+		{
+			name: "Ação 3",
+		},
+		{
+			name: "Ação 1",
+		},
+		{
+			name: "Ação 2",
+		},
+		{
+			name: "Ação 3",
+		},
+		{
+			name: "Ação 1",
+		},
+		{
+			name: "Ação 2",
+		},
+		{
+			name: "Ação 3",
+		},
+	];
+	const [query, setQuery] = useState("");
+	const filtered = query
+		? actions.filter((action) =>
+				action.name.toLowerCase().includes(query.toLowerCase())
+		  )
+		: [];
 
-	let navigate = useNavigate();
 	return (
-		<DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
-			<DropdownMenu.Trigger className="dropdown-trigger flex items-center">
-				Selecione um cliente
-				{/* {account.name} */}
-				<div className="pl-2">
-					<HiOutlineChevronDown />
+		<Combobox
+			as={"div"}
+			onChange={() => {}}
+			value=""
+			className={`relative`}
+		>
+			<div className="field-input-holder">
+				<Combobox.Input
+					className="field-input"
+					placeholder="Busque por uma ação ou campanha"
+					onChange={(event) => {
+						setQuery(event.target.value);
+					}}
+					onBlur={() => {
+						setQuery("");
+					}}
+				/>
+				<div className="field-icon field-button ">
+					<HiOutlineSearch />
 				</div>
-			</DropdownMenu.Trigger>
+			</div>
 			<AnimatePresence>
-				{isOpen && (
-					<DropdownMenu.Content
-						loop
-						sideOffset={sideOffset * 4}
-						asChild
-						forceMount
-						className="dropdown-content origin-top"
+				{query.length > 0 && (
+					<Combobox.Options
+						static
+						className={`dropdown-content absolute max-h-[50vh] w-full origin-top overflow-y-auto`}
+						{...scaleUp()}
+						as={motion.div}
 					>
-						<motion.div {...scaleUp()}>
-							{accounts.map((account) => (
-								<DropdownMenu.Item
-									key={account.id}
-									className="dropdown-item"
-									onSelect={() =>
-										navigate(`/${account.slug}`)
-									}
+						{filtered.length > 0 ? (
+							filtered.map((action, index) => (
+								<Combobox.Option
+									key={index}
+									value={action.name}
+									as={Fragment}
 								>
-									{account.name}
-								</DropdownMenu.Item>
-							))}
-						</motion.div>
-					</DropdownMenu.Content>
+									{({ active }) => (
+										<div
+											className={`dropdown-item ${
+												active
+													? "bg-brand text-white"
+													: ""
+											}`}
+										>
+											{action.name}
+										</div>
+									)}
+								</Combobox.Option>
+							))
+						) : (
+							<div className="p-4 text-gray-300">
+								Sem resultados {":("}
+							</div>
+						)}
+					</Combobox.Options>
 				)}
 			</AnimatePresence>
-		</DropdownMenu.Root>
+		</Combobox>
+	);
+};
+
+const AccountsMenu: React.FC = () => {
+	let { accounts }: { accounts: AccountModel[] } = useLoaderData();
+
+	return (
+		<Dropdown
+			options={accounts.map(({ id, name, slug }) => ({
+				id,
+				text: name,
+				href: `/${slug}`,
+			}))}
+			text={"Escolha um cliente"}
+		/>
 	);
 };
 const UserMenu: React.FC = () => {
 	let { person }: { person: PersonModel } = useLoaderData();
-	let [isOpen, setIsOpen] = useState<boolean>(false);
-	const sideOffset = 4;
+	let options: DropdownOptions = [
+		() => <ThemeSwitcher key={"theme-switcher"} />,
+		// "divider",
+		{ id: "account", href: "/account", text: "Minha conta" },
+		{ id: "logout", href: "/signout", text: "Sair" },
+	];
 
-	let navigate = useNavigate();
+	if (person.admin) {
+		options = options.concat([
+			// "divider",
+			{ id: "users", href: "/admin/users", text: "Usuários" },
+			{ id: "newuser", href: "/admin/users/new", text: "Novo usuário" },
+			{ id: "accounts", href: "/admin/accounts", text: "Clientes" },
+			{
+				id: "newaccount",
+				href: "/admin/accounts/new",
+				text: "Novo usuário",
+			},
+		]);
+	}
+
+	return <Dropdown text={person.name} options={options} />;
+};
+
+const ThemeSwitcher = () => {
+	// let [isDark, setIsDark] = useState(false);
+	let isDark = false;
+	if (window) {
+		const html = document.getElementsByTagName("html")[0];
+		// setIsDark(html.classList.contains("dark"));
+		isDark = html.classList.contains("dark");
+	}
+	// useEffect(() => {
+	// 	const html = document.getElementsByTagName("html")[0];
+	// 	setIsDark(html.classList.contains("dark"));
+	// }, []);
 	return (
-		<DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
-			<DropdownMenu.Trigger className="dropdown-trigger flex items-center">
-				{person.name}
-				<div className="pl-2">
-					<HiOutlineChevronDown />
-				</div>
-			</DropdownMenu.Trigger>
-			<AnimatePresence>
-				{isOpen && (
-					<DropdownMenu.Content
-						loop
-						align="end"
-						sideOffset={sideOffset * 4}
-						asChild
-						forceMount
-						className="dropdown-content origin-top"
-					>
-						<motion.div {...scaleUp()}>
-							<DropdownMenu.Group>
-								<DropdownMenu.Item className="dropdown-item">
-									Minha Conta
-								</DropdownMenu.Item>
-								<DropdownMenu.Item
-									className="dropdown-item"
-									onSelect={() => navigate(`/signout`)}
-								>
-									Sair
-								</DropdownMenu.Item>
-							</DropdownMenu.Group>
-
-							{person.admin && (
-								<>
-									<DropdownMenu.Separator className="dropdown-divider" />
-									<DropdownMenu.Group>
-										<DropdownMenu.Label className="default-spacing text-xs font-semibold uppercase tracking-wide">
-											Admin
-										</DropdownMenu.Label>
-										<DropdownMenu.Root>
-											<DropdownMenu.TriggerItem
-												className="dropdown-item flex items-center justify-between"
-												disabled
-											>
-												Usuários
-												<div className="pl-8">
-													<HiOutlineChevronRight />
-												</div>
-											</DropdownMenu.TriggerItem>
-											<DropdownMenu.Content
-												loop
-												className="dropdown-content"
-												sideOffset={sideOffset}
-											>
-												<DropdownMenu.Item className="dropdown-item">
-													Ver todos os Usuários
-												</DropdownMenu.Item>
-												<DropdownMenu.Item className="dropdown-item">
-													Novo Usuário
-												</DropdownMenu.Item>
-											</DropdownMenu.Content>
-										</DropdownMenu.Root>
-										<DropdownMenu.Root>
-											<DropdownMenu.TriggerItem className="dropdown-item flex items-center justify-between">
-												Clientes
-												<div className="pl-8">
-													<HiOutlineChevronRight />
-												</div>
-											</DropdownMenu.TriggerItem>
-											<DropdownMenu.Content
-												loop
-												className="dropdown-content"
-												sideOffset={sideOffset}
-											>
-												<DropdownMenu.Item
-													className="dropdown-item"
-													onSelect={() =>
-														navigate(
-															"/admin/accounts"
-														)
-													}
-												>
-													Ver todos os Clientes
-												</DropdownMenu.Item>
-												<DropdownMenu.Item
-													className="dropdown-item"
-													onSelect={() =>
-														navigate(
-															"/admin/accounts/new"
-														)
-													}
-												>
-													Novo Cliente
-												</DropdownMenu.Item>
-											</DropdownMenu.Content>
-										</DropdownMenu.Root>
-									</DropdownMenu.Group>
-								</>
-							)}
-						</motion.div>
-					</DropdownMenu.Content>
-				)}
-			</AnimatePresence>
-		</DropdownMenu.Root>
+		<div className=" default-spacing flex items-center justify-center gap-4">
+			<button
+				className={`button py-0 ${
+					isDark ? "button-ghost" : "button-primary"
+				}`}
+				onClick={() => {
+					isDark = false;
+					document
+						.getElementsByTagName("html")[0]
+						.classList.remove("dark");
+				}}
+			>
+				<HiOutlineSun className={`h-11  text-2xl`} />
+			</button>
+			<button
+				className={`button ${
+					isDark ? "button-primary" : "button-ghost"
+				}`}
+				onClick={() => {
+					// setIsDark(true);
+					document
+						.getElementsByTagName("html")[0]
+						.classList.add("dark");
+				}}
+			>
+				<HiOutlineMoon className={`text-xl `} />
+			</button>
+		</div>
 	);
 };
 

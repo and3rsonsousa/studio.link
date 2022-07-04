@@ -1,26 +1,13 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { motion } from "framer-motion";
-import { Button, Field } from "~/components/Forms";
+import { Button, InputField } from "~/components/Forms";
 import Panel from "~/components/Layout/Panel";
-import { updateAccount } from "~/utils/data";
+import { updateAccount } from "~/utils/data.server";
 import type { AccountModel, PersonModel } from "~/utils/models";
-import { supabaseClient } from "~/utils/supabase";
 import { scaleUp } from "~/utils/transitions";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	// const [{ data: account }, { data: persons }] = await Promise.all([
-	// 	await supabaseClient
-	// 		.from("Account")
-	// 		.select()
-	// 		.order("name", {
-	// 			ascending: true,
-	// 		})
-	// 		.eq("id", params.id)
-	// 		.single(),
-	// 	supabaseClient.from("Person").select(),
-	// ]);
-
 	return {};
 };
 
@@ -55,14 +42,14 @@ export default function AdminAccountsEdit() {
 			</Panel>
 			<Form method="post">
 				<input type="hidden" name="id" value={account.id} />
-				<Field
+				<InputField
 					name="name"
 					label="Nome"
 					type="text"
 					value={account.name}
 					required
 				/>
-				<Field
+				<InputField
 					name="slug"
 					label="Slug"
 					type="text"
@@ -71,7 +58,7 @@ export default function AdminAccountsEdit() {
 				/>
 				<div className="flex gap-4">
 					{persons.map((person) => (
-						<Field
+						<InputField
 							key={person.id}
 							type="checkbox"
 							label={person.name}

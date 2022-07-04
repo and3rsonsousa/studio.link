@@ -10,6 +10,13 @@
 	.text-xx {
 		@apply text-[.625rem] tracking-wide;
 	}
+
+	.focus {
+		@apply ring-brand focus:text-white focus:ring-4;
+	}
+	.focus-inline {
+		@apply focus:text-brand;
+	}
 }
 
 @layer base {
@@ -17,9 +24,9 @@
 		@apply bg-gray-900 font-light text-gray-500 antialiased;
 	}
 
-	a {
-		@apply rounded-lg font-semibold text-gray-300 underline-offset-4 outline-none transition hover:text-brand focus:text-brand focus:underline;
-	}
+	/* a {
+		@apply font-semibold text-gray-300 underline-offset-4 outline-none transition hover:text-brand focus:text-brand focus:underline;
+	} */
 
 	h1 {
 		@apply mb-4 text-5xl font-bold tracking-tight;
@@ -82,7 +89,7 @@
 	}
 
 	.field-input-holder {
-		@apply flex w-full overflow-hidden rounded-xl bg-black/50 font-semibold ring-brand/50 transition focus-within:ring-4 focus-within:ring-brand hover:bg-black/75 hover:ring-4;
+		@apply flex w-full rounded-xl bg-black/50 font-semibold ring-brand/50 transition focus-within:ring-4 focus-within:ring-brand hover:bg-black/75 hover:ring-4;
 	}
 
 	.field-checkbox-holder {
@@ -118,7 +125,7 @@
 	*/
 
 	.button {
-		@apply default-spacing rounded-xl bg-gray-800 font-semibold tracking-wide text-gray-300 outline-none ring-brand transition hover:bg-gray-700 hover:text-white focus:bg-gray-700 focus:text-white focus:ring-4;
+		@apply default-spacing focus rounded-xl bg-gray-800 font-semibold tracking-wide text-gray-300 outline-none ring-brand transition hover:bg-gray-700 hover:text-white focus:bg-gray-700;
 	}
 
 	.button-primary {
@@ -143,17 +150,21 @@
 		@apply rounded-lg bg-red-700  px-4 py-1 text-sm font-semibold tracking-wide text-red-300;
 	}
 }
-/* 
-.app-content {
-	scrollbar-width: none;
-}
-
-.app-content::-webkit-scrollbar {
-	display: none;
-} */
 
 .dropdown-content {
-	@apply overflow-hidden rounded-lg border border-white/10 bg-gray-600/20 shadow-2xl backdrop-blur;
+	@apply z-50  overflow-x-hidden rounded-lg border border-white/10 bg-gray-700/50 shadow-2xl outline-none backdrop-blur-lg;
+}
+.dropdown-content.opaque {
+	@apply bg-gray-900;
+}
+
+.no-scroll-bars {
+	scrollbar-width: none; /* for Firefox */
+	overflow-y: scroll;
+}
+
+.no-scroll-bars::-webkit-scrollbar {
+	display: none;
 }
 
 .dropdown-divider {
@@ -162,10 +173,77 @@
 .dropdown-trigger {
 	@apply text-gray-400 outline-none transition hover:text-gray-200;
 }
-.dropdown-item:not([data-disabled]) {
-	@apply default-spacing  cursor-pointer text-sm font-semibold text-gray-300 outline-none hover:bg-brand hover:text-white focus:bg-brand focus:text-white;
+.dropdown-item {
+	@apply default-spacing  flex cursor-pointer text-sm font-semibold text-gray-300 outline-none transition hover:bg-brand hover:text-white focus:bg-brand focus:text-white;
 }
 
-[data-disabled] {
+.dropdown-item.disabled {
 	@apply default-spacing text-sm font-semibold text-gray-600 outline-none;
+}
+
+.post-bg {
+	@apply bg-post-600 text-white transition;
+}
+.post-bg-hover {
+	@apply ring-post-600/50 hover:bg-post-800 focus:bg-post-800 focus:ring-2;
+}
+.meeting-bg {
+	@apply bg-meeting-600 text-white transition;
+}
+.meeting-bg-hover {
+	@apply ring-meeting-600/50 hover:bg-meeting-800 focus:bg-meeting-800 focus:ring-2;
+}
+.stories-bg {
+	@apply bg-stories-600 text-white transition;
+}
+.stories-bg-hover {
+	@apply ring-stories-600/50 hover:bg-stories-800 focus:bg-stories-800 focus:ring-2;
+}
+.todo-bg {
+	@apply bg-todo-600 text-white transition;
+}
+.todo-bg-hover {
+	@apply ring-todo-600/50 hover:bg-todo-800 focus:bg-todo-800 focus:ring-2;
+}
+.tiktok-bg {
+	@apply bg-tiktok-600 text-white transition;
+}
+.tiktok-bg-hover {
+	@apply ring-tiktok-600/50 hover:bg-tiktok-800 focus:bg-tiktok-800 focus:ring-2;
+}
+.idea-bg {
+	@apply bg-idea-600 text-white transition;
+}
+.idea-bg-hover {
+	@apply ring-idea-600/50 hover:bg-idea-800 focus:bg-idea-800 focus:ring-2;
+}
+.do-bg {
+	@apply bg-do-600 text-white transition;
+}
+.do-bg-hover {
+	@apply ring-do-600/50 hover:bg-do-800 focus:bg-do-800 focus:ring-2;
+}
+.doing-bg {
+	@apply bg-doing-600 text-white transition;
+}
+.doing-bg-hover {
+	@apply ring-doing-600/50 hover:bg-doing-800 focus:bg-doing-800 focus:ring-2;
+}
+.review-bg {
+	@apply bg-review-600 text-white transition;
+}
+.review-bg-hover {
+	@apply ring-review-600/50 hover:bg-review-800 focus:bg-review-800 focus:ring-2;
+}
+.done-bg {
+	@apply bg-done-600 text-white transition;
+}
+.done-bg-hover {
+	@apply ring-done-600/50 hover:bg-done-800 focus:bg-done-800 focus:ring-2;
+}
+.accomplished-bg {
+	@apply bg-accomplished-600 text-white transition;
+}
+.accomplished-bg-hover {
+	@apply ring-accomplished-600/50 hover:bg-accomplished-800 focus:bg-accomplished-800 focus:ring-2;
 }

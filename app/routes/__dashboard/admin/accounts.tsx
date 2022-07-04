@@ -7,7 +7,7 @@ import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
 import { AnimatePresence } from "framer-motion";
 import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import { Button } from "~/components/Forms";
-import { deleteAccount } from "~/utils/data";
+import { deleteAccount } from "~/utils/data.server";
 import type { AccountModel } from "~/utils/models";
 import { supabaseClient } from "~/utils/supabase";
 
