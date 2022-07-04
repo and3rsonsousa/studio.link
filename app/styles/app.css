@@ -1459,6 +1459,10 @@ select {
   color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 
+.text-gray-300\/50 {
+  color: rgb(203 213 225 / 0.5);
+}
+
 .text-brand {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
@@ -1480,10 +1484,6 @@ select {
 .text-brand-600 {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
-}
-
-.text-gray-300\/50 {
-  color: rgb(203 213 225 / 0.5);
 }
 
 .opacity-0 {
