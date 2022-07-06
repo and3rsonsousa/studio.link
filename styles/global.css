@@ -4,7 +4,7 @@
 
 @layer utilities {
 	.default-spacing {
-		@apply px-6 py-3;
+		@apply px-5 py-3;
 	}
 
 	.text-xx {
@@ -12,16 +12,20 @@
 	}
 
 	.focus {
-		@apply ring-brand focus:text-white focus:ring-4;
+		@apply ring-brand-400 focus:text-white focus:ring-4 dark:ring-brand;
 	}
 	.focus-inline {
 		@apply focus:text-brand;
+	}
+
+	.border-line {
+		@apply border-t border-gray-200 dark:border-gray-800;
 	}
 }
 
 @layer base {
 	body {
-		@apply bg-gray-900 font-light text-gray-500 antialiased;
+		@apply bg-white font-light text-gray-500 antialiased dark:bg-gray-900;
 	}
 
 	/* a {
@@ -63,7 +67,7 @@
 	}
 
 	.field-button {
-		@apply flex items-center bg-transparent px-4 text-xs font-bold tracking-wide outline-none hover:text-gray-500 focus:text-gray-300;
+		@apply flex items-center bg-transparent px-4 text-xs font-bold tracking-wide outline-none hover:text-gray-700 focus:text-brand-500  dark:focus:text-gray-300;
 	}
 
 	.field-icon {
@@ -71,7 +75,7 @@
 	}
 
 	.field:focus-within .field-label {
-		@apply text-gray-300;
+		@apply text-gray-600 dark:text-gray-300;
 	}
 	.field:focus-within .before {
 		@apply text-brand;
@@ -89,7 +93,11 @@
 	}
 
 	.field-input-holder {
-		@apply flex w-full rounded-xl bg-black/50 font-semibold ring-brand/50 transition focus-within:ring-4 focus-within:ring-brand hover:bg-black/75 hover:ring-4;
+		@apply flex w-full rounded-xl bg-gray-200/50 font-semibold ring-brand-400 transition focus-within:ring-4 hover:ring-4 dark:bg-black/75 dark:ring-brand;
+	}
+
+	.field-input-holder.opaque {
+		@apply bg-gray-200;
 	}
 
 	.field-checkbox-holder {
@@ -109,7 +117,7 @@
 	}
 
 	.field-input {
-		@apply default-spacing w-full appearance-none bg-transparent text-gray-400 outline-none transition placeholder:text-gray-700 focus:text-gray-300;
+		@apply default-spacing w-full appearance-none bg-transparent font-medium text-gray-700 outline-none transition placeholder:text-gray-300 dark:placeholder:text-gray-700;
 	}
 
 	select {
@@ -125,15 +133,15 @@
 	*/
 
 	.button {
-		@apply default-spacing focus rounded-xl bg-gray-800 font-semibold tracking-wide text-gray-300 outline-none ring-brand transition hover:bg-gray-700 hover:text-white focus:bg-gray-700;
+		@apply default-spacing focus rounded-xl bg-gray-100 font-semibold tracking-wide text-gray-600 outline-none transition hover:bg-gray-200 hover:text-gray-700 focus:bg-gray-200 focus:text-gray-700 dark:bg-gray-800 dark:text-gray-300  dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700;
 	}
 
 	.button-primary {
-		@apply bg-brand text-white hover:bg-brand-700 focus:bg-brand-800;
+		@apply bg-brand text-white hover:bg-brand-700 hover:text-white focus:bg-brand-800 focus:text-white dark:bg-brand dark:text-white dark:hover:bg-brand-700 dark:hover:text-white dark:focus:bg-brand-800 dark:focus:text-white;
 	}
 
 	.button-ghost {
-		@apply bg-transparent hover:bg-transparent focus:bg-transparent;
+		@apply bg-transparent hover:bg-transparent hover:text-brand focus:bg-transparent dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent;
 	}
 
 	.button-small {
@@ -141,7 +149,7 @@
 	}
 
 	.button-large {
-		@apply rounded-2xl px-8 py-4 text-lg;
+		@apply rounded-2xl px-7 py-4 text-xl;
 	}
 
 	/* Error */
@@ -149,13 +157,27 @@
 	.error-banner {
 		@apply rounded-lg bg-red-700  px-4 py-1 text-sm font-semibold tracking-wide text-red-300;
 	}
-}
 
-.dropdown-content {
-	@apply z-50  overflow-x-hidden rounded-lg border border-white/10 bg-gray-700/50 shadow-2xl outline-none backdrop-blur-lg;
-}
-.dropdown-content.opaque {
-	@apply bg-gray-900;
+	.dropdown-content {
+		@apply z-50 overflow-x-hidden rounded-lg border border-black/5  bg-gray-100/75 py-4 shadow-2xl outline-none backdrop-blur-lg dark:bg-gray-700/50;
+	}
+	.dropdown-content.opaque {
+		@apply bg-gray-100 dark:bg-gray-900;
+	}
+
+	.dropdown-divider {
+		@apply border-t border-black/5 dark:border-white/10;
+	}
+	.dropdown-trigger {
+		@apply text-gray-600 outline-none transition hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-200;
+	}
+	.dropdown-item {
+		@apply flex cursor-pointer py-2 px-6  text-sm font-medium text-gray-500 outline-none transition hover:bg-brand hover:text-white focus:bg-brand focus:text-white dark:text-gray-300;
+	}
+
+	.dropdown-item.disabled {
+		@apply default-spacing text-sm font-semibold text-gray-600 outline-none;
+	}
 }
 
 .no-scroll-bars {
@@ -165,20 +187,6 @@
 
 .no-scroll-bars::-webkit-scrollbar {
 	display: none;
-}
-
-.dropdown-divider {
-	@apply border-t border-white/10;
-}
-.dropdown-trigger {
-	@apply text-gray-400 outline-none transition hover:text-gray-200;
-}
-.dropdown-item {
-	@apply default-spacing  flex cursor-pointer text-sm font-semibold text-gray-300 outline-none transition hover:bg-brand hover:text-white focus:bg-brand focus:text-white;
-}
-
-.dropdown-item.disabled {
-	@apply default-spacing text-sm font-semibold text-gray-600 outline-none;
 }
 
 .post-bg {

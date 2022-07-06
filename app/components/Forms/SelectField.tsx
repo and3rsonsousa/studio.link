@@ -33,7 +33,7 @@ const SelectField = ({
 		middleware: [offset(16), flip(), shift({ padding: 16 })],
 	});
 
-	return (
+	return options.length > 0 ? (
 		<div className="field">
 			{label && (
 				<label htmlFor={name} className="field-label">
@@ -53,7 +53,7 @@ const SelectField = ({
 					{({ open }) => (
 						<>
 							<Listbox.Button
-								className="input-field default-spacing w-full text-left outline-none"
+								className="field-input default-spacing w-full text-left outline-none"
 								ref={reference}
 							>
 								{selectedOption.text}
@@ -111,6 +111,8 @@ const SelectField = ({
 				{after}
 			</div>
 		</div>
+	) : (
+		<pre>No options</pre>
 	);
 };
 

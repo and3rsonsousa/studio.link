@@ -57,7 +57,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 				<div className="grid min-h-screen place-items-center">
 					<div className="text-center">
 						<h1 className="text-red-500">{error.name}</h1>
-						<p className="mb-8 text-xl font-semibold text-white">
+						<p className="mb-8 text-xl font-semibold text-gray-900 dark:text-white">
 							{error.message}
 						</p>
 						<pre className="whitespace-pre-wrap">{error.stack}</pre>
@@ -84,7 +84,7 @@ export function CatchBoundary() {
 			<body>
 				<div className="grid min-h-screen place-items-center">
 					<div className="text-center">
-						<h1 className="text-white">
+						<h1 className="text-gray-900 dark:text-white">
 							<span className="text-red-600">
 								{caught.status}
 							</span>{" "}

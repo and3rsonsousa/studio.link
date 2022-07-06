@@ -14,6 +14,14 @@ import Logo from "./Logo";
 
 const Layout: React.FC = ({ children }) => {
 	useEffect(() => {
+		let theme;
+		if (localStorage) {
+			theme = localStorage.getItem("theme");
+		}
+		if (theme) {
+			document.body.classList.add(theme);
+		}
+
 		const onKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "?" || e.key === "/") {
 				document.getElementById("search")?.focus();
@@ -24,7 +32,7 @@ const Layout: React.FC = ({ children }) => {
 	});
 
 	return (
-		<div className="flex h-screen flex-col bg-gray-900">
+		<div className="flex h-screen flex-col bg-white dark:bg-gray-900">
 			<div className="header flex-auto text-sm font-semibold">
 				<div className="mx-auto flex items-center justify-between py-4 px-8 xl:container">
 					{/* Left Side */}
@@ -51,7 +59,7 @@ const Layout: React.FC = ({ children }) => {
 			</div>
 
 			<div className="flex-auto">
-				<div className="text-xx py-2 text-center font-bold tracking-widest text-gray-700">
+				<div className="text-xx py-2 text-center font-bold tracking-widest text-gray-300 dark:text-gray-700">
 					{new Date().getFullYear()} © CNVT
 				</div>
 			</div>
@@ -131,7 +139,7 @@ const SearchBox: React.FC = () => {
 				{query.length > 0 && (
 					<Combobox.Options
 						static
-						className={`dropdown-content absolute max-h-[50vh] w-full origin-top overflow-y-auto`}
+						className={`dropdown-content absolute top-12 max-h-[50vh] w-full origin-top overflow-y-auto`}
 						{...scaleUp()}
 						as={motion.div}
 					>
@@ -156,7 +164,7 @@ const SearchBox: React.FC = () => {
 								</Combobox.Option>
 							))
 						) : (
-							<div className="p-4 text-gray-300">
+							<div className="px-4 text-gray-500 dark:text-gray-300">
 								Sem resultados {":("}
 							</div>
 						)}
@@ -208,41 +216,34 @@ const UserMenu: React.FC = () => {
 };
 
 const ThemeSwitcher = () => {
-	// let [isDark, setIsDark] = useState(false);
-	let isDark = false;
-	if (window) {
-		const html = document.getElementsByTagName("html")[0];
-		// setIsDark(html.classList.contains("dark"));
-		isDark = html.classList.contains("dark");
-	}
-	// useEffect(() => {
-	// 	const html = document.getElementsByTagName("html")[0];
-	// 	setIsDark(html.classList.contains("dark"));
-	// }, []);
+	let [theme, setTheme] = useState(localStorage.getItem("theme"));
+
+	// if (localStorage.getItem("theme")) {
+	// 	setTheme("dark");
+	// }
+
 	return (
 		<div className=" default-spacing flex items-center justify-center gap-4">
 			<button
 				className={`button py-0 ${
-					isDark ? "button-ghost" : "button-primary"
+					theme ? "button-ghost" : "button-primary"
 				}`}
 				onClick={() => {
-					isDark = false;
-					document
-						.getElementsByTagName("html")[0]
-						.classList.remove("dark");
+					document.body.classList.remove("dark");
+					localStorage.removeItem("theme");
+					setTheme("");
 				}}
 			>
 				<HiOutlineSun className={`h-11  text-2xl`} />
 			</button>
 			<button
 				className={`button ${
-					isDark ? "button-primary" : "button-ghost"
+					theme ? "button-primary" : "button-ghost"
 				}`}
 				onClick={() => {
-					// setIsDark(true);
-					document
-						.getElementsByTagName("html")[0]
-						.classList.add("dark");
+					document.body.classList.add("dark");
+					localStorage.setItem("theme", "dark");
+					setTheme("dark");
 				}}
 			>
 				<HiOutlineMoon className={`text-xl `} />

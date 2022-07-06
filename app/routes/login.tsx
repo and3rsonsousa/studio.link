@@ -7,7 +7,6 @@ import { Button, InputField } from "~/components/Forms";
 import Logo from "~/components/Layout/Logo";
 import Panel from "~/components/Layout/Panel";
 import { signIN, signUP } from "~/utils/auth.server";
-// import { signIN, signUP } from "~/utils/-auth.server";
 
 export const meta: MetaFunction = () => ({
 	title: "Login > STUDIO",
@@ -141,7 +140,7 @@ export default function LoginPage() {
 					</div>
 				</Form>
 				<div>
-					<div className="mt-8 border-t border-gray-800 pt-8 text-center text-xs font-bold tracking-widest text-gray-700">
+					<div className="border-line mt-8 pt-8 text-center text-xs font-bold tracking-widest text-gray-300 dark:text-gray-700">
 						{new Date().getFullYear()} © CNVT
 					</div>
 				</div>

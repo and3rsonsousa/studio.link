@@ -19,5 +19,5 @@ export default function Logo({
 			: size === 3
 			? "text-sm tracking-widest"
 			: "text-xl tracking-wide";
-	return <h1 className={`font-extrabold ${sizes} ${colors}`}>STUDIO</h1>;
+	return <h1 className={`font-extrabold ${sizes} ${colors} m-0`}>STUDIO</h1>;
 }

@@ -64,11 +64,11 @@ export default function Dropdown({
 											<Menu.Item key={option.id}>
 												{({ active, disabled }) => (
 													<Link
-														className={`dropdown-item ${
+														className={`${
 															active
 																? " bg-brand text-white"
 																: ""
-														}`}
+														} dropdown-item`}
 														to={option.href ?? "/"}
 													>
 														{option.text}

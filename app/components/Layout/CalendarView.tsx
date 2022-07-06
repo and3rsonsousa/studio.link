@@ -14,13 +14,9 @@ import {
 	HiStar,
 } from "react-icons/hi";
 import { isToday } from "~/utils/helpers";
-import type {
-	AccountModel,
-	ActionModel,
-	DayModel,
-	ItemModel,
-} from "~/utils/models";
+import type { ActionModel, DayModel } from "~/utils/models";
 import { scaleUp } from "~/utils/transitions";
+import { ActionCalendar } from "./Action";
 import AddAction from "./AddAction";
 
 dayjs.extend(utc);
@@ -72,7 +68,7 @@ export const CalendarView: React.FC = () => {
 					>
 						<HiOutlineChevronLeft />
 					</Link>
-					<h4 className="m-0 capitalize text-gray-300">
+					<h4 className="m-0 capitalize text-gray-700 dark:text-gray-300">
 						{currentDate.format("MMMM")}
 					</h4>
 					<Link
@@ -85,11 +81,14 @@ export const CalendarView: React.FC = () => {
 					</Link>
 				</div>
 			</div>
-			<div className="flex-auto border-b border-gray-800 py-2 font-bold tracking-wider">
+			<div className="mt-2 flex-auto rounded-t-xl border border-b-0 border-gray-200 bg-gray-50 py-1 font-bold tracking-wider dark:border-gray-800 dark:bg-gray-800">
 				<div className={`grid grid-cols-7`}>
 					{["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"].map(
 						(day) => (
-							<div className="w-full p-2 text-xs" key={day}>
+							<div
+								className="w-full p-2 text-center text-xs"
+								key={day}
+							>
 								{day}
 							</div>
 						)
@@ -97,7 +96,7 @@ export const CalendarView: React.FC = () => {
 				</div>
 			</div>
 			<div
-				className={`grid h-full flex-auto grid-cols-7 border-r border-gray-800 grid-rows-${
+				className={`grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
 					days.length / 7
 				}`}
 			>
@@ -118,7 +117,7 @@ const Day = ({ day, currentDate }: { day: DayModel; currentDate: Dayjs }) => {
 		middleware: [offset(16), flip(), shift({ padding: 16 })],
 	});
 	return (
-		<div className="group w-full border-l border-b border-gray-800 p-2 transition hover:bg-gray-700/10">
+		<div className="group w-full border-l border-t border-gray-200 p-2 transition hover:bg-gray-50 dark:border-gray-800">
 			<div className={`flex items-center justify-between`}>
 				<div
 					className={`text-xs ${
@@ -200,42 +199,3 @@ const Day = ({ day, currentDate }: { day: DayModel; currentDate: Dayjs }) => {
 		</div>
 	);
 };
-
-const ActionCalendar = ({ action }: { action: ActionModel }) => {
-	const matches = useMatches();
-	const { accounts, tags, status: statuses } = matches[1].data;
-	const account = accounts.filter(
-		(account: AccountModel) => account.id === action.account
-	)[0];
-	const tag = tags.filter((tag: ItemModel) => tag.id === action.tag)[0];
-	const status = statuses.filter(
-		(status: ItemModel) => status.id === action.status
-	)[0];
-
-	return (
-		<div
-			className={`my-1 rounded  px-2 py-1 transition ${status.slug}-bg ${status.slug}-bg-hover`}
-		>
-			<div className="flex items-center justify-between gap-2">
-				<div className="flex items-center overflow-hidden">
-					<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
-						{account.name.substring(0, 3)}
-					</div>
-
-					<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold ">
-						{action.name}
-					</div>
-				</div>
-				<div className="text-xx text-white/50">
-					{dayjs(action.date).format(
-						dayjs(action.date).minute() === 0 ? "H[h]" : "H[h]mm"
-					)}
-				</div>
-			</div>
-		</div>
-	);
-};
-
-// d90224a7-abf2-4bc7-be60-e5d165a6a37a
-
-// 5c5986ed-7ba6-4b7f-9f69-e47bf6cf5ac4

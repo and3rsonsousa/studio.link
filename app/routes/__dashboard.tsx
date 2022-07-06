@@ -6,6 +6,7 @@ import { getUser } from "~/utils/auth.server";
 import {
 	getAccounts,
 	getActions,
+	getCampaigns,
 	getPerson,
 	getTagsStatus,
 } from "~/utils/data.server";
@@ -21,16 +22,26 @@ export const loader: LoaderFunction = async ({ request }) => {
 			{ data: holidays },
 			{ tags, status },
 			{ data: actions },
+			{ data: campaigns },
 		] = await Promise.all([
 			getPerson(user.id), // Dados do Usuário
 			getAccounts(user.id), // Todas as contas reacionadas a esse usuário
 			getActions(), // Ações sem Cliente / Datas Comemorativas
 			getTagsStatus(), //Tags & Status
-			getActions(user.id), //Ações do mês
-			//Campanhas
+			getActions(user.id), //Ações do mês - TODO: Filtrar por mês
+			getCampaigns(), //Campanhas
 		]);
 
-		return { user, person, accounts, holidays, tags, status, actions };
+		return {
+			user,
+			person,
+			accounts,
+			holidays,
+			tags,
+			status,
+			actions,
+			campaigns,
+		};
 	}
 
 	return redirect("/login");

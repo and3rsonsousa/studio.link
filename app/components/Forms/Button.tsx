@@ -22,10 +22,10 @@ const Button: React.FC<{
 }) => {
 	return (
 		<button
-			className={`button ${primary && "button-primary"} ${
-				ghost && "button-ghost"
-			} whitespace-nowrap ${small && "button-small"} ${
-				large && "button-large"
+			className={`button whitespace-nowrap${
+				primary ? " button-primary" : ""
+			}${ghost ? " button-ghost" : ""}${small ? " button-small" : ""}${
+				large ? " button-large" : ""
 			}`}
 			name={name}
 			value={value}

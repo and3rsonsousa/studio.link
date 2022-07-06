@@ -65,6 +65,10 @@ export const updateAccount = async (
 	return { data };
 };
 
+export const getCampaigns = async () => {
+	return await supabaseClient.from("Campaign").select("*").order("date");
+};
+
 export const getTagsStatus = async () => {
 	const [{ data: tags }, { data: status }] = await Promise.all([
 		supabaseClient
@@ -91,6 +95,22 @@ export const getActions = async (user?: string) => {
 	}
 
 	return { data };
+};
+
+export const getAction = async (id?: string) => {
+	let { data, error } = await supabaseClient
+		.from("Action")
+		.select(
+			"*, account:Account(*), status:Status(*), tag:Tag(*), creator:Action_creator_fkey(*), responsible:Action_responsible_fkey(*),campaign:Campaign(*)"
+		)
+		.eq("id", id)
+		.single();
+
+	if (error) {
+		return { error };
+	}
+
+	return data;
 };
 
 export async function createAction(formData: FormData) {
