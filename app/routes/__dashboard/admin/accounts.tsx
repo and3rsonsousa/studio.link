@@ -9,7 +9,7 @@ import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import { Button } from "~/components/Forms";
 import { deleteAccount } from "~/utils/data.server";
 import type { AccountModel } from "~/utils/models";
-import { supabaseClient } from "~/utils/supabase";
+import { supabaseClient } from "~/utils/supabase.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
 	const { data: accounts } = await supabaseClient

@@ -2,7 +2,7 @@ import { Form, useActionData, useMatches } from "@remix-run/react";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
-import type { AccountModel, ItemModel, UserModel } from "~/utils/models";
+import type { AccountModel, ItemModel } from "~/utils/models";
 import { Button, InputField, SelectField } from "../Forms";
 import ComboboxField from "../Forms/ComboboxField";
 import Panel from "./Panel";
@@ -17,7 +17,7 @@ export default function AddAction({
 	const matches = useMatches();
 	const actionData = useActionData();
 	const accounts: AccountModel[] = matches[1].data.accounts;
-	const userId = matches[1].data.user.id;
+	const personId = matches[1].data.person.id;
 	const tags: ItemModel[] = matches[1].data.tags;
 	const statuses: ItemModel[] = matches[1].data.status;
 
@@ -28,7 +28,7 @@ export default function AddAction({
 
 	useEffect(() => {
 		setTimeout(() => {
-			document.getElementById("name")?.focus();
+			document.getElementsByName("account-select")[0]?.focus();
 		}, 100);
 	}, []);
 
@@ -37,15 +37,15 @@ export default function AddAction({
 			<div className="px-8 pt-4">
 				<div className="flex items-start justify-between">
 					<div>
-						<h5 className="text-sm text-gray-300">
+						<h5 className="text-sm text-gray-700 dark:text-gray-300">
 							Adicionar nova ação
 						</h5>
-						<div className="text-xs text-gray-300/50">
+						<div className="text-xs text-gray-400 dark:text-gray-300/50">
 							{dayjs(date).format("D [de] MMMM [de] YYYY")}
 						</div>
 					</div>
 					<button
-						className="text-gray-300/50 transition hover:text-white"
+						className="text-xl text-gray-400 transition hover:text-gray-700 dark:text-gray-300/50 dark:hover:text-white"
 						onClick={() => setFull(!full)}
 					>
 						<HiOutlineArrowsExpand />
@@ -65,8 +65,8 @@ export default function AddAction({
 			>
 				<Form method="post" id="add_action">
 					<input name="action" type="hidden" value="create" />
-					<input name="creator" type="hidden" value={userId} />
-					<input name="responsible" type="hidden" value={userId} />
+					<input name="creator" type="hidden" value={personId} />
+					<input name="responsible" type="hidden" value={personId} />
 					<input name="account" type="hidden" value={account} />
 					<input name="tag" type="hidden" value={tag} />
 					<input name="status" type="hidden" value={status} />
@@ -77,6 +77,18 @@ export default function AddAction({
 						</>
 					)}
 
+					<ComboboxField
+						label="Cliente"
+						options={accounts.map((account) => ({
+							id: account.id,
+							text: account.name,
+							value: account.id,
+						}))}
+						name="account-select"
+						required={full}
+						opaque
+						callBack={(value) => setAccount(value)}
+					/>
 					<InputField
 						name="name"
 						label="Nome"
@@ -85,17 +97,6 @@ export default function AddAction({
 						required
 					/>
 
-					<ComboboxField
-						label="Cliente"
-						options={accounts.map((account) => ({
-							id: account.id,
-							text: account.name,
-							value: account.id,
-						}))}
-						required={full}
-						opaque
-						callBack={(value) => setAccount(value)}
-					/>
 					<Panel panelClassName="-mx-2" contentClassName="px-2">
 						{full && (
 							<>

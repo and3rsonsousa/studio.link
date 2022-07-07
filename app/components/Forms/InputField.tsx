@@ -1,9 +1,4 @@
-import * as Select from "@radix-ui/react-select";
-import {
-	HiOutlineChevronDown,
-	HiOutlineChevronUp,
-	HiOutlineExclamationCircle,
-} from "react-icons/hi";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 type FieldType = {
 	name: string;
@@ -58,18 +53,6 @@ export default function Field({
 				</label>
 			)}
 		</div>
-	) : type === "select" ? (
-		<SelectField
-			{...{
-				name,
-				label,
-				before,
-				after,
-				error,
-				value,
-				options,
-			}}
-		/>
 	) : (
 		<div className="field">
 			{label && (
@@ -103,66 +86,3 @@ export default function Field({
 		</div>
 	);
 }
-
-const SelectField = ({
-	name,
-	label,
-	before,
-	after,
-	error,
-	value,
-	options,
-}: {
-	name: string;
-	label?: string;
-	before?: React.ReactChild;
-	after?: React.ReactChild;
-	error?: string;
-	value?: string;
-	options?: { id: string; text: string; value: string }[];
-}) => {
-	return (
-		<div className="field">
-			{label && (
-				<label htmlFor={name} className="field-label">
-					{label}
-				</label>
-			)}
-			<div className="field-input-holder">
-				{before}
-				<Select.Root name={name}>
-					<Select.Trigger className="default-spacing w-full text-left">
-						<Select.Value />
-					</Select.Trigger>
-
-					<Select.Content className="dropdown-content">
-						<Select.ScrollUpButton className="grid place-items-center py-2 ">
-							<HiOutlineChevronUp className="h-6 w-6 " />
-						</Select.ScrollUpButton>
-						<Select.Viewport>
-							<Select.Item className="dropdown-item" value="">
-								<Select.ItemText>Selecione</Select.ItemText>
-							</Select.Item>
-							{options?.map((option) => (
-								<Select.Item
-									className="dropdown-item"
-									value={option.value}
-									key={option.id}
-								>
-									<Select.ItemText>
-										{option.text}
-									</Select.ItemText>
-								</Select.Item>
-							))}
-						</Select.Viewport>
-						<Select.ScrollUpButton className="grid place-items-center py-2 ">
-							<HiOutlineChevronDown className="h-6 w-6 " />
-						</Select.ScrollUpButton>
-					</Select.Content>
-				</Select.Root>
-
-				{after}
-			</div>
-		</div>
-	);
-};

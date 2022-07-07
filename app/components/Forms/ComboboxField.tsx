@@ -55,6 +55,7 @@ export default function ComboboxField({
 						className="field-input"
 						autoComplete="off"
 						name={name}
+						id={name}
 						displayValue={(option: Option) =>
 							option ? option.text : ""
 						}

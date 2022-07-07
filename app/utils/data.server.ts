@@ -1,4 +1,4 @@
-import { supabaseClient } from "./supabase";
+import { supabaseClient } from "./supabase.server";
 
 export const getPerson = (id: string) =>
 	supabaseClient.from("Person").select("*").eq("user", id).single();
@@ -164,4 +164,42 @@ export async function createAction(formData: FormData) {
 
 		return action;
 	}
+}
+
+export async function updateAction(
+	id: string,
+	values: {
+		name?: string;
+		date?: string;
+		account?: string;
+		description?: string;
+		date_end?: string;
+		tag?: string;
+		status?: string;
+		creator?: string;
+		responsible?: string;
+		campaign?: string;
+	}
+) {
+	// console.log(id, values);
+
+	// return false;
+
+	const { data, error } = await supabaseClient
+		.from("Action")
+		.update(values)
+		.eq("id", id);
+
+	console.log(data, error);
+
+	return { data, error };
+}
+
+export async function deleteAction(id: string) {
+	const { data, error } = await supabaseClient
+		.from("Action")
+		.delete()
+		.eq("id", id);
+
+	return { data, error };
 }

@@ -55,7 +55,7 @@ export default function Dropdown({
 									{options.map((option, index) =>
 										option === "divider" ? (
 											<hr
-												className=" border-gray-700"
+												className=" border-line"
 												key={index}
 											/>
 										) : typeof option === "function" ? (

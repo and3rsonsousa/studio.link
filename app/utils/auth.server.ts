@@ -1,6 +1,6 @@
 import { redirect } from "@remix-run/node";
 import { commitSession, destroySession, getSession } from "./session.server";
-import { supabaseClient } from "./supabase";
+import { supabaseClient } from "./supabase.server";
 
 export async function signUP(
 	email: string,

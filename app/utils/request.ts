@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { supabaseClient } from "./supabase";
+import { supabaseClient } from "./supabase.server";
 
 export const client = new GraphQLClient(
 	`${process.env.SUPABASE_URL}/graphql/v1`,

@@ -33,6 +33,19 @@ export type ActionModel = {
 	updated_at?: string;
 };
 
+export type ActionModelFull = {
+	id: string;
+	name: string;
+	date: string;
+	account?: string;
+	tag: ItemModel;
+	status: ItemModel;
+	description?: string;
+	date_end?: string;
+	created_at?: string;
+	updated_at?: string;
+};
+
 export type ItemModel = {
 	id: string;
 	name: string;

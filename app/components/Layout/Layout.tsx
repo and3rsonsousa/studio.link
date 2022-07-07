@@ -6,8 +6,11 @@ import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
 import type {
 	AccountModel,
 	DropdownOptions,
+	ItemModel,
 	PersonModel,
 } from "~/utils/models";
+import { supabaseClient } from "~/utils/supabase";
+
 import { scaleUp } from "~/utils/transitions";
 import Dropdown from "./Dropdown";
 import Logo from "./Logo";
@@ -68,50 +71,25 @@ const Layout: React.FC = ({ children }) => {
 };
 
 const SearchBox: React.FC = () => {
-	const actions = [
-		{
-			name: "Ação 1",
-		},
-		{
-			name: "Ação 2",
-		},
-		{
-			name: "Ação 3",
-		},
-		{
-			name: "Ação 1",
-		},
-		{
-			name: "Ação 2",
-		},
-		{
-			name: "Ação 3",
-		},
-		{
-			name: "Ação 1",
-		},
-		{
-			name: "Ação 2",
-		},
-		{
-			name: "Ação 3",
-		},
-		{
-			name: "Ação 1",
-		},
-		{
-			name: "Ação 2",
-		},
-		{
-			name: "Ação 3",
-		},
-	];
+	const actions = [];
 	const [query, setQuery] = useState("");
-	const filtered = query
-		? actions.filter((action) =>
-				action.name.toLowerCase().includes(query.toLowerCase())
-		  )
-		: [];
+	const [filtered, setFiltered] = useState<ItemModel[]>([]);
+
+	// const filtered = query
+	// 	? actions.filter((action) =>
+	// 			action.name.toLowerCase().includes(query.toLowerCase())
+	// 	  )
+	// 	: [];
+
+	const search = async (query: string) => {
+		// const { data } = await supabaseClient
+		// 	.from("Action")
+		// 	.select()
+		// 	.textSearch("name", query);
+		// console.log(data);
+
+		setFiltered([]);
+	};
 
 	return (
 		<Combobox
@@ -126,6 +104,7 @@ const SearchBox: React.FC = () => {
 					placeholder="Busque por uma ação ou campanha"
 					onChange={(event) => {
 						setQuery(event.target.value);
+						search(event.target.value);
 					}}
 					onBlur={() => {
 						setQuery("");
@@ -193,14 +172,14 @@ const UserMenu: React.FC = () => {
 	let { person }: { person: PersonModel } = useLoaderData();
 	let options: DropdownOptions = [
 		() => <ThemeSwitcher key={"theme-switcher"} />,
-		// "divider",
+		"divider",
 		{ id: "account", href: "/account", text: "Minha conta" },
 		{ id: "logout", href: "/signout", text: "Sair" },
 	];
 
 	if (person.admin) {
 		options = options.concat([
-			// "divider",
+			"divider",
 			{ id: "users", href: "/admin/users", text: "Usuários" },
 			{ id: "newuser", href: "/admin/users/new", text: "Novo usuário" },
 			{ id: "accounts", href: "/admin/accounts", text: "Clientes" },
