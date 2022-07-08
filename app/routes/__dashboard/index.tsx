@@ -14,7 +14,7 @@ export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
 	const action = formData.get("action") as string;
 
-	if (action === "create") {
+	if (action === "create-action") {
 		return await createAction(formData);
 	} else if (action.match(/update-/)) {
 		const id = formData.get("id") as string;
@@ -27,10 +27,12 @@ export const action: ActionFunction = async ({ request }) => {
 			values = { date: formData.get("date") as string };
 		}
 		return await updateAction(id, values);
-	} else if (action === "delete") {
+	} else if (action === "delete-action") {
 		const id = formData.get("id") as string;
 		return await deleteAction(id);
 	}
 
-	return false;
+	return {
+		error: { message: "No matched action" },
+	};
 };
