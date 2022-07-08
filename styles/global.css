@@ -19,7 +19,7 @@
 	}
 
 	.border-line {
-		@apply border-t border-gray-200 dark:border-gray-700/50;
+		@apply border-t border-black/10 dark:border-gray-700/50;
 	}
 }
 
@@ -93,7 +93,7 @@
 	}
 
 	.field-input-holder {
-		@apply flex w-full rounded-xl bg-gray-300/25 font-semibold ring-brand-400 transition focus-within:ring-4 hover:ring-4 dark:bg-black/75 dark:ring-brand;
+		@apply flex w-full rounded-xl  bg-gray-300/25 font-semibold ring-brand-400 transition focus-within:ring-4 hover:ring-4 dark:bg-black/75 dark:ring-brand;
 	}
 
 	.field-input-holder.opaque {
@@ -109,7 +109,7 @@
 	}
 
 	.field-checkbox {
-		@apply relative appearance-none rounded-lg bg-black/50 p-3 outline-none ring-brand transition after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-90 after:rounded  after:bg-brand after:p-1.5 after:opacity-0 after:transition after:content-[""] checked:after:scale-100 checked:after:opacity-100 focus:ring-4;
+		@apply relative appearance-none rounded-lg bg-gray-300/25 p-3 outline-none ring-brand transition after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-90 after:rounded after:bg-brand  after:p-1.5 after:opacity-0 after:transition after:content-[""] checked:after:scale-100 checked:after:opacity-100 focus:ring-4 dark:bg-black/50;
 	}
 
 	.field-input-holder.error {
@@ -189,11 +189,18 @@
 	display: none;
 }
 
-.feed-bg {
-	@apply bg-feed-500 text-white transition dark:bg-feed-700;
+.post-bg {
+	@apply bg-post-500 text-white transition dark:bg-post-700;
 }
-.feed-bg-hover {
-	@apply outline-none ring-feed-500 hover:bg-feed-600 dark:hover:bg-feed-600;
+.post-bg-hover {
+	@apply outline-none ring-post-500 hover:bg-post-600 dark:hover:bg-post-600;
+}
+
+.reels-bg {
+	@apply bg-reels-500 text-white transition dark:bg-reels-700;
+}
+.reels-bg-hover {
+	@apply outline-none ring-reels-500 hover:bg-reels-600 dark:hover:bg-reels-600;
 }
 
 .stories-bg {

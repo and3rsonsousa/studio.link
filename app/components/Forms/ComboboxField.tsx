@@ -65,7 +65,7 @@ export default function ComboboxField({
 					<AnimatePresence>
 						{query.length > 0 && (
 							<Combobox.Options
-								className={`dropdown-content ${
+								className={`dropdown-content py-2 ${
 									opaque ? "opaque" : ""
 								} absolute top-12 w-full origin-top`}
 								as={motion.div}

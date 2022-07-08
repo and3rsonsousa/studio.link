@@ -1,7 +1,10 @@
 import * as Context from "@radix-ui/react-context-menu";
 import { Link, useFetcher, useMatches, useNavigate } from "@remix-run/react";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import {
+	HiCheckCircle,
 	HiOutlineChevronRight,
 	HiOutlinePencilAlt,
 	HiOutlineTrash,
@@ -37,39 +40,56 @@ export const ActionCalendar = ({
 
 	const navigate = useNavigate();
 	const fetcher = useFetcher();
+	const [dragging, setDragging] = useState(false);
 
 	return (
-		<Context.Root>
-			<Context.Trigger>
-				<Link
-					to={`/actions/${action.id}`}
-					className={`relative my-1 block cursor-pointer rounded transition ${slug}-bg ${slug}-bg-hover`}
-				>
-					{/* <div
+		<div
+			draggable
+			onDragStart={(event) => {
+				setDragging(true);
+			}}
+			onDragEnd={(event) => {
+				setTimeout(() => {
+					setDragging(false);
+				}, 500);
+			}}
+			className={`transition duration-500 ${
+				dragging ? "dragging scale-90 opacity-0" : ""
+			}`}
+			data-action-id={action.id}
+			data-action-date={action.date}
+		>
+			<Context.Root>
+				<Context.Trigger>
+					<div
+						// to={`/actions/${action.id}`}
+						className={`relative my-1 block cursor-pointer rounded transition ${slug}-bg ${slug}-bg-hover`}
+					>
+						{/* <div
 				className={`l-0 t-0 absolute h-full w-[4px] rounded-l-xl ${tag.slug}-bg`}
 			></div> */}
-					<div className="flex items-center justify-between gap-2 px-2 py-1">
-						<div className="flex items-center overflow-hidden">
-							<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
-								{account.name.substring(0, 3)}
-							</div>
+						<div className="flex items-center justify-between gap-2 px-2 py-1">
+							<div className="flex items-center overflow-hidden">
+								<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
+									{account.name.substring(0, 3)}
+								</div>
 
-							<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold ">
-								{action.name}
+								<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold ">
+									{action.name}
+								</div>
 							</div>
-						</div>
-						<div className="text-xx text-white/50">
-							{dayjs(action.date).format(
-								dayjs(action.date).minute() === 0
-									? "H[h]"
-									: "H[h]mm"
-							)}
+							<div className="text-xx text-white/50">
+								{dayjs(action.date).format(
+									dayjs(action.date).minute() === 0
+										? "H[h]"
+										: "H[h]mm"
+								)}
+							</div>
 						</div>
 					</div>
-				</Link>
-			</Context.Trigger>
-			<Context.Content className="dropdown-content w-40 py-2">
-				{/* <div className="py-2">
+				</Context.Trigger>
+				<Context.Content className="dropdown-content w-40 py-2">
+					{/* <div className="py-2">
 					<div className="px-6 font-medium leading-none text-gray-700">
 						{action.name}
 					</div>
@@ -78,55 +98,49 @@ export const ActionCalendar = ({
 					</div>
 				</div>
 				<Context.Separator className="border-line" /> */}
-				<Context.Item
-					className="dropdown-item flex items-center justify-between text-xs"
-					onClick={() => {
-						navigate(`/actions/${action.id}`);
-					}}
-				>
-					<span>Editar</span>
-					<span>
-						<HiOutlinePencilAlt />
-					</span>
-				</Context.Item>
-				<Context.Item
-					className="dropdown-item flex items-center justify-between text-xs"
-					onClick={() => {
-						if (
-							confirm(`Deseja deletar a ação (${action.name})?`)
-						) {
+					<Context.Item
+						className="dropdown-item flex items-center justify-between px-3 py-1"
+						onClick={() => {
+							navigate(`/actions/${action.id}`);
+						}}
+					>
+						<span>Editar</span>
+						<span>
+							<HiOutlinePencilAlt />
+						</span>
+					</Context.Item>
+					<Context.Item
+						className="dropdown-item flex items-center justify-between px-3 py-1"
+						onClick={() => {
+							// if (
+							// 	confirm(`Deseja deletar a ação (${action.name})?`)
+							// ) {
 							fetcher.submit(
 								{ action: "delete", id: action.id },
 								{ method: "post" }
 							);
-						}
-						// TODO
-					}}
-				>
-					<span>Excluir</span>
-					<span>
-						<HiOutlineTrash />
-					</span>
-				</Context.Item>
-				<Context.Separator className="border-line my-2" />
-				<Context.Root>
-					<Context.TriggerItem className="dropdown-item flex items-center justify-between text-xs">
-						<span>Tag</span>
+							// }
+							// TODO
+						}}
+					>
+						<span>Excluir</span>
 						<span>
-							<HiOutlineChevronRight />
+							<HiOutlineTrash />
 						</span>
-					</Context.TriggerItem>
-					<Context.Content className="dropdown-content">
-						{tags.map((tag: ItemModel) => (
-							<Context.Item
-								className="dropdown-item flex w-full items-center gap-3 text-xs"
-								key={tag.id}
-								asChild
-							>
-								<button
-									type="submit"
-									name="action"
-									value="update"
+					</Context.Item>
+					<Context.Separator className="border-line my-2" />
+					<Context.Root>
+						<Context.TriggerItem className="dropdown-item flex items-center justify-between px-3 py-1">
+							<span>Tag</span>
+							<span>
+								<HiOutlineChevronRight />
+							</span>
+						</Context.TriggerItem>
+						<Context.Content className="dropdown-content w-40  py-2">
+							{tags.map((tag: ItemModel) => (
+								<Context.Item
+									className="dropdown-item flex w-full items-center justify-between px-3 py-1"
+									key={tag.id}
 									onClick={() => {
 										fetcher.submit(
 											{
@@ -138,47 +152,61 @@ export const ActionCalendar = ({
 										);
 									}}
 								>
-									<span
-										className={`${tag.slug}-bg h-2 w-2 rounded-full`}
-									></span>
-									<span>{tag.name}</span>
-								</button>
-							</Context.Item>
-						))}
-					</Context.Content>
-				</Context.Root>
-				<Context.Root>
-					<Context.TriggerItem className="dropdown-item flex items-center justify-between text-xs">
-						<span>Status</span>
-						<span>
-							<HiOutlineChevronRight />
-						</span>
-					</Context.TriggerItem>
-					<Context.Content className="dropdown-content">
-						{statuses.map((status: ItemModel) => (
-							<Context.Item
-								className="dropdown-item flex items-center gap-3 text-xs"
-								key={status.id}
-								onClick={() => {
-									fetcher.submit(
-										{
-											action: "update-status",
-											id: action.id,
-											status: status.id,
-										},
-										{ method: "post" }
-									);
-								}}
-							>
-								<span
-									className={`${status.slug}-bg h-2 w-2 rounded-full`}
-								></span>
-								<span>{status.name}</span>
-							</Context.Item>
-						))}
-					</Context.Content>
-				</Context.Root>
-			</Context.Content>
-		</Context.Root>
+									<span className="flex items-center gap-3">
+										<span
+											className={`${tag.slug}-bg h-2 w-2 rounded-full`}
+										></span>
+										<span>{tag.name}</span>
+									</span>
+									{action.tag === tag.id && (
+										<span>
+											<HiCheckCircle />
+										</span>
+									)}
+								</Context.Item>
+							))}
+						</Context.Content>
+					</Context.Root>
+					<Context.Root>
+						<Context.TriggerItem className="dropdown-item flex items-center justify-between px-3 py-1">
+							<span>Status</span>
+							<span>
+								<HiOutlineChevronRight />
+							</span>
+						</Context.TriggerItem>
+						<Context.Content className="dropdown-content w-40 py-2">
+							{statuses.map((status: ItemModel) => (
+								<Context.Item
+									className="dropdown-item flex items-center  justify-between  px-3 py-1"
+									key={status.id}
+									onClick={() => {
+										fetcher.submit(
+											{
+												action: "update-status",
+												id: action.id,
+												status: status.id,
+											},
+											{ method: "post" }
+										);
+									}}
+								>
+									<span className="flex items-center gap-3">
+										<span
+											className={`${status.slug}-bg h-2 w-2 rounded-full`}
+										></span>
+										<span>{status.name}</span>
+									</span>
+									{action.status === status.id && (
+										<span>
+											<HiCheckCircle />
+										</span>
+									)}
+								</Context.Item>
+							))}
+						</Context.Content>
+					</Context.Root>
+				</Context.Content>
+			</Context.Root>
+		</div>
 	);
 };

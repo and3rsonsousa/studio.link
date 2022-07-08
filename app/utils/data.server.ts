@@ -190,8 +190,6 @@ export async function updateAction(
 		.update(values)
 		.eq("id", id);
 
-	console.log(data, error);
-
 	return { data, error };
 }
 

@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
 import type { AccountModel, ItemModel } from "~/utils/models";
 import { Button, InputField, SelectField } from "../Forms";
+import CheckboxField from "../Forms/Checkbox";
 import ComboboxField from "../Forms/ComboboxField";
+import Field from "../Forms/InputField";
 import Panel from "./Panel";
 
 export default function AddAction({
@@ -22,13 +24,14 @@ export default function AddAction({
 	const statuses: ItemModel[] = matches[1].data.status;
 
 	const [full, setFull] = useState(false);
+	const [endDate, setEndDate] = useState(false);
 	const [account, setAccount] = useState("");
 	const [tag, setTag] = useState(tags[0].id);
 	const [status, setStatus] = useState(statuses[0].id);
 
 	useEffect(() => {
 		setTimeout(() => {
-			document.getElementsByName("account-select")[0]?.focus();
+			document.getElementsByName("name")[0]?.focus();
 		}, 100);
 	}, []);
 
@@ -77,6 +80,14 @@ export default function AddAction({
 						</>
 					)}
 
+					<InputField
+						name="name"
+						label="Nome"
+						type="text"
+						autoComplete="off"
+						required
+					/>
+
 					<ComboboxField
 						label="Cliente"
 						options={accounts.map((account) => ({
@@ -88,13 +99,6 @@ export default function AddAction({
 						required={full}
 						opaque
 						callBack={(value) => setAccount(value)}
-					/>
-					<InputField
-						name="name"
-						label="Nome"
-						type="text"
-						autoComplete="off"
-						required
 					/>
 
 					<Panel panelClassName="-mx-2" contentClassName="px-2">
@@ -141,12 +145,12 @@ export default function AddAction({
 										/>
 									</div>
 								</div>
-								<ComboboxField
+								{/* <ComboboxField
 									options={[]}
 									name="actions"
 									label="Ações relacionadas"
 									placeholder="Selecione as ações relacionadas a esta"
-								/>
+								/> */}
 								<InputField
 									name="date"
 									label="Data"
@@ -154,21 +158,30 @@ export default function AddAction({
 									value={date}
 									required
 								/>
-								<InputField
-									name="date_end"
-									label="Data Final"
-									type="datetime-local"
-									value={date}
+								<CheckboxField
+									checked={endDate}
+									label="Inserir data final?"
+									onChange={(e) => setEndDate(!endDate)}
 								/>
+								{endDate && (
+									<div className="mb-2">
+										<InputField
+											name="date_end"
+											label="Data Final"
+											type="datetime-local"
+											value={date}
+										/>
+									</div>
+								)}
 							</>
 						)}
 					</Panel>
 				</Form>
-			</div>
-			<div className="flex justify-end gap-2 px-8 py-4">
-				<Button type="submit" primary form="add_action">
-					Adicionar
-				</Button>
+				<div className="flex justify-end gap-2">
+					<Button type="submit" primary form="add_action">
+						Adicionar
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

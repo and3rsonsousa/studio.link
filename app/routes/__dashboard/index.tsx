@@ -23,6 +23,8 @@ export const action: ActionFunction = async ({ request }) => {
 			values = { tag: formData.get("tag") as string };
 		} else if (action === "update-status") {
 			values = { status: formData.get("status") as string };
+		} else if (action === "update-date") {
+			values = { date: formData.get("date") as string };
 		}
 		return await updateAction(id, values);
 	} else if (action === "delete") {

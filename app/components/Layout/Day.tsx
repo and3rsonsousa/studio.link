@@ -1,6 +1,8 @@
 import { flip, offset, shift, useFloating } from "@floating-ui/react-dom";
 import { Popover } from "@headlessui/react";
+import { useFetcher } from "@remix-run/react";
 import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiPlusCircle, HiStar } from "react-icons/hi";
 import { isToday } from "~/utils/helpers";
@@ -21,9 +23,38 @@ const Day = ({
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [offset(16), flip(), shift({ padding: 16 })],
 	});
+
+	const fetcher = useFetcher();
+
 	return (
 		<div
-			className={`group w-full border-l border-t border-gray-200 p-2 transition  hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50`}
+			className={`group flex w-full flex-col border-l border-t border-gray-200 p-2  transition hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50`}
+			onDragOver={(event) => {
+				event.stopPropagation();
+				event.preventDefault();
+			}}
+			onDrop={(event) => {
+				const draggingElement = document.querySelector(".dragging");
+				const id = draggingElement?.getAttribute("data-action-id");
+				const date = dayjs(
+					draggingElement?.getAttribute("data-action-date")
+				);
+				const newDate = dayjs(
+					`${day.date.format(
+						"YYYY-MM-DD"
+					)}T${date.hour()}:${date.minute()}:00`
+				).format("YYYY-MM-DDTHH:mm:ss");
+				if (id) {
+					fetcher.submit(
+						{
+							action: "update-date",
+							id,
+							date: newDate,
+						},
+						{ method: "post" }
+					);
+				}
+			}}
 		>
 			<div className={`flex items-center justify-between`}>
 				{/* Número do dia */}
@@ -79,7 +110,20 @@ const Day = ({
 					</Popover>
 				</div>
 			</div>
-			<div>
+
+			<div className="flex flex-shrink-0 flex-grow flex-col justify-between ">
+				{/* Actions */}
+
+				<div>
+					{day.actions.map((action) => (
+						<ActionCalendar
+							viewColor={viewColor}
+							action={action}
+							key={action.id}
+						/>
+					))}
+				</div>
+
 				{/* Holidays */}
 				<div>
 					{day.holidays.map((holiday) => (
@@ -90,22 +134,10 @@ const Day = ({
 							<span>
 								<HiStar />
 							</span>
-							<span className="overflow-hidden text-ellipsis whitespace-nowrap tracking-wide">
+							<span className="overflow-hidden text-ellipsis whitespace-nowrap tracking-wide transition group-hover:text-gray-600">
 								{holiday.name}
 							</span>
 						</div>
-					))}
-				</div>
-
-				{/* Actions */}
-
-				<div>
-					{day.actions.map((action) => (
-						<ActionCalendar
-							viewColor={viewColor}
-							action={action}
-							key={action.id}
-						/>
 					))}
 				</div>
 			</div>
