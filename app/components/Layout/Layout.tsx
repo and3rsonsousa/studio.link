@@ -9,7 +9,6 @@ import type {
 	ItemModel,
 	PersonModel,
 } from "~/utils/models";
-import { supabaseClient } from "~/utils/supabase";
 
 import { scaleUp } from "~/utils/transitions";
 import Dropdown from "./Dropdown";

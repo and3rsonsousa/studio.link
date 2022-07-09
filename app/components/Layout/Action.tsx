@@ -2,7 +2,7 @@ import * as Context from "@radix-ui/react-context-menu";
 import { Link, useFetcher, useMatches, useNavigate } from "@remix-run/react";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	HiCheckCircle,
 	HiOutlineChevronRight,
@@ -10,6 +10,7 @@ import {
 	HiOutlineTrash,
 } from "react-icons/hi";
 import type { AccountModel, ActionModel, ItemModel } from "~/utils/models";
+import { scaleUp } from "~/utils/transitions";
 
 export const ActionCalendar = ({
 	action,
@@ -20,7 +21,7 @@ export const ActionCalendar = ({
 }) => {
 	const matches = useMatches();
 	const { accounts, tags, status: statuses } = matches[1].data;
-	const account = accounts.filter(
+	const account: AccountModel = accounts.filter(
 		(account: AccountModel) => account.id === action.account
 	)[0];
 	const tag: ItemModel = tags.filter(
@@ -41,21 +42,22 @@ export const ActionCalendar = ({
 	const navigate = useNavigate();
 	const fetcher = useFetcher();
 	const [dragging, setDragging] = useState(false);
+	const isDeleting =
+		fetcher.submission &&
+		fetcher.submission.formData.get("action") === "delete-action" &&
+		fetcher.submission.formData.get("id") === action.id;
 
 	return (
-		<div
-			draggable
+		<motion.div
+			draggable={true}
+			{...scaleUp()}
 			onDragStart={(event) => {
 				setDragging(true);
 			}}
 			onDragEnd={(event) => {
-				setTimeout(() => {
-					setDragging(false);
-				}, 500);
+				setDragging(false);
 			}}
-			className={`transition duration-500 ${
-				dragging ? "dragging scale-90 opacity-0" : ""
-			}`}
+			className={`transition duration-500 ${dragging ? "dragging" : ""} `}
 			data-action-id={action.id}
 			data-action-date={action.date}
 		>
@@ -101,7 +103,7 @@ export const ActionCalendar = ({
 					<Context.Item
 						className="dropdown-item flex items-center justify-between px-3 py-1"
 						onClick={() => {
-							navigate(`/actions/${action.id}`);
+							navigate(`/${account.slug}/action/${action.id}`);
 						}}
 					>
 						<span>Editar</span>
@@ -112,15 +114,10 @@ export const ActionCalendar = ({
 					<Context.Item
 						className="dropdown-item flex items-center justify-between px-3 py-1"
 						onClick={() => {
-							// if (
-							// 	confirm(`Deseja deletar a ação (${action.name})?`)
-							// ) {
 							fetcher.submit(
-								{ action: "delete", id: action.id },
+								{ action: "delete-action", id: action.id },
 								{ method: "post" }
 							);
-							// }
-							// TODO
 						}}
 					>
 						<span>Excluir</span>
@@ -207,6 +204,6 @@ export const ActionCalendar = ({
 					</Context.Root>
 				</Context.Content>
 			</Context.Root>
-		</div>
+		</motion.div>
 	);
 };

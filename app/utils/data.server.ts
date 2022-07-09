@@ -3,6 +3,15 @@ import { supabaseClient } from "./supabase.server";
 export const getPerson = (id: string) =>
 	supabaseClient.from("Person").select("*").eq("user", id).single();
 
+export const getPersons = () =>
+	supabaseClient
+		.from("Person")
+		.select("*")
+		.order("name", { ascending: true });
+
+export const getAccount = async (slug: string) =>
+	supabaseClient.from("Account").select("*").eq("slug", slug).single();
+
 export const getAccounts = (user: string) =>
 	supabaseClient
 		.from("Account")
@@ -97,20 +106,14 @@ export const getActions = async (user?: string) => {
 	return { data };
 };
 
-export const getAction = async (id?: string) => {
-	let { data, error } = await supabaseClient
+export const getAction = (id?: string) => {
+	return supabaseClient
 		.from("Action")
 		.select(
 			"*, account:Account(*), status:Status(*), tag:Tag(*), creator:Action_creator_fkey(*), responsible:Action_responsible_fkey(*),campaign:Campaign(*)"
 		)
 		.eq("id", id)
 		.single();
-
-	if (error) {
-		return { error };
-	}
-
-	return data;
 };
 
 export async function createAction(formData: FormData) {

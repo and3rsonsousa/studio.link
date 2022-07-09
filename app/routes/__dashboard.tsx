@@ -8,6 +8,7 @@ import {
 	getActions,
 	getCampaigns,
 	getPerson,
+	getPersons,
 	getTagsStatus,
 } from "~/utils/data.server";
 import type { AccountModel } from "~/utils/models";
@@ -18,6 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	if (user) {
 		const [
 			{ data: person },
+			{ data: persons },
 			{ data: accounts },
 			{ data: holidays },
 			{ tags, status },
@@ -25,6 +27,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 			{ data: campaigns },
 		] = await Promise.all([
 			getPerson(user.id), // Dados do Usuário
+			getPersons(), // Dados dos pessoas
 			getAccounts(user.id), // Todas as contas reacionadas a esse usuário
 			getActions(), // Ações sem Cliente / Datas Comemorativas
 			getTagsStatus(), //Tags & Status
@@ -35,6 +38,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 		return {
 			user,
 			person,
+			persons,
 			accounts,
 			holidays,
 			tags,

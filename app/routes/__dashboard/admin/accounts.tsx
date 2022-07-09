@@ -34,22 +34,25 @@ export default function AdminAccountsIndex() {
 	const { accounts }: { accounts: AccountModel[] } = useLoaderData();
 	return (
 		<>
-			<div className="flex items-center justify-between border-b border-gray-800 py-4">
+			<div className="border-line flex items-center justify-between py-4">
 				<h3 className="text-gray-300">Clientes</h3>
 				<div>
-					<Link to={`./new`} className=" flex items-center space-x-2">
+					<Link
+						to={`./new`}
+						className="button flex items-center space-x-2"
+					>
 						<span>Cadastrar Novo Cliente</span>
 						<HiOutlinePlus />
 					</Link>
 				</div>
 			</div>
-			<div className="flex gap-8 py-8">
+			<div className="flex gap-8">
 				<div className="w-full">
-					<div className="divide-y divide-gray-800">
+					<div className="">
 						{accounts && accounts.length > 0 ? (
 							accounts.map((account) => (
 								<div
-									className="flex items-center justify-between space-x-4 py-4"
+									className="border-line flex items-center justify-between space-x-4 py-4"
 									key={account.id}
 								>
 									<Link to={`/${account.slug}}`}>

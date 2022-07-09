@@ -4,9 +4,11 @@ import { useFetcher } from "@remix-run/react";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import { HiPlusCircle, HiStar } from "react-icons/hi";
+import { useState } from "react";
+import { HiOutlineX, HiPlusCircle, HiStar } from "react-icons/hi";
+import { action } from "~/routes/login";
 import { isToday } from "~/utils/helpers";
-import type { DayModel } from "~/utils/models";
+import type { ActionModel, DayModel } from "~/utils/models";
 import { scaleUp } from "~/utils/transitions";
 import { ActionCalendar } from "./Action";
 import AddAction from "./AddAction";
@@ -61,7 +63,7 @@ const Day = ({
 				<div
 					className={`text-xs ${
 						isToday(day.date)
-							? " grid h-6 w-6 place-items-center rounded-full bg-brand font-bold text-white"
+							? " grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-rose-500 to-brand font-bold text-white"
 							: day.date.format("YYYY-MM") !==
 							  currentDate.format("YYYY-MM")
 							? "text-gray-300 dark:text-gray-700"
@@ -87,7 +89,7 @@ const Day = ({
 									{open && (
 										<Popover.Panel
 											static
-											className={`dropdown-content z-[999] `}
+											className={`dropdown-content z-[999] bg-white/75 `}
 											as={motion.div}
 											ref={floating}
 											style={{
@@ -98,6 +100,7 @@ const Day = ({
 											{...scaleUp()}
 										>
 											<AddAction
+												close={close}
 												date={day.date.format(
 													"YYYY-MM-DD hh:mm"
 												)}
@@ -113,31 +116,22 @@ const Day = ({
 
 			<div className="flex flex-shrink-0 flex-grow flex-col justify-between ">
 				{/* Actions */}
-
 				<div>
-					{day.actions.map((action) => (
-						<ActionCalendar
-							viewColor={viewColor}
-							action={action}
-							key={action.id}
-						/>
-					))}
+					<AnimatePresence initial={false}>
+						{day.actions.map((action) => (
+							<ActionCalendar
+								viewColor={viewColor}
+								action={action}
+								key={action.id}
+							/>
+						))}
+					</AnimatePresence>
 				</div>
 
 				{/* Holidays */}
 				<div>
 					{day.holidays.map((holiday) => (
-						<div
-							className="text-xx flex items-center gap-1 font-semibold uppercase text-gray-400 dark:text-gray-500"
-							key={holiday.id}
-						>
-							<span>
-								<HiStar />
-							</span>
-							<span className="overflow-hidden text-ellipsis whitespace-nowrap tracking-wide transition group-hover:text-gray-600">
-								{holiday.name}
-							</span>
-						</div>
+						<Holiday key={holiday.id} holiday={holiday} />
 					))}
 				</div>
 			</div>
@@ -146,3 +140,62 @@ const Day = ({
 };
 
 export default Day;
+
+function Holiday({ holiday }: { holiday: ActionModel }) {
+	const [deleteHoliday, setDeleteHoliday] = useState(false);
+	const fetcher = useFetcher();
+
+	return (
+		<div
+			className="text-xx group flex  items-center justify-between font-semibold uppercase text-gray-400 dark:text-gray-500"
+			key={holiday.id}
+		>
+			<div
+				className="flex flex-auto items-center gap-1 overflow-auto"
+				onClick={() => {
+					if (deleteHoliday) {
+						setDeleteHoliday(false);
+					} else {
+						setDeleteHoliday(true);
+						setTimeout(() => {
+							setDeleteHoliday(false);
+						}, 3000);
+					}
+				}}
+			>
+				<span>
+					<HiStar />
+				</span>
+				<span className="overflow-hidden text-ellipsis whitespace-nowrap tracking-wide transition group-hover:text-gray-600 dark:group-hover:text-gray-400">
+					{holiday.name}
+				</span>
+			</div>
+			<AnimatePresence>
+				{deleteHoliday && (
+					<motion.div
+						key={`delete-holiday-${holiday.id}`}
+						className="flex-shrink-0"
+						{...scaleUp()}
+					>
+						<button
+							onClick={() => {
+								fetcher.submit(
+									{
+										action: "delete-action",
+										id: holiday.id,
+									},
+									{
+										method: "post",
+									}
+								);
+							}}
+							className="-mt-[0.5rem] rounded-full bg-red-500 p-0.5 text-white dark:bg-red-700"
+						>
+							<HiOutlineX />
+						</button>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</div>
+	);
+}

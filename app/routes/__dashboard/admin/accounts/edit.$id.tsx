@@ -32,7 +32,7 @@ export default function AdminAccountsEdit() {
 	const actionData = useActionData();
 	return (
 		<motion.div {...scaleUp} className="w-full">
-			<h3 className="text-gray-300">Editar Cliente</h3>
+			<h3 className="text-gray-700 dark:text-gray-300">Editar Cliente</h3>
 			<Panel duration={0.5} delay={0}>
 				{actionData && actionData.error && (
 					<div className="error-banner">

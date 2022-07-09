@@ -55,7 +55,31 @@ function Components() {
 			<hr className="border-line my-16" />
 			<div className="space-y-4">
 				<h2 className="mb-8">Forms</h2>
-				<InputField name="name" type="text" label="Nome" />
+				<div className="bg-gray-100 p-4">
+					<InputField name="name" type="text" label="Input" />
+					<InputField
+						name="name"
+						type="text"
+						label="Disabled Input"
+						value="I am disabled"
+						disabled
+					/>
+
+					<InputField
+						name="name"
+						type="text"
+						label="Opaque Input"
+						value="I am opaque"
+						opaque
+					/>
+					<InputField
+						name="name"
+						type="text"
+						label="Darker Input"
+						value="I am darker than the others"
+						darker
+					/>
+				</div>
 			</div>
 		</>
 	);

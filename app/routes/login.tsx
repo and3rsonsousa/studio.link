@@ -50,10 +50,10 @@ export default function LoginPage() {
 	let [showPassword, setShowPassword] = useState<true | false>(false);
 
 	return (
-		<div className="grid min-h-screen place-items-center">
+		<div className="grid min-h-screen place-items-center bg-white dark:bg-gray-900">
 			<div className="w-96 p-8">
 				<div className="mb-8">
-					<Logo size={2} />
+					<Logo size={1} />
 				</div>
 				<Panel duration={duration / 2} delay={0}>
 					{actionData && actionData.error && (

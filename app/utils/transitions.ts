@@ -1,14 +1,14 @@
-export const scaleUp = (duration?: number) => ({
+export const scaleUp = (duration = 0.2, exitFactor = 0.5) => ({
 	initial: { opacity: 0, scale: 0.95 },
 	animate: {
 		opacity: 1,
 		scale: 1,
-		transition: { duration: duration || 0.2 },
+		transition: { duration },
 	},
 	exit: {
 		opacity: 0,
 		scale: 0.95,
-		transition: { duration: duration ? duration / 2 : 0.1 },
+		transition: { duration: duration * exitFactor },
 	},
 });
 

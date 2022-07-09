@@ -1,6 +1,7 @@
 import type {
 	ErrorBoundaryComponent,
 	LinksFunction,
+	LoaderFunction,
 	MetaFunction,
 } from "@remix-run/node";
 import {
@@ -18,13 +19,30 @@ import {
 
 import styles from "./styles/app.css";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+	{ rel: "stylesheet", href: styles },
+	{
+		rel: "icon",
+		href: "/ico.png",
+	},
+];
 
 export const meta: MetaFunction = () => ({
 	charset: "utf-8",
 	title: "New Remix App",
 	viewport: "width=device-width,initial-scale=1",
+	description:
+		"Studio é um app focado em gestão de Campanhas e Ações de Marketing criado pela empresa CANIVETE.",
 });
+
+export const loader: LoaderFunction = async () => {
+	return {
+		env: {
+			SUPABASE_URL: process.env.SUPABASE_URL,
+			SUPABASE_KEY: process.env.SUPABASE_KEY,
+		},
+	};
+};
 
 export default function App() {
 	return (
@@ -50,6 +68,7 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 		<html>
 			<head>
 				<title>Oh no!</title>
+
 				<Meta />
 				<Links />
 			</head>

@@ -30,7 +30,7 @@ const SelectField = ({
 		value ? options.filter((option) => option.id === value)[0] : options[0]
 	);
 	const { x, y, reference, floating, strategy } = useFloating({
-		middleware: [offset(16), flip(), shift({ padding: 16 })],
+		middleware: [offset(8), flip(), shift({ padding: 8 })],
 	});
 
 	return options.length > 0 ? (
@@ -69,7 +69,9 @@ const SelectField = ({
 										className={`dropdown-content ${
 											opaque ? "opaque" : ""
 										} no-scroll-bars max-h-40 w-full ${
-											!y ? "origin-top" : "origin-bottom"
+											y && y > 0
+												? "origin-top"
+												: "origin-bottom"
 										}`}
 										style={{
 											top: y ?? 0,

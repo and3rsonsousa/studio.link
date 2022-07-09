@@ -1,4 +1,5 @@
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import ErrorBanner from "../Layout/ErrorBanner";
 
 type FieldType = {
 	name: string;
@@ -18,11 +19,12 @@ type FieldType = {
 	after?: React.ReactChild;
 	error?: string;
 	value?: string;
-	options?: { id: string; text: string; value: string }[];
-	checked?: boolean;
+	disabled?: boolean;
+	opaque?: boolean;
+	darker?: boolean;
 };
 
-export default function Field({
+export default function InputField({
 	name,
 	label,
 	required,
@@ -34,33 +36,24 @@ export default function Field({
 	after,
 	error,
 	value,
-	options,
-	checked = false,
+	disabled,
+	opaque = false,
+	darker = false,
 }: FieldType) {
-	return type === "checkbox" ? (
-		<div className="field-checkbox-holder">
-			<input
-				type="checkbox"
-				className="field-checkbox"
-				name={name}
-				id={name}
-				value={value}
-				defaultChecked={checked}
-			/>
-			{label && (
-				<label htmlFor={name} className="field-label">
-					{label}
-				</label>
-			)}
-		</div>
-	) : (
+	return (
 		<div className="field">
 			{label && (
 				<label htmlFor={name} className="field-label">
 					{label}
 				</label>
 			)}
-			<div className="field-input-holder">
+			<div
+				className={`field-input-holder${opaque ? " opaque" : ""}${
+					darker ? " darker" : ""
+				}${disabled ? " field-disabled" : ""}${
+					error ? " field-error" : ""
+				}`}
+			>
 				{before}
 				<input
 					type={type}
@@ -74,15 +67,11 @@ export default function Field({
 					autoFocus={autoFocus}
 					defaultValue={value}
 					autoComplete={autoComplete}
+					disabled={disabled}
 				/>
 				{after}
 			</div>
-			{error ? (
-				<div className="mt-2 flex items-center space-x-1 text-sm font-semibold tracking-wide text-red-700">
-					<HiOutlineExclamationCircle className="text-xl" />
-					<div>{error}</div>
-				</div>
-			) : null}
+			{error ? <ErrorBanner error={{ message: error }} /> : null}
 		</div>
 	);
 }

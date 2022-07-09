@@ -19,5 +19,14 @@ export default function Logo({
 			: size === 3
 			? "text-sm tracking-widest"
 			: "text-xl tracking-wide";
-	return <h1 className={`font-extrabold ${sizes} ${colors} m-0`}>STUDIO</h1>;
+	// return <h1 className={`font-extrabold ${sizes} ${colors} m-0`}>STUDIO</h1>;
+	return (
+		<img
+			src="/logo.png"
+			alt="STUDIO > Canivete"
+			className={`${
+				size ? (size === 1 ? "h-16" : size === 2 ? "h-12" : "") : "h-5"
+			}`}
+		/>
+	);
 }
