@@ -39,7 +39,7 @@ const Layout: React.FC = ({ children }) => {
 				<div className="mx-auto flex items-center justify-between py-4 px-8 xl:container">
 					{/* Left Side */}
 					<Link to={`/`}>
-						<Logo />
+						<Logo size={3} />
 					</Link>
 					{/* Center */}
 					<div>

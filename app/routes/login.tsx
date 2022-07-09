@@ -53,7 +53,7 @@ export default function LoginPage() {
 		<div className="grid min-h-screen place-items-center bg-white dark:bg-gray-900">
 			<div className="w-96 p-8">
 				<div className="mb-8">
-					<Logo size={1} />
+					<Logo />
 				</div>
 				<Panel duration={duration / 2} delay={0}>
 					{actionData && actionData.error && (
