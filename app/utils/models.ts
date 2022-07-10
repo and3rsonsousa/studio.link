@@ -37,7 +37,7 @@ export type ActionModelFull = {
 	id: string;
 	name: string;
 	date: string;
-	account?: string;
+	account?: AccountModel;
 	tag: ItemModel;
 	status: ItemModel;
 	description?: string;

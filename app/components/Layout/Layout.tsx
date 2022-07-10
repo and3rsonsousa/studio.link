@@ -1,14 +1,22 @@
 import { Combobox } from "@headlessui/react";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
-import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
+import {
+	HiOutlineMoon,
+	HiOutlineSearch,
+	HiOutlineSun,
+	HiStar,
+} from "react-icons/hi";
 import type {
 	AccountModel,
+	ActionModel,
+	ActionModelFull,
 	DropdownOptions,
 	ItemModel,
 	PersonModel,
 } from "~/utils/models";
+import { supabaseClient } from "~/utils/supabase";
 
 import { scaleUp } from "~/utils/transitions";
 import Dropdown from "./Dropdown";
@@ -70,31 +78,32 @@ const Layout: React.FC = ({ children }) => {
 };
 
 const SearchBox: React.FC = () => {
-	const actions = [];
 	const [query, setQuery] = useState("");
-	const [filtered, setFiltered] = useState<ItemModel[]>([]);
+	const [items, setItems] = useState<any>();
 
-	// const filtered = query
-	// 	? actions.filter((action) =>
-	// 			action.name.toLowerCase().includes(query.toLowerCase())
-	// 	  )
-	// 	: [];
-
-	const search = async (query: string) => {
-		// const { data } = await supabaseClient
-		// 	.from("Action")
-		// 	.select()
-		// 	.textSearch("name", query);
-		// console.log(data);
-
-		setFiltered([]);
+	const search = async (str: string) => {
+		if (str.length > 2) {
+			const { data } = await supabaseClient
+				.from("Action")
+				.select("*, account:Account(*)")
+				.ilike("name", `%${str}%`)
+				.filter("account", "not.is", null);
+			if (data) setItems(data);
+		} else {
+			setItems([]);
+		}
 	};
+
+	const navigate = useNavigate();
 
 	return (
 		<Combobox
 			as={"div"}
-			onChange={() => {}}
-			value=""
+			onChange={(value: ActionModelFull) => {
+				setQuery("");
+				navigate(`/${value.account?.slug}/action/${value.id}`);
+			}}
+			value={undefined}
 			className={`relative`}
 		>
 			<div className="field-input-holder">
@@ -121,26 +130,40 @@ const SearchBox: React.FC = () => {
 						{...scaleUp()}
 						as={motion.div}
 					>
-						{filtered.length > 0 ? (
-							filtered.map((action, index) => (
-								<Combobox.Option
-									key={index}
-									value={action.name}
-									as={Fragment}
-								>
-									{({ active }) => (
-										<div
-											className={`dropdown-item ${
-												active
-													? "bg-brand text-white"
-													: ""
-											}`}
-										>
-											{action.name}
-										</div>
-									)}
-								</Combobox.Option>
-							))
+						{items && items.length > 0 ? (
+							items.map(
+								(action: ActionModelFull, index: number) => (
+									<Combobox.Option
+										key={index}
+										value={action}
+										as={Fragment}
+									>
+										{({ active }) => (
+											<div
+												className={`dropdown-item flex items-center justify-between ${
+													active
+														? "bg-brand text-white"
+														: ""
+												}`}
+											>
+												<div className="flex items-center gap-2">
+													<div className="text-xx w-6 text-center uppercase text-gray-400">
+														{action.account ? (
+															action.account.name.substring(
+																0,
+																3
+															)
+														) : (
+															<HiStar className="mx-auto text-xs" />
+														)}
+													</div>
+													<div>{action.name}</div>
+												</div>
+											</div>
+										)}
+									</Combobox.Option>
+								)
+							)
 						) : (
 							<div className="px-4 text-gray-500 dark:text-gray-300">
 								Sem resultados {":("}

@@ -63,7 +63,7 @@ const Day = ({
 				<div
 					className={`text-xs ${
 						isToday(day.date)
-							? " grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-rose-500 to-brand font-bold text-white"
+							? " -ml-1 grid h-6 w-6 place-items-center rounded-full bg-brand font-bold text-white"
 							: day.date.format("YYYY-MM") !==
 							  currentDate.format("YYYY-MM")
 							? "text-gray-300 dark:text-gray-700"

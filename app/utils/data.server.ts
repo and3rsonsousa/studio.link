@@ -1,4 +1,4 @@
-import { supabaseClient } from "./supabase.server";
+import { supabaseClient } from "./supabase";
 
 export const getPerson = (id: string) =>
 	supabaseClient.from("Person").select("*").eq("user", id).single();

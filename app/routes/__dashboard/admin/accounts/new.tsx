@@ -5,7 +5,7 @@ import { Button, InputField } from "~/components/Forms";
 import Panel from "~/components/Layout/Panel";
 import { addAccount, deleteAccount } from "~/utils/data.server";
 import type { PersonModel } from "~/utils/models";
-import { supabaseClient } from "~/utils/supabase.server";
+import { supabaseClient } from "~/utils/supabase";
 import { scaleUp } from "~/utils/transitions";
 
 export const loader: LoaderFunction = async () => {
