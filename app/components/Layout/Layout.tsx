@@ -94,6 +94,20 @@ const SearchBox: React.FC = () => {
 		}
 	};
 
+	useEffect(() => {
+		const keyDown = (e: KeyboardEvent) => {
+			console.log(e.key);
+			if (e.metaKey && e.key === "/") {
+				const ele: HTMLElement = document.querySelector(
+					".search-box"
+				) as HTMLElement;
+				ele.focus();
+			}
+		};
+		window.addEventListener("keydown", keyDown);
+		return () => window.removeEventListener("keydown", keyDown);
+	}, []);
+
 	const navigate = useNavigate();
 
 	return (
@@ -108,7 +122,7 @@ const SearchBox: React.FC = () => {
 		>
 			<div className="field-input-holder">
 				<Combobox.Input
-					className="field-input"
+					className="field-input search-box"
 					placeholder="Busque por uma ação ou campanha"
 					onChange={(event) => {
 						setQuery(event.target.value);
@@ -123,7 +137,7 @@ const SearchBox: React.FC = () => {
 				</div>
 			</div>
 			<AnimatePresence>
-				{query.length > 0 && (
+				{query.length > 2 && (
 					<Combobox.Options
 						static
 						className={`dropdown-content absolute top-12 max-h-[50vh] w-full origin-top overflow-y-auto`}
