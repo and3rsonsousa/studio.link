@@ -20,6 +20,7 @@ import { supabaseClient } from "~/utils/supabase";
 
 import { scaleUp } from "~/utils/transitions";
 import Dropdown from "./Dropdown";
+import Loader from "./Loader";
 import Logo from "./Logo";
 
 const Layout: React.FC = ({ children }) => {
@@ -80,15 +81,27 @@ const Layout: React.FC = ({ children }) => {
 const SearchBox: React.FC = () => {
 	const [query, setQuery] = useState("");
 	const [items, setItems] = useState<any>();
+	const [searching, setSearching] = useState(false);
 
 	const search = async (str: string) => {
 		if (str.length > 2) {
-			const { data } = await supabaseClient
-				.from("Action")
-				.select("*, account:Account(*)")
-				.ilike("name", `%${str}%`)
-				.filter("account", "not.is", null);
+			// const { data } = await supabaseClient
+			// 	.from("Action")
+			// 	.select("*, account:Account(*)")
+			// 	.ilike("name", `%${str}%`)
+			// 	.filter("account", "not.is", null);
+			setSearching(() => true);
+
+			// setTimeout(async () => {
+			const { data } = await supabaseClient.rpc("do_search", {
+				query: `%${str
+					.normalize("NFD")
+					.replace(/[\u0300-\u036f]/g, "")}%`,
+			});
+
 			if (data) setItems(data);
+			setSearching(() => false);
+			// }, 600);
 		} else {
 			setItems([]);
 		}
@@ -96,7 +109,6 @@ const SearchBox: React.FC = () => {
 
 	useEffect(() => {
 		const keyDown = (e: KeyboardEvent) => {
-			console.log(e.key);
 			if (e.metaKey && e.key === "/") {
 				const ele: HTMLElement = document.querySelector(
 					".search-box"
@@ -161,16 +173,6 @@ const SearchBox: React.FC = () => {
 												}`}
 											>
 												<div className="flex items-center gap-2">
-													<div className="text-xx w-6 text-center uppercase text-gray-400">
-														{action.account ? (
-															action.account.name.substring(
-																0,
-																3
-															)
-														) : (
-															<HiStar className="mx-auto text-xs" />
-														)}
-													</div>
 													<div>{action.name}</div>
 												</div>
 											</div>
@@ -178,8 +180,12 @@ const SearchBox: React.FC = () => {
 									</Combobox.Option>
 								)
 							)
+						) : searching ? (
+							<div className="flex items-center justify-center gap-2 p-4 text-gray-500 dark:text-gray-300">
+								<div>Buscando</div> <Loader />
+							</div>
 						) : (
-							<div className="px-4 text-gray-500 dark:text-gray-300">
+							<div className="p-4 text-gray-500 dark:text-gray-300">
 								Sem resultados {":("}
 							</div>
 						)}

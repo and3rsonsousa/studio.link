@@ -176,12 +176,11 @@ export async function updateAction(
 		date?: string;
 		account?: string;
 		description?: string;
-		date_end?: string;
 		tag?: string;
 		status?: string;
-		creator?: string;
 		responsible?: string;
 		campaign?: string;
+		date_end?: string;
 	}
 ) {
 	// console.log(id, values);

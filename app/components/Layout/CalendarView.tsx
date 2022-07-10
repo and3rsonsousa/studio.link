@@ -102,7 +102,7 @@ export const CalendarView: React.FC = () => {
 				</div>
 			</div>
 			<div
-				className={`grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
+				className={`no-scroll-bars grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
 					days.length / 7
 				}`}
 			>

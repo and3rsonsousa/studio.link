@@ -1,10 +1,33 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { Form, useLoaderData, useMatches } from "@remix-run/react";
-import { SelectField } from "~/components/Forms";
+import {
+	ActionFunction,
+	LoaderFunction,
+	MetaFunction,
+	redirect,
+} from "@remix-run/node";
+import {
+	Form,
+	Link,
+	useLoaderData,
+	useMatches,
+	useSearchParams,
+} from "@remix-run/react";
+import { useState } from "react";
+import { HiOutlineExternalLink } from "react-icons/hi";
+import { Button, InputField, SelectField } from "~/components/Forms";
+import CheckboxField from "~/components/Forms/Checkbox";
 import Field from "~/components/Forms/InputField";
 import TextareaField from "~/components/Forms/TextareaField";
-import { getAccount, getAction } from "~/utils/data.server";
+import { getAccount, getAction, updateAction } from "~/utils/data.server";
 import type { ItemModel } from "~/utils/models";
+
+export const meta: MetaFunction = ({ data }) => {
+	const { action } = data;
+
+	return {
+		title: `EDITAR > ${action.name} - ${action.account.name} > STUDIO`,
+		description: "",
+	};
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
 	const { account, id } = params;
@@ -13,8 +36,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 		getAction(id),
 		getAccount(account as string),
 	]);
-
-	console.log({ action, _account });
 
 	return { action, _account };
 };
@@ -29,9 +50,11 @@ export default function ActionEdit() {
 		persons,
 	} = matches[1].data;
 	const { action, _account: account } = useLoaderData();
+	const [endDate, setEndDate] = useState(action.date_end ? true : false);
+	const [searchParams] = useSearchParams();
 
 	return (
-		<div className="flex gap-8">
+		<div className="flex gap-8 ">
 			<div className="w-2/3">
 				<div>
 					<div>
@@ -39,6 +62,17 @@ export default function ActionEdit() {
 							Editar Ação
 						</h3>
 						<Form method="post">
+							<input
+								type="hidden"
+								name="action"
+								value="update-action"
+							/>
+							<input type="hidden" name="id" value={action.id} />
+							<input
+								type="hidden"
+								name="redirectTo"
+								value={searchParams.get("redirectTo") as ""}
+							/>
 							<Field
 								name="name"
 								type="text"
@@ -105,19 +139,55 @@ export default function ActionEdit() {
 									value={action.responsible.id}
 								/>
 							</div>
+							<div
+								className={`md:flex ${
+									!endDate ? "items-center" : ""
+								} gap-4`}
+							>
+								<InputField
+									name="date"
+									label="Data"
+									type="datetime-local"
+									value={action.date}
+								/>
+								<div className="w-full">
+									{endDate && (
+										<InputField
+											name="date_end"
+											label="Data Final"
+											type="datetime-local"
+											value={action.date_end}
+										/>
+									)}
+									<div className={!endDate ? "md:mt-12" : ""}>
+										<CheckboxField
+											label="Exibir Data Final"
+											onChange={() =>
+												setEndDate(!endDate)
+											}
+											checked={endDate}
+										/>
+									</div>
+								</div>
+							</div>
+							<div className="mt-8 flex justify-end">
+								<Button type="submit" primary>
+									Atualizar
+								</Button>
+							</div>
 						</Form>
 					</div>
-					<pre>{JSON.stringify(action, null, 2)}</pre>
+					{/* <pre>{JSON.stringify(action, null, 2)}</pre> */}
 				</div>
 			</div>
-			<div
-				className="w-1/3 space-y-8
-      "
-			>
-				<div>
+			<div className="w-1/3 space-y-8">
+				<div className="flex items-center justify-between">
 					<h3 className="text-gray-700 dark:text-gray-300">
 						{account.name}
 					</h3>
+					<Link to={`/${account.slug}`}>
+						<HiOutlineExternalLink />
+					</Link>
 				</div>
 				<div>
 					<h4 className="text-gray-700 dark:text-gray-300">
@@ -135,3 +205,36 @@ export default function ActionEdit() {
 		</div>
 	);
 }
+
+export const action: ActionFunction = async ({ request }) => {
+	const formData = await request.formData();
+
+	const redirectTo = formData.get("redirectTo") as string;
+
+	console.log({ redirectTo });
+
+	const id = formData.get("id") as string;
+	const name = formData.get("name") as string;
+	const account = formData.get("account[id]") as string;
+	const description = formData.get("description") as string;
+	const tag = formData.get("tag[id]") as string;
+	const status = formData.get("status[id]") as string;
+	const responsible = formData.get("responsible[id]") as string;
+	const date = formData.get("date") as string;
+	const date_end = formData.get("date_end") as string;
+
+	const { error } = await updateAction(id, {
+		name,
+		date,
+		date_end,
+		account,
+		description,
+		tag,
+		status,
+		responsible,
+	});
+
+	if (error) return error;
+
+	return redirect(redirectTo ? redirectTo : `/`);
+};

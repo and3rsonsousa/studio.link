@@ -170,7 +170,7 @@
 	}
 
 	.dropdown-content {
-		@apply z-50 overflow-x-hidden rounded-lg border border-black/10  bg-gray-100/75 py-4 shadow-2xl outline-none backdrop-blur-lg dark:bg-gray-700/50;
+		@apply z-50 overflow-x-hidden rounded-lg border border-black/10  bg-gray-100/75 py-2 shadow-2xl outline-none backdrop-blur-lg dark:bg-gray-700/50;
 	}
 	.dropdown-content.opaque {
 		@apply bg-gray-100 dark:bg-gray-900;
@@ -204,82 +204,82 @@
 	@apply bg-post-500 text-white transition dark:bg-post-700;
 }
 .post-bg-hover {
-	@apply outline-none ring-post-500 hover:bg-post-600 dark:hover:bg-post-600;
+	@apply outline-none hover:bg-post-600 dark:hover:bg-post-600;
 }
 
 .reels-bg {
 	@apply bg-reels-500 text-white transition dark:bg-reels-700;
 }
 .reels-bg-hover {
-	@apply outline-none ring-reels-500 hover:bg-reels-600 dark:hover:bg-reels-600;
+	@apply outline-none  hover:bg-reels-600 dark:hover:bg-reels-600;
 }
 
 .stories-bg {
 	@apply bg-stories-500 text-white transition dark:bg-stories-700;
 }
 .stories-bg-hover {
-	@apply outline-none ring-stories-500 hover:bg-stories-600 dark:hover:bg-stories-600;
+	@apply outline-none  hover:bg-stories-600 dark:hover:bg-stories-600;
 }
 
 .meeting-bg {
 	@apply bg-meeting-500 text-white transition dark:bg-meeting-700;
 }
 .meeting-bg-hover {
-	@apply outline-none ring-meeting-500 hover:bg-meeting-600 dark:hover:bg-meeting-600;
+	@apply outline-none  hover:bg-meeting-600 dark:hover:bg-meeting-600;
 }
 
 .task-bg {
-	@apply bg-task-500 text-white transition dark:bg-task-700;
+	@apply bg-task-500 text-white transition dark:bg-task-600;
 }
 .task-bg-hover {
-	@apply outline-none ring-task-500 hover:bg-task-600 dark:hover:bg-task-600;
+	@apply outline-none  hover:bg-task-600 dark:hover:bg-task-500;
 }
 
 .tiktok-bg {
 	@apply bg-tiktok-500 text-white transition dark:bg-tiktok-600;
 }
 .tiktok-bg-hover {
-	@apply outline-none ring-tiktok-500 hover:bg-tiktok-600 dark:hover:bg-tiktok-500;
+	@apply outline-none  hover:bg-tiktok-600 dark:hover:bg-tiktok-500;
 }
 
 .idea-bg {
 	@apply bg-idea-500 text-white transition dark:bg-idea-600;
 }
 .idea-bg-hover {
-	@apply outline-none ring-idea-500 hover:bg-idea-600 dark:hover:bg-idea-500;
+	@apply outline-none  hover:bg-idea-600 dark:hover:bg-idea-500;
 }
 
 .do-bg {
 	@apply bg-do-500 text-white transition dark:bg-do-700;
 }
 .do-bg-hover {
-	@apply outline-none ring-do-500 hover:bg-do-600 dark:hover:bg-do-600;
+	@apply outline-none  hover:bg-do-600 dark:hover:bg-do-600;
 }
 
 .doing-bg {
 	@apply bg-doing-500 text-white transition dark:bg-doing-700;
 }
 .doing-bg-hover {
-	@apply outline-none ring-doing-500 hover:bg-doing-600 dark:hover:bg-doing-600;
+	@apply outline-none  hover:bg-doing-600 dark:hover:bg-doing-600;
 }
 
 .review-bg {
 	@apply bg-review-500 text-white transition dark:bg-review-700;
 }
 .review-bg-hover {
-	@apply outline-none ring-review-500 hover:bg-review-600 dark:hover:bg-review-600;
+	@apply outline-none  hover:bg-review-600 dark:hover:bg-review-600;
 }
 
 .done-bg {
 	@apply bg-done-500 text-white transition dark:bg-done-700;
 }
 .done-bg-hover {
-	@apply outline-none ring-done-500 hover:bg-done-600 dark:hover:bg-done-600;
+	@apply outline-none  hover:bg-done-600 dark:hover:bg-done-600;
 }
 
 .accomplished-bg {
 	@apply bg-accomplished-500 text-white transition dark:bg-accomplished-700;
 }
 .accomplished-bg-hover {
-	@apply outline-none ring-accomplished-500 hover:bg-accomplished-600 dark:hover:bg-accomplished-600;
+	@apply outline-none  hover:bg-accomplished-600 dark:hover:bg-accomplished-600;
 }

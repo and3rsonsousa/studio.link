@@ -89,7 +89,7 @@ const Day = ({
 									{open && (
 										<Popover.Panel
 											static
-											className={`dropdown-content z-[999] bg-white/75 `}
+											className={`dropdown-content z-[999] `}
 											as={motion.div}
 											ref={floating}
 											style={{
