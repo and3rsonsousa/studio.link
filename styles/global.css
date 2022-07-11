@@ -200,6 +200,11 @@
 	display: none;
 }
 
+.late-action {
+	/* @apply absolute inset-0 animate-pulse rounded ring-4 ring-red-500; */
+	@apply absolute -top-1 -left-1 h-3 w-3 animate-pulse rounded-full bg-red-500;
+}
+
 .post-bg {
 	@apply bg-post-500 text-white transition dark:bg-post-700;
 }

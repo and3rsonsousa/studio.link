@@ -80,6 +80,10 @@ export const ActionCalendar = ({
 						}}
 						className={`relative my-1 block cursor-pointer rounded transition ${slug}-bg ${slug}-bg-hover`}
 					>
+						{dayjs(action.date).isBefore(dayjs()) &&
+						status.slug !== "accomplished" ? (
+							<div className="late-action"></div>
+						) : null}
 						<div className="flex items-center justify-between gap-2 px-2 py-1">
 							<div className="flex items-center overflow-hidden">
 								<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
