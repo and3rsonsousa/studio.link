@@ -1,10 +1,55 @@
-import type { ActionFunction, MetaFunction } from "@remix-run/node";
+import type {
+	ActionFunction,
+	LoaderFunction,
+	MetaFunction,
+} from "@remix-run/node";
 import { CalendarView } from "~/components/Layout/CalendarView";
-import { createAction, deleteAction, updateAction } from "~/utils/data.server";
+import { getUser } from "~/utils/auth.server";
+import {
+	createAction,
+	deleteAction,
+	getActions,
+	getCampaigns,
+	getPersons,
+	updateAction,
+} from "~/utils/data.server";
+import accounts from "./admin/accounts";
 
 export const meta: MetaFunction = () => ({
 	title: "Dashboard > STUDIO",
 });
+
+export const loader: LoaderFunction = async ({ request }) => {
+	const { user } = await getUser(request);
+
+	const url = new URL(request.url);
+	const date = url.searchParams.get("date");
+
+	const [
+		{ data: persons },
+		{ data: holidays },
+		{ data: actions },
+		{ data: campaigns },
+	] = await Promise.all([
+		getPersons(), // Dados dos pessoas
+		getActions({
+			period: date || undefined,
+		}), // Ações sem Cliente / Datas Comemorativas
+		getActions({
+			user: user?.id,
+			period: date || undefined,
+		}), //Ações do mês - TODO: Filtrar por mês
+		getCampaigns(), //Campanhas
+	]);
+
+	return {
+		persons,
+		accounts,
+		holidays,
+		actions,
+		campaigns,
+	};
+};
 
 export default function () {
 	return <CalendarView />;

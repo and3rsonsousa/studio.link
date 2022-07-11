@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { HiOutlineX, HiPlusCircle, HiStar } from "react-icons/hi";
-import { action } from "~/routes/login";
 import { isToday } from "~/utils/helpers";
 import type { ActionModel, DayModel } from "~/utils/models";
 import { scaleUp } from "~/utils/transitions";

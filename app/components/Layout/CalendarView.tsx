@@ -19,7 +19,9 @@ dayjs.locale("pt-br");
 
 export const CalendarView: React.FC = () => {
 	const matches = useMatches();
-	const { actions } = matches[1].data;
+	let { actions } = matches[2].data;
+
+	if (!actions) actions = [];
 
 	const today = dayjs();
 	const [searchParams] = useSearchParams();

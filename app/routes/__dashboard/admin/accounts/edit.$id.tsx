@@ -2,6 +2,7 @@ import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { motion } from "framer-motion";
 import { Button, InputField } from "~/components/Forms";
+import CheckboxField from "~/components/Forms/Checkbox";
 import Panel from "~/components/Layout/Panel";
 import { updateAccount } from "~/utils/data.server";
 import type { AccountModel, PersonModel } from "~/utils/models";
@@ -29,6 +30,10 @@ export default function AdminAccountsEdit() {
 		account,
 		persons,
 	}: { account: AccountModel; persons: PersonModel[] } = useLoaderData();
+	const data = useLoaderData();
+
+	console.log(data);
+
 	const actionData = useActionData();
 	return (
 		<motion.div {...scaleUp} className="w-full">
@@ -58,9 +63,8 @@ export default function AdminAccountsEdit() {
 				/>
 				<div className="flex gap-4">
 					{persons.map((person) => (
-						<InputField
+						<CheckboxField
 							key={person.id}
-							type="checkbox"
 							label={person.name}
 							name="users"
 							value={person.user}

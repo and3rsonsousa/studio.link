@@ -28,6 +28,7 @@ export default function ComboboxField({
 		value: string;
 	}>();
 	const [query, setQuery] = useState("");
+
 	const filteredOptions = options.filter((option) =>
 		option.text.toLowerCase().includes(query.toLowerCase())
 	);

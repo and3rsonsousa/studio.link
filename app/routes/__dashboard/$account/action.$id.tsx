@@ -1,9 +1,9 @@
-import {
+import type {
 	ActionFunction,
 	LoaderFunction,
 	MetaFunction,
-	redirect,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import {
 	Form,
 	Link,
@@ -17,7 +17,13 @@ import { Button, InputField, SelectField } from "~/components/Forms";
 import CheckboxField from "~/components/Forms/Checkbox";
 import Field from "~/components/Forms/InputField";
 import TextareaField from "~/components/Forms/TextareaField";
-import { getAccount, getAction, updateAction } from "~/utils/data.server";
+import {
+	getAccount,
+	getAction,
+	getCampaigns,
+	getPersons,
+	updateAction,
+} from "~/utils/data.server";
 import type { ItemModel } from "~/utils/models";
 
 export const meta: MetaFunction = ({ data }) => {
@@ -32,29 +38,34 @@ export const meta: MetaFunction = ({ data }) => {
 export const loader: LoaderFunction = async ({ request, params }) => {
 	const { account, id } = params;
 
-	const [{ data: action }, { data: _account }] = await Promise.all([
+	const [
+		{ data: action },
+		{ data: _account },
+		{ data: campaigns },
+		{ data: persons },
+	] = await Promise.all([
 		getAction(id),
 		getAccount(account as string),
+		getCampaigns(),
+		getPersons(),
 	]);
 
-	return { action, _account };
+	return { action, _account, campaigns, persons };
 };
 
 export default function ActionEdit() {
 	const matches = useMatches();
-	const {
-		tags,
-		status: statuses,
-		accounts,
-		campaigns,
-		persons,
-	} = matches[1].data;
-	const { action, _account: account } = useLoaderData();
+
+	console.log(matches);
+
+	const { accounts, tags, status: statuses } = matches[1].data;
+
+	const { action, _account: account, campaigns, persons } = useLoaderData();
 	const [endDate, setEndDate] = useState(action.date_end ? true : false);
 	const [searchParams] = useSearchParams();
 
 	return (
-		<div className="flex gap-8 ">
+		<div className="flex gap-8 pt-2">
 			<div className="w-2/3">
 				<div>
 					<div>
@@ -210,8 +221,6 @@ export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
 
 	const redirectTo = formData.get("redirectTo") as string;
-
-	console.log({ redirectTo });
 
 	const id = formData.get("id") as string;
 	const name = formData.get("name") as string;

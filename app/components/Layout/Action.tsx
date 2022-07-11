@@ -1,8 +1,8 @@
 import * as Context from "@radix-ui/react-context-menu";
-import { Link, useFetcher, useMatches, useNavigate } from "@remix-run/react";
+import { useFetcher, useMatches, useNavigate } from "@remix-run/react";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
 	HiCheckCircle,
 	HiOutlineChevronRight,
@@ -25,7 +25,8 @@ export const ActionCalendar = ({
 	const [dragging, setDragging] = useState(false);
 	const [showContextMenu, setShowContextMenu] = useState(false);
 
-	const { accounts, tags, status: statuses } = matches[1].data;
+	const { accounts } = matches[1].data;
+	const { tags, status: statuses } = matches[1].data;
 	const account: AccountModel = accounts.filter(
 		(account: AccountModel) => account.id === action.account
 	)[0];

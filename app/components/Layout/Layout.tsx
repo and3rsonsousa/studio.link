@@ -1,19 +1,12 @@
 import { Combobox } from "@headlessui/react";
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, useLoaderData, useMatches, useNavigate } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
-import {
-	HiOutlineMoon,
-	HiOutlineSearch,
-	HiOutlineSun,
-	HiStar,
-} from "react-icons/hi";
+import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
 import type {
 	AccountModel,
-	ActionModel,
 	ActionModelFull,
 	DropdownOptions,
-	ItemModel,
 	PersonModel,
 } from "~/utils/models";
 import { supabaseClient } from "~/utils/supabase";
@@ -198,6 +191,12 @@ const SearchBox: React.FC = () => {
 
 const AccountsMenu: React.FC = () => {
 	let { accounts }: { accounts: AccountModel[] } = useLoaderData();
+	let matches = useMatches();
+	const account = matches[1].params.account
+		? accounts.filter(
+				(account) => account.slug === matches[1].params.account
+		  )[0].name
+		: undefined;
 
 	return (
 		<Dropdown
@@ -206,10 +205,11 @@ const AccountsMenu: React.FC = () => {
 				text: name,
 				href: `/${slug}`,
 			}))}
-			text={"Escolha um cliente"}
+			text={account ?? "Escolha um cliente"}
 		/>
 	);
 };
+
 const UserMenu: React.FC = () => {
 	let { person }: { person: PersonModel } = useLoaderData();
 	let options: DropdownOptions = [
@@ -228,7 +228,7 @@ const UserMenu: React.FC = () => {
 			{
 				id: "newaccount",
 				href: "/admin/accounts/new",
-				text: "Novo usuário",
+				text: "Novo Cliente",
 			},
 		]);
 	}

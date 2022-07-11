@@ -118,7 +118,7 @@ export default function LoginPage() {
 							}
 						/>
 						<div className="mt-8 flex justify-end space-x-4">
-							<Button
+							{/* <Button
 								type="button"
 								ghost
 								onClick={() =>
@@ -132,7 +132,7 @@ export default function LoginPage() {
 								{action === "signin"
 									? "Novo Usuário"
 									: "Fazer Login"}
-							</Button>
+							</Button> */}
 							<Button name="action" value={action} primary>
 								{action === "signin" ? "Entrar" : "Criar"}
 							</Button>

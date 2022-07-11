@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { supabaseClient } from "./supabase";
 
 export const getPerson = (id: string) =>
@@ -90,10 +91,32 @@ export const getTagsStatus = async () => {
 	return { tags, status };
 };
 
-export const getActions = async (user?: string) => {
+export const getActions = async (
+	args: {
+		user?: string;
+		account?: string;
+		period?: string;
+	} = {}
+) => {
+	let { user, account, period } = args;
+
+	let _period = dayjs();
+
+	if (period) {
+		_period = dayjs(period);
+	}
+
+	let firstDay = _period.startOf("month").startOf("week");
+	let lastDay = _period.endOf("month").endOf("week").add(1, "day");
+
+	console.log({ _period });
+
 	let { data, error } = await supabaseClient
 		.from("Action")
-		.select("*")
+		.select("*, Account!inner(*)")
+		.contains("Account.users", [user])
+		.gte("date", firstDay.format("YYYY-MM-DD"))
+		.lt("date", lastDay.format("YYYY-MM-DD"))
 		.order("date", {
 			ascending: true,
 		})
@@ -117,10 +140,6 @@ export const getAction = (id?: string) => {
 };
 
 export async function createAction(formData: FormData) {
-	// console.log(Object.fromEntries(formData));
-
-	// return false;
-
 	const name = formData.get("name") as string;
 	const date = formData.get("date") as string;
 	const account = formData.get("account") as string;
@@ -183,10 +202,6 @@ export async function updateAction(
 		date_end?: string;
 	}
 ) {
-	// console.log(id, values);
-
-	// return false;
-
 	const { data, error } = await supabaseClient
 		.from("Action")
 		.update(values)

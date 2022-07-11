@@ -109,7 +109,7 @@ export function CatchBoundary() {
 							</span>{" "}
 							{caught.statusText}
 						</h1>
-						<h5>
+						<h5 className="mt-8">
 							<Link to={`/`}>de volta à Home</Link>
 						</h5>
 					</div>
