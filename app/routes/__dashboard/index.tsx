@@ -13,7 +13,6 @@ import {
 	getPersons,
 	updateAction,
 } from "~/utils/data.server";
-import accounts from "./admin/accounts";
 
 export const meta: MetaFunction = () => ({
 	title: "Dashboard > STUDIO",
@@ -34,7 +33,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 		getPersons(), // Dados dos pessoas
 		getActions({
 			period: date || undefined,
-		}), // Ações sem Cliente / Datas Comemorativas
+			holidays: true,
+		}), //  Datas Comemorativas
 		getActions({
 			user: user?.id,
 			period: date || undefined,
@@ -44,7 +44,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 	return {
 		persons,
-		accounts,
 		holidays,
 		actions,
 		campaigns,

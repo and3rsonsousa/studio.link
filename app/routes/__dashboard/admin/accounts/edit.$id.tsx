@@ -4,18 +4,27 @@ import { motion } from "framer-motion";
 import { Button, InputField } from "~/components/Forms";
 import CheckboxField from "~/components/Forms/Checkbox";
 import Panel from "~/components/Layout/Panel";
-import { updateAccount } from "~/utils/data.server";
+import { getAccount, getPersons, updateAccount } from "~/utils/data.server";
 import type { AccountModel, PersonModel } from "~/utils/models";
 import { scaleUp } from "~/utils/transitions";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	return {};
+	const { id } = params;
+
+	const [{ data: account }, { data: persons }] = await Promise.all([
+		getAccount({ id }),
+		getPersons(),
+	]);
+
+	return { account, persons };
 };
 
 export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
 
 	let users = formData.getAll("users") as string[];
+
+	console.log(users);
 
 	return updateAccount(
 		formData.get("id") as string,
@@ -32,9 +41,10 @@ export default function AdminAccountsEdit() {
 	}: { account: AccountModel; persons: PersonModel[] } = useLoaderData();
 	const data = useLoaderData();
 
-	console.log(data);
+	console.log({ data });
 
 	const actionData = useActionData();
+
 	return (
 		<motion.div {...scaleUp} className="w-full">
 			<h3 className="text-gray-700 dark:text-gray-300">Editar Cliente</h3>
@@ -69,6 +79,7 @@ export default function AdminAccountsEdit() {
 							name="users"
 							value={person.user}
 							checked={
+								account.users &&
 								account.users.filter(
 									(user) => user === person.user
 								).length > 0

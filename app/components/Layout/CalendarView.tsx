@@ -19,7 +19,7 @@ dayjs.locale("pt-br");
 
 export const CalendarView: React.FC = () => {
 	const matches = useMatches();
-	let { actions } = matches[2].data;
+	let { actions, holidays } = matches[2].data;
 
 	if (!actions) actions = [];
 
@@ -36,15 +36,15 @@ export const CalendarView: React.FC = () => {
 		let date = current.clone();
 		days.push({
 			date,
-			holidays: actions.filter(
+			holidays: holidays.filter(
 				(h: ActionModel) =>
 					dayjs(h.date).format("YYYY-MM-DD") ===
-						date.format("YYYY-MM-DD") && h.account === null
+					date.format("YYYY-MM-DD")
 			),
 			actions: actions.filter(
 				(a: ActionModel) =>
 					dayjs(a.date).format("YYYY-MM-DD") ===
-						date.format("YYYY-MM-DD") && a.account !== null
+					date.format("YYYY-MM-DD")
 			),
 		});
 		current = current.add(1, "day");

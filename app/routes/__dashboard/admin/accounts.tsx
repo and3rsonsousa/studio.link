@@ -3,15 +3,25 @@ import type {
 	LoaderFunction,
 	MetaFunction,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
 import { AnimatePresence } from "framer-motion";
 import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import { Button } from "~/components/Forms";
-import { deleteAccount } from "~/utils/data.server";
+import { getUser } from "~/utils/auth.server";
+import { deleteAccount, getPerson } from "~/utils/data.server";
 import type { AccountModel } from "~/utils/models";
 import { supabaseClient } from "~/utils/supabase";
 
 export const loader: LoaderFunction = async ({ request }) => {
+	const { user } = await getUser(request);
+	if (user) {
+		const { data: person } = await getPerson(user.id);
+		if (!person.admin) {
+			redirect("/");
+		}
+	}
+
 	const { data: accounts } = await supabaseClient
 		.from("Account")
 		.select()
@@ -27,15 +37,18 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export const meta: MetaFunction = () => ({
-	title: "Accounts > STUDIO",
+	title: "Clientes > STUDIO",
 });
 
 export default function AdminAccountsIndex() {
 	const { accounts }: { accounts: AccountModel[] } = useLoaderData();
+	// const matches = useMatches();
+	// const { person } = matches[1].data;
+	// if (!person.admin) redirect("/");
 	return (
 		<>
-			<div className="border-line flex items-center justify-between py-4">
-				<h3 className="text-gray-300">Clientes</h3>
+			<div className="flex items-center justify-between py-4 pt-2">
+				<h3 className="text-gray-700 dark:text-gray-300">Clientes</h3>
 				<div>
 					<Link
 						to={`./new`}

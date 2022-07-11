@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
 import type {
 	AccountModel,
+	ActionModel,
 	ActionModelFull,
 	DropdownOptions,
 	PersonModel,
@@ -75,17 +76,13 @@ const SearchBox: React.FC = () => {
 	const [query, setQuery] = useState("");
 	const [items, setItems] = useState<any>();
 	const [searching, setSearching] = useState(false);
+	const matches = useMatches();
+	const { accounts } = matches[1].data;
 
 	const search = async (str: string) => {
 		if (str.length > 2) {
-			// const { data } = await supabaseClient
-			// 	.from("Action")
-			// 	.select("*, account:Account(*)")
-			// 	.ilike("name", `%${str}%`)
-			// 	.filter("account", "not.is", null);
 			setSearching(() => true);
 
-			// setTimeout(async () => {
 			const { data } = await supabaseClient.rpc("do_search", {
 				query: `%${str
 					.normalize("NFD")
@@ -94,7 +91,6 @@ const SearchBox: React.FC = () => {
 
 			if (data) setItems(data);
 			setSearching(() => false);
-			// }, 600);
 		} else {
 			setItems([]);
 		}
@@ -118,9 +114,16 @@ const SearchBox: React.FC = () => {
 	return (
 		<Combobox
 			as={"div"}
-			onChange={(value: ActionModelFull) => {
+			onChange={(value: ActionModel) => {
 				setQuery("");
-				navigate(`/${value.account?.slug}/action/${value.id}`);
+				navigate(
+					`/${
+						accounts.filter(
+							(account: AccountModel) =>
+								account.id === value.account
+						)[0].slug
+					}/action/${value.id}`
+				);
 			}}
 			value={undefined}
 			className={`relative`}

@@ -10,8 +10,13 @@ export const getPersons = () =>
 		.select("*")
 		.order("name", { ascending: true });
 
-export const getAccount = async (slug: string) =>
-	supabaseClient.from("Account").select("*").eq("slug", slug).single();
+export const getAccount = async (args: { id?: string; slug?: string } = {}) => {
+	const { id, slug } = args;
+	if (id) {
+		return supabaseClient.from("Account").select("*").eq("id", id).single();
+	}
+	return supabaseClient.from("Account").select("*").eq("slug", slug).single();
+};
 
 export const getAccounts = (user: string) =>
 	supabaseClient
@@ -65,6 +70,7 @@ export const updateAccount = async (
 			id,
 			name,
 			slug,
+			users,
 		})
 		.eq("id", id);
 
@@ -96,9 +102,10 @@ export const getActions = async (
 		user?: string;
 		account?: string;
 		period?: string;
+		holidays?: true;
 	} = {}
 ) => {
-	let { user, account, period } = args;
+	let { user, account, period, holidays } = args;
 
 	let _period = dayjs();
 
@@ -109,24 +116,41 @@ export const getActions = async (
 	let firstDay = _period.startOf("month").startOf("week");
 	let lastDay = _period.endOf("month").endOf("week").add(1, "day");
 
-	console.log({ _period });
+	if (holidays) {
+		let { data, error } = await supabaseClient
+			.from("Action")
+			.select("*")
+			.gte("date", firstDay.format("YYYY-MM-DD"))
+			.lt("date", lastDay.format("YYYY-MM-DD"))
+			.is("account", null)
+			.order("date", {
+				ascending: true,
+			})
+			.order("created_at", { ascending: true });
 
-	let { data, error } = await supabaseClient
-		.from("Action")
-		.select("*, Account!inner(*)")
-		.contains("Account.users", [user])
-		.gte("date", firstDay.format("YYYY-MM-DD"))
-		.lt("date", lastDay.format("YYYY-MM-DD"))
-		.order("date", {
-			ascending: true,
-		})
-		.order("created_at", { ascending: true });
+		if (error) {
+			return { error };
+		}
 
-	if (error) {
-		return { error };
+		return { data };
+	} else {
+		let { data, error } = await supabaseClient
+			.from("Action")
+			.select("*, Account!inner(*)")
+			.contains("Account.users", [user])
+			.gte("date", firstDay.format("YYYY-MM-DD"))
+			.lt("date", lastDay.format("YYYY-MM-DD"))
+			.order("date", {
+				ascending: true,
+			})
+			.order("created_at", { ascending: true });
+
+		if (error) {
+			return { error };
+		}
+
+		return { data };
 	}
-
-	return { data };
 };
 
 export const getAction = (id?: string) => {

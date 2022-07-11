@@ -5,10 +5,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import {
 	HiCheckCircle,
+	HiExclamation,
 	HiOutlineChevronRight,
 	HiOutlinePencilAlt,
 	HiOutlineTrash,
 } from "react-icons/hi";
+import { FaExclamation } from "react-icons/fa";
 import type { AccountModel, ActionModel, ItemModel } from "~/utils/models";
 import { scaleUp } from "~/utils/transitions";
 
@@ -82,7 +84,9 @@ export const ActionCalendar = ({
 					>
 						{dayjs(action.date).isBefore(dayjs()) &&
 						status.slug !== "accomplished" ? (
-							<div className="late-action"></div>
+							<div className="late-action">
+								<FaExclamation />
+							</div>
 						) : null}
 						<div className="flex items-center justify-between gap-2 px-2 py-1">
 							<div className="flex items-center overflow-hidden">

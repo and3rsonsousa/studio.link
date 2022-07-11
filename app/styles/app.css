@@ -2011,32 +2011,54 @@ select {
 }
 
 .late-action {
-  /* @apply absolute inset-0 animate-pulse rounded ring-4 ring-red-500; */
   position: absolute;
   top: -0.25rem;
-  left: -0.25rem;
-  height: 0.75rem;
-  width: 0.75rem;
+  left: -0.5rem;
+  display: grid;
+  height: 1rem;
+  width: 1rem;
 }
 
-@-webkit-keyframes pulse {
+@-webkit-keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
   50% {
-    opacity: .5;
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
   }
 }
 
-@keyframes pulse {
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    -webkit-animation-timing-function: cubic-bezier(0.8,0,1,1);
+            animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
   50% {
-    opacity: .5;
+    transform: none;
+    -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
+            animation-timing-function: cubic-bezier(0,0,0.2,1);
   }
 }
 
 .late-action {
-  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  -webkit-animation: bounce 1s infinite;
+          animation: bounce 1s infinite;
+  place-items: center;
   border-radius: 9999px;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+  font-size: .625rem;
+  letter-spacing: 0.025em;
 }
 
 .post-bg {

@@ -45,7 +45,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 		{ data: persons },
 	] = await Promise.all([
 		getAction(id),
-		getAccount(account as string),
+		getAccount({ slug: account as string }),
 		getCampaigns(),
 		getPersons(),
 	]);
@@ -56,7 +56,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function ActionEdit() {
 	const matches = useMatches();
 
-	console.log(matches);
+	// console.log(matches);
 
 	const { accounts, tags, status: statuses } = matches[1].data;
 
@@ -65,7 +65,7 @@ export default function ActionEdit() {
 	const [searchParams] = useSearchParams();
 
 	return (
-		<div className="flex gap-8 pt-2">
+		<div className="flex gap-8 py-2">
 			<div className="w-2/3">
 				<div>
 					<div>

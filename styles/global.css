@@ -201,8 +201,7 @@
 }
 
 .late-action {
-	/* @apply absolute inset-0 animate-pulse rounded ring-4 ring-red-500; */
-	@apply absolute -top-1 -left-1 h-3 w-3 animate-pulse rounded-full bg-red-500;
+	@apply text-xx absolute -top-1 -left-2 grid h-4 w-4 animate-bounce place-items-center rounded-full border border-white bg-red-500;
 }
 
 .post-bg {
