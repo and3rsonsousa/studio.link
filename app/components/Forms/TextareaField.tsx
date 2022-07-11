@@ -5,7 +5,7 @@ const TextareaField = ({
 	after,
 	error,
 	value,
-	lines = 5,
+	rows = 5,
 }: {
 	name: string;
 	label?: string;
@@ -13,7 +13,7 @@ const TextareaField = ({
 	after?: React.ReactChild;
 	error?: string;
 	value?: string;
-	lines?: number;
+	rows?: number;
 }) => {
 	return (
 		<div className="field">
@@ -26,7 +26,7 @@ const TextareaField = ({
 				{before}
 				<textarea
 					className="field-input"
-					rows={lines}
+					rows={rows}
 					name={name}
 					id={name}
 					defaultValue={value}

@@ -7,6 +7,7 @@ import type { AccountModel, ItemModel } from "~/utils/models";
 import { Button, InputField, SelectField } from "../Forms";
 import CheckboxField from "../Forms/Checkbox";
 import ComboboxField from "../Forms/ComboboxField";
+import TextareaField from "../Forms/TextareaField";
 import Loader from "./Loader";
 import Panel from "./Panel";
 
@@ -40,12 +41,24 @@ export default function AddAction({
 	const data = fetcher.data;
 
 	useEffect(() => {
+		const keyDown = (e: KeyboardEvent) => {
+			if (e.key === "k" && e.metaKey) {
+				setFull(!full);
+			}
+		};
+
+		window.addEventListener("keydown", keyDown);
+
 		if (!isAdding && state === "idle" && data && !data.error) {
 			if (close) close();
 		}
 		setTimeout(() => {
 			document.getElementsByName("name")[0]?.focus();
 		}, 100);
+
+		return () => {
+			window.removeEventListener("keydown", keyDown);
+		};
 	}, [isAdding, close, state, data]);
 
 	return (
@@ -139,10 +152,10 @@ export default function AddAction({
 						>
 							{full && (
 								<>
-									<InputField
+									<TextareaField
 										name="description"
 										label="Descrição"
-										type="text"
+										rows={3}
 									/>
 									<ComboboxField
 										options={[]}
