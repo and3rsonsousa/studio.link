@@ -15,10 +15,16 @@ export default function Dropdown({
 	text,
 	offset = 16,
 	options,
+	className,
 }: {
 	text: string;
 	offset?: number;
 	options: DropdownOptions;
+	className?: {
+		trigger?: string;
+		content?: string;
+		item?: string;
+	};
 }) {
 	const { x, y, reference, floating, strategy } = useFloating({
 		middleware: [foffset(offset), flip(), shift({ padding: offset })],
@@ -30,7 +36,9 @@ export default function Dropdown({
 				return (
 					<>
 						<Menu.Button
-							className="dropdown-trigger focus-inline flex items-center"
+							className={`dropdown-trigger focus-inline flex items-center ${
+								className?.trigger ?? ""
+							}`}
 							ref={reference}
 						>
 							{text}
@@ -43,7 +51,9 @@ export default function Dropdown({
 								<Menu.Items
 									ref={floating}
 									static
-									className="dropdown-content origin-top outline-none"
+									className={`dropdown-content origin-top outline-none ${
+										className?.content ?? ""
+									}`}
 									{...scaleUp()}
 									as={motion.div}
 									style={{
@@ -68,7 +78,10 @@ export default function Dropdown({
 															active
 																? " bg-brand text-white"
 																: ""
-														} dropdown-item`}
+														} dropdown-item ${
+															className?.item ??
+															""
+														}`}
 														to={option.href ?? "/"}
 													>
 														{option.text}

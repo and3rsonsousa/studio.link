@@ -217,6 +217,14 @@ const AccountsMenu: React.FC = () => {
 					href: `/${slug}`,
 				}))}
 				text={account ?? "Escolha um cliente"}
+				className={
+					account
+						? {
+								trigger:
+									"m-0 text-2xl font-bold tracking-tight",
+						  }
+						: undefined
+				}
 			/>
 
 			{account && (
