@@ -59,7 +59,15 @@ export default function AddAction({
 		return () => {
 			window.removeEventListener("keydown", keyDown);
 		};
-	}, [isAdding, close, state, data]);
+	}, [isAdding, close, state, data, full]);
+
+	const currentDate = dayjs(
+		dayjs(date).format("YYYY-MM-DD") +
+			" " +
+			dayjs()
+				.add(dayjs().hour() < 23 ? 1 : 0, "hour")
+				.format("HH:mm")
+	).format("YYYY-MM-DD HH:mm");
 
 	return (
 		<div className="relative">
@@ -120,7 +128,11 @@ export default function AddAction({
 
 						{!full && (
 							<>
-								<input name="date" type="hidden" value={date} />
+								<input
+									name="date"
+									type="hidden"
+									value={currentDate}
+								/>
 							</>
 						)}
 
@@ -207,7 +219,7 @@ export default function AddAction({
 										name="date"
 										label="Data"
 										type="datetime-local"
-										value={date}
+										value={currentDate}
 										required
 									/>
 									<CheckboxField
@@ -221,7 +233,9 @@ export default function AddAction({
 												name="date_end"
 												label="Data Final"
 												type="datetime-local"
-												value={date}
+												value={dayjs(currentDate)
+													.add(3, "day")
+													.format("YYYY-MM-DD HH:mm")}
 											/>
 										</div>
 									)}

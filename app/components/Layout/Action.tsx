@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import {
 	HiCheckCircle,
-	HiExclamation,
 	HiOutlineChevronRight,
 	HiOutlinePencilAlt,
 	HiOutlineTrash,
@@ -29,6 +28,8 @@ export const ActionCalendar = ({
 
 	const { accounts } = matches[1].data;
 	const { tags, status: statuses } = matches[1].data;
+	const showAccount = matches[1].params.account ? true : false;
+
 	const account: AccountModel = accounts.filter(
 		(account: AccountModel) => account.id === action.account
 	)[0];
@@ -88,11 +89,14 @@ export const ActionCalendar = ({
 								<FaExclamation />
 							</div>
 						) : null}
+
 						<div className="flex items-center justify-between gap-2 px-2 py-1">
 							<div className="flex items-center overflow-hidden">
-								<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
-									{account.name.substring(0, 3)}
-								</div>
+								{!showAccount && (
+									<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
+										{account.name.substring(0, 3)}
+									</div>
+								)}
 
 								<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold ">
 									{action.name}

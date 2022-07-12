@@ -17,12 +17,13 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault("America/Sao_Paulo");
 dayjs.locale("pt-br");
 
-export const CalendarView: React.FC = () => {
-	const matches = useMatches();
-	let { actions, holidays } = matches[2].data;
-
-	if (!actions) actions = [];
-
+export const CalendarView = ({
+	actions,
+	holidays,
+}: {
+	actions: ActionModel[];
+	holidays: ActionModel[];
+}) => {
 	const today = dayjs();
 	const [searchParams] = useSearchParams();
 	let currentDate = searchParams.get("date")

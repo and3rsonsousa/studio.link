@@ -24,8 +24,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 	let users = formData.getAll("users") as string[];
 
-	console.log(users);
-
 	return updateAccount(
 		formData.get("id") as string,
 		formData.get("name") as string,
@@ -40,8 +38,6 @@ export default function AdminAccountsEdit() {
 		persons,
 	}: { account: AccountModel; persons: PersonModel[] } = useLoaderData();
 	const data = useLoaderData();
-
-	console.log({ data });
 
 	const actionData = useActionData();
 

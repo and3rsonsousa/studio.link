@@ -2,7 +2,14 @@ import { Combobox } from "@headlessui/react";
 import { Link, useLoaderData, useMatches, useNavigate } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
-import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
+import {
+	HiOutlineClipboard,
+	HiOutlineClipboardList,
+	HiOutlineMoon,
+	HiOutlineSearch,
+	HiOutlineSun,
+} from "react-icons/hi";
+import { BsCardChecklist, BsGrid3X3 } from "react-icons/bs";
 import type {
 	AccountModel,
 	ActionModel,
@@ -202,14 +209,33 @@ const AccountsMenu: React.FC = () => {
 		: undefined;
 
 	return (
-		<Dropdown
-			options={accounts.map(({ id, name, slug }) => ({
-				id,
-				text: name,
-				href: `/${slug}`,
-			}))}
-			text={account ?? "Escolha um cliente"}
-		/>
+		<div className="flex items-center gap-4">
+			<Dropdown
+				options={accounts.map(({ id, name, slug }) => ({
+					id,
+					text: name,
+					href: `/${slug}`,
+				}))}
+				text={account ?? "Escolha um cliente"}
+			/>
+
+			{account && (
+				<>
+					<Link
+						to={`/${matches[1].params.account}/page/grid`}
+						className="button-ghost text-xl"
+					>
+						<BsGrid3X3 />
+					</Link>
+					<Link
+						to={`/${matches[1].params.account}/page/campaigns`}
+						className="button-ghost text-2xl"
+					>
+						<BsCardChecklist />
+					</Link>
+				</>
+			)}
+		</div>
 	);
 };
 

@@ -81,8 +81,12 @@ export const updateAccount = async (
 	return { data };
 };
 
-export const getCampaigns = async () => {
-	return await supabaseClient.from("Campaign").select("*").order("date");
+export const getCampaigns = (account: string) => {
+	return supabaseClient
+		.from("Campaign")
+		.select("*, Account!inner(*)")
+		.eq("Account.slug", account)
+		.order("date");
 };
 
 export const getTagsStatus = async () => {
@@ -134,22 +138,30 @@ export const getActions = async (
 
 		return { data };
 	} else {
-		let { data, error } = await supabaseClient
-			.from("Action")
-			.select("*, Account!inner(*)")
-			.contains("Account.users", [user])
-			.gte("date", firstDay.format("YYYY-MM-DD"))
-			.lt("date", lastDay.format("YYYY-MM-DD"))
-			.order("date", {
-				ascending: true,
-			})
-			.order("created_at", { ascending: true });
-
-		if (error) {
-			return { error };
+		if (account) {
+			return supabaseClient
+				.from("Action")
+				.select("*, Account!inner(*)")
+				.eq("Account.slug", account)
+				.gte("date", firstDay.format("YYYY-MM-DD"))
+				.lt("date", lastDay.format("YYYY-MM-DD"))
+				.order("date", {
+					ascending: true,
+				})
+				.order("created_at", { ascending: true });
+		} else {
+			return supabaseClient
+				.from("Action")
+				.select("*, Account!inner(*)")
+				.contains("Account.users", [user])
+				.gte("date", firstDay.format("YYYY-MM-DD"))
+				.lt("date", lastDay.format("YYYY-MM-DD"))
+				.filter("account", "not.is", null)
+				.order("date", {
+					ascending: true,
+				})
+				.order("created_at", { ascending: true });
 		}
-
-		return { data };
 	}
 };
 
@@ -242,3 +254,29 @@ export async function deleteAction(id: string) {
 
 	return { data, error };
 }
+
+export const handleAction = async (formData: FormData) => {
+	const action = formData.get("action") as string;
+
+	if (action === "create-action") {
+		return await createAction(formData);
+	} else if (action.match(/update-/)) {
+		const id = formData.get("id") as string;
+		let values = {};
+		if (action === "update-tag") {
+			values = { tag: formData.get("tag") as string };
+		} else if (action === "update-status") {
+			values = { status: formData.get("status") as string };
+		} else if (action === "update-date") {
+			values = { date: formData.get("date") as string };
+		}
+		return await updateAction(id, values);
+	} else if (action === "delete-action") {
+		const id = formData.get("id") as string;
+		return await deleteAction(id);
+	}
+
+	return {
+		error: { message: "No matched action" },
+	};
+};

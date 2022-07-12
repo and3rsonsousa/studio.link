@@ -1,11 +1,6 @@
-import { useMatches } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 
-export default function () {
-	const matches = useMatches();
-
-	return (
-		<div>
-			<pre>{JSON.stringify(matches, null, 2)}</pre>
-		</div>
-	);
-}
+export const loader: LoaderFunction = async ({ params }) => {
+	return redirect(`/${params.account}/page`);
+};

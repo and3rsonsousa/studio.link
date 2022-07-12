@@ -13,7 +13,10 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useCatch,
+	useTransition,
 } from "@remix-run/react";
+import { AnimatePresence, motion } from "framer-motion";
+import Loader from "./components/Layout/Loader";
 
 // ...
 
@@ -45,6 +48,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function App() {
+	const transition = useTransition();
+
 	return (
 		<html lang="en">
 			<head>
@@ -53,6 +58,19 @@ export default function App() {
 			</head>
 			<body>
 				<Outlet />
+				<AnimatePresence>
+					{transition.state !== "idle" && (
+						<motion.div
+							className="fixed top-4 right-4 grid place-items-center "
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							key="loader-root"
+						>
+							<Loader />
+						</motion.div>
+					)}
+				</AnimatePresence>
 
 				<ScrollRestoration />
 				<Scripts />

@@ -3,15 +3,14 @@ import type {
 	LoaderFunction,
 	MetaFunction,
 } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { CalendarView } from "~/components/Layout/CalendarView";
 import { getUser } from "~/utils/auth.server";
 import {
-	createAction,
-	deleteAction,
 	getActions,
 	getCampaigns,
 	getPersons,
-	updateAction,
+	handleAction,
 } from "~/utils/data.server";
 
 export const meta: MetaFunction = () => ({
@@ -25,12 +24,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 	const date = url.searchParams.get("date");
 
 	const [
-		{ data: persons },
+		// { data: persons },
 		{ data: holidays },
 		{ data: actions },
 		{ data: campaigns },
 	] = await Promise.all([
-		getPersons(), // Dados dos pessoas
+		//getPersons(), // Dados dos pessoas
 		getActions({
 			period: date || undefined,
 			holidays: true,
@@ -43,7 +42,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 	]);
 
 	return {
-		persons,
 		holidays,
 		actions,
 		campaigns,
@@ -51,32 +49,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function () {
-	return <CalendarView />;
+	const { holidays, actions, campaigns } = useLoaderData();
+
+	return <CalendarView actions={actions} holidays={holidays} />;
 }
 
 export const action: ActionFunction = async ({ request }) => {
 	const formData = await request.formData();
-	const action = formData.get("action") as string;
-
-	if (action === "create-action") {
-		return await createAction(formData);
-	} else if (action.match(/update-/)) {
-		const id = formData.get("id") as string;
-		let values = {};
-		if (action === "update-tag") {
-			values = { tag: formData.get("tag") as string };
-		} else if (action === "update-status") {
-			values = { status: formData.get("status") as string };
-		} else if (action === "update-date") {
-			values = { date: formData.get("date") as string };
-		}
-		return await updateAction(id, values);
-	} else if (action === "delete-action") {
-		const id = formData.get("id") as string;
-		return await deleteAction(id);
-	}
-
-	return {
-		error: { message: "No matched action" },
-	};
+	return handleAction(formData);
 };
