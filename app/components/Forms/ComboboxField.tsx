@@ -13,6 +13,7 @@ export default function ComboboxField({
 	required,
 	opaque,
 	callBack,
+	value,
 }: {
 	options: Array<Option>;
 	label?: string;
@@ -21,12 +22,11 @@ export default function ComboboxField({
 	required?: boolean;
 	opaque?: boolean;
 	callBack?: (value: string) => void;
+	value?: string;
 }) {
-	const [selectedOption, setSelected] = useState<{
-		id: string;
-		text: string;
-		value: string;
-	}>();
+	const [selectedOption, setSelected] = useState<Option | undefined>(
+		value ? options.find((o) => o.id === value) : undefined
+	);
 	const [query, setQuery] = useState("");
 
 	const filteredOptions = options.filter((option) =>

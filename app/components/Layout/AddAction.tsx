@@ -27,9 +27,11 @@ export default function AddAction({
 
 	const fetcher = useFetcher();
 
+	const _account = matches[3].data.account ? matches[3].data.account : null;
+
 	const [full, setFull] = useState(false);
 	const [endDate, setEndDate] = useState(false);
-	const [account, setAccount] = useState("");
+	const [account, setAccount] = useState<string>(_account ? _account.id : "");
 	const [tag, setTag] = useState(tags[0].id);
 	const [status, setStatus] = useState(statuses[0].id);
 
@@ -159,6 +161,7 @@ export default function AddAction({
 							required={full}
 							opaque
 							callBack={(value) => setAccount(value)}
+							value={account}
 						/>
 
 						<Panel
