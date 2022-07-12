@@ -61,13 +61,15 @@ export default function AddAction({
 		};
 	}, [isAdding, close, state, data, full]);
 
-	const currentDate = dayjs(
-		dayjs(date).format("YYYY-MM-DD") +
-			" " +
-			dayjs()
-				.add(dayjs().hour() < 23 ? 1 : 0, "hour")
-				.format("HH:mm")
-	).format("YYYY-MM-DD HH:mm");
+	const currentDate = dayjs().isAfter(dayjs(date).subtract(1, "hour"))
+		? dayjs(
+				dayjs(date).format("YYYY-MM-DD") +
+					" " +
+					dayjs()
+						.add(dayjs().hour() < 23 ? 1 : 0, "hour")
+						.format("HH:mm")
+		  ).format("YYYY-MM-DD HH:mm")
+		: date;
 
 	return (
 		<div className="relative">
@@ -83,7 +85,9 @@ export default function AddAction({
 								Adicionar nova ação
 							</h5>
 							<div className="text-xs text-gray-400 dark:text-gray-300/50">
-								{dayjs(date).format("D [de] MMMM [de] YYYY")}
+								{dayjs(currentDate).format(
+									"D [de] MMMM [de] YYYY [às] HH[h]mm"
+								)}
 							</div>
 							{data && data.error && (
 								<div className="error-banner mt-2">
@@ -92,7 +96,7 @@ export default function AddAction({
 							)}
 						</div>
 						<button
-							className="text-xl text-gray-400 transition hover:text-gray-700 dark:text-gray-300/50 dark:hover:text-white"
+							className="button button-ghost -m-2 p-2 text-xl text-gray-400 transition hover:text-gray-700 dark:text-gray-300/50 dark:hover:text-white"
 							onClick={() => setFull(!full)}
 						>
 							<HiOutlineArrowsExpand />
