@@ -27,7 +27,7 @@ export default function AddAction({
 
 	const fetcher = useFetcher();
 
-	const _account = matches[3].data.account ? matches[3].data.account : null;
+	const _account = matches[3] ? matches[3].data.account : null;
 
 	const [full, setFull] = useState(false);
 	const [endDate, setEndDate] = useState(false);
