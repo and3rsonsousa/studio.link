@@ -169,7 +169,7 @@ export const getAction = (id?: string) => {
 	return supabaseClient
 		.from("Action")
 		.select(
-			"*, account:Account(*), status:Status(*), tag:Tag(*), creator:Action_creator_fkey(*), responsible:Action_responsible_fkey(*),campaign:Campaign(*)"
+			"*, account:Account(*), status(*), tag:Tag(*), creator:Action_creator_fkey(*), responsible:Action_responsible_fkey(*),campaign:Campaign(*), tasks:Task(*)"
 		)
 		.eq("id", id)
 		.single();

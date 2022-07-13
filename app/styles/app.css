@@ -1307,16 +1307,16 @@ select {
   z-index: 999;
 }
 
+.-m-2 {
+  margin: -0.5rem;
+}
+
 .m-0 {
   margin: 0px;
 }
 
 .-m-1 {
   margin: -0.25rem;
-}
-
-.-m-2 {
-  margin: -0.5rem;
 }
 
 .mx-auto {
@@ -1916,10 +1916,6 @@ select {
 
 .tracking-wide {
   letter-spacing: 0.025em;
-}
-
-.tracking-tighter {
-  letter-spacing: -0.05em;
 }
 
 .tracking-tight {

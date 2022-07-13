@@ -39,18 +39,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 	const { account, id } = params;
 
 	const [
-		{ data: action },
+		{ data: action, error: actionError },
 		{ data: _account },
 		{ data: campaigns },
 		{ data: persons },
 	] = await Promise.all([
 		getAction(id),
 		getAccount({ slug: account as string }),
-		getCampaigns(),
+		getCampaigns(account as string),
 		getPersons(),
 	]);
 
-	return { action, _account, campaigns, persons };
+	if (action) return { action, _account, campaigns, persons };
+
+	throw new Error("Action not found");
 };
 
 export default function ActionEdit() {
