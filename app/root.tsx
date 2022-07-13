@@ -61,7 +61,7 @@ export default function App() {
 				<AnimatePresence>
 					{transition.state !== "idle" && (
 						<motion.div
-							className="fixed top-4 right-4 grid place-items-center "
+							className="fixed top-[18px] right-[19px] grid place-items-center"
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}

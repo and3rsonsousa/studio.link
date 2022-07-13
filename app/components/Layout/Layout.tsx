@@ -2,14 +2,8 @@ import { Combobox } from "@headlessui/react";
 import { Link, useLoaderData, useMatches, useNavigate } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
-import {
-	HiOutlineClipboard,
-	HiOutlineClipboardList,
-	HiOutlineMoon,
-	HiOutlineSearch,
-	HiOutlineSun,
-} from "react-icons/hi";
 import { BsCardChecklist, BsGrid3X3 } from "react-icons/bs";
+import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
 import type {
 	AccountModel,
 	ActionModel,
@@ -52,10 +46,10 @@ const Layout: React.FC = ({ children }) => {
 						<Logo size={3} />
 					</Link>
 					{/* Center */}
-					<div className="order-5 my-4 w-full md:order-2 md:w-auto">
+					<div className="order-5 my-4 w-full lg:order-2 lg:w-auto">
 						<AccountsMenu />
 					</div>
-					<div className="order-3 w-1/2 md:w-auto">
+					<div className="order-3 w-1/2 lg:w-2/5 2xl:w-1/4">
 						<SearchBox />
 					</div>
 
@@ -272,7 +266,7 @@ const UserMenu: React.FC = () => {
 
 	return (
 		<Dropdown
-			text={() => <span className="hidden md:block">{person.name}</span>}
+			text={<span className="hidden lg:block">{person.name}</span>}
 			options={options}
 		/>
 	);
