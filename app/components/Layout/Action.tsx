@@ -92,14 +92,18 @@ export const ActionCalendar = ({
 						) : null}
 
 						<div className="flex items-center justify-center py-1 md:justify-between md:gap-2 md:px-2">
-							<div className="hidden items-center overflow-hidden md:flex">
+							<div
+								className={`${
+									showAccount ? "hidden md:flex" : ""
+								} items-center overflow-hidden `}
+							>
 								{!showAccount && (
 									<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
 										{account.name.substring(0, 3)}
 									</div>
 								)}
 
-								<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold">
+								<div className="hidden overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold md:block">
 									{action.name}
 								</div>
 							</div>
