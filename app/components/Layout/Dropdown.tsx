@@ -17,7 +17,7 @@ export default function Dropdown({
 	options,
 	className,
 }: {
-	text: string;
+	text: string | React.FC;
 	offset?: number;
 	options: DropdownOptions;
 	className?: {
@@ -41,7 +41,7 @@ export default function Dropdown({
 							}`}
 							ref={reference}
 						>
-							{text}
+							{typeof text === "string" ? text : text()}
 							<div className="pl-2">
 								<HiOutlineChevronDown />
 							</div>

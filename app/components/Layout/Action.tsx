@@ -74,6 +74,7 @@ export const ActionCalendar = ({
 			className={`transition duration-500 ${dragging ? "dragging" : ""} `}
 			data-action-id={action.id}
 			data-action-date={action.date}
+			// style={isDeleting ? { opacity: 0.2 } : {}}
 		>
 			<Context.Root onOpenChange={setShowContextMenu}>
 				<Context.Trigger>
@@ -90,19 +91,23 @@ export const ActionCalendar = ({
 							</div>
 						) : null}
 
-						<div className="flex items-center justify-between gap-2 px-2 py-1">
-							<div className="flex items-center overflow-hidden">
+						<div className="flex items-center justify-center py-1 md:justify-between md:gap-2 md:px-2">
+							<div className="hidden items-center overflow-hidden md:flex">
 								{!showAccount && (
 									<div className="w-6 flex-shrink-0 text-[0.5rem] font-semibold uppercase text-white/50">
 										{account.name.substring(0, 3)}
 									</div>
 								)}
 
-								<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold ">
+								<div className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold">
 									{action.name}
 								</div>
 							</div>
-							<div className="text-xx text-white/50">
+							<div
+								className={`text-xx  text-white/50 ${
+									!showAccount ? "hidden md:block" : ""
+								}`}
+							>
 								{dayjs(action.date).format(
 									dayjs(action.date).minute() === 0
 										? "H[h]"

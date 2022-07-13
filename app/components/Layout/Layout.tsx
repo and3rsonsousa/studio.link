@@ -46,21 +46,21 @@ const Layout: React.FC = ({ children }) => {
 	return (
 		<div className="flex h-screen flex-col bg-white dark:bg-gray-900">
 			<div className="header flex-auto text-sm font-semibold">
-				<div className="mx-auto flex items-center justify-between py-4 px-8 xl:container">
+				<div className="mx-auto flex flex-wrap items-center justify-between gap-4 py-4 px-8 xl:container">
 					{/* Left Side */}
-					<Link to={`/`}>
+					<Link to={`/`} className="order-1">
 						<Logo size={3} />
 					</Link>
 					{/* Center */}
-					<div>
+					<div className="order-5 my-4 w-full md:order-2 md:w-auto">
 						<AccountsMenu />
 					</div>
-					<div className="w-1/3">
+					<div className="order-3 w-1/2 md:w-auto">
 						<SearchBox />
 					</div>
 
 					{/* Right side */}
-					<div className="flex space-x-2">
+					<div className="order-4 flex space-x-2">
 						<UserMenu />
 					</div>
 				</div>
@@ -209,7 +209,7 @@ const AccountsMenu: React.FC = () => {
 		: undefined;
 
 	return (
-		<div className="flex items-center gap-4">
+		<div className="flex items-center justify-between gap-4">
 			<Dropdown
 				options={accounts.map(({ id, name, slug }) => ({
 					id,
@@ -228,7 +228,7 @@ const AccountsMenu: React.FC = () => {
 			/>
 
 			{account && (
-				<>
+				<div className="flex items-center gap-4">
 					<Link
 						to={`/${matches[1].params.account}/page/grid`}
 						className="button-ghost text-xl"
@@ -241,7 +241,7 @@ const AccountsMenu: React.FC = () => {
 					>
 						<BsCardChecklist />
 					</Link>
-				</>
+				</div>
 			)}
 		</div>
 	);
@@ -270,7 +270,12 @@ const UserMenu: React.FC = () => {
 		]);
 	}
 
-	return <Dropdown text={person.name} options={options} />;
+	return (
+		<Dropdown
+			text={() => <span className="hidden md:block">{person.name}</span>}
+			options={options}
+		/>
+	);
 };
 
 const ThemeSwitcher = () => {
