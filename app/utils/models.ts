@@ -31,6 +31,7 @@ export type ActionModel = {
 	date_end?: string;
 	created_at?: string;
 	updated_at?: string;
+	position?: 1 | 2 | 3;
 };
 
 export type ActionModelFull = {

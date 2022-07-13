@@ -3,6 +3,8 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import {
 	HiOutlineChevronLeft,
 	HiOutlineChevronRight,
@@ -14,6 +16,8 @@ import Day from "./Day";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 dayjs.tz.setDefault("America/Sao_Paulo");
 dayjs.locale("pt-br");
 
@@ -33,10 +37,12 @@ export const CalendarView = ({
 	const lastDay = currentDate.endOf("month").endOf("week");
 	let current = firstDay;
 	let days = [];
+
 	while (current.isBefore(lastDay)) {
 		let date = current.clone();
 		days.push({
 			date,
+
 			holidays: holidays.filter(
 				(h: ActionModel) =>
 					dayjs(h.date).format("YYYY-MM-DD") ===
@@ -45,8 +51,25 @@ export const CalendarView = ({
 			actions: actions.filter(
 				(a: ActionModel) =>
 					dayjs(a.date).format("YYYY-MM-DD") ===
-					date.format("YYYY-MM-DD")
+						date.format("YYYY-MM-DD") && a.date_end === null
 			),
+			// actionsWithEndDate: actions.filter((a: ActionModel) => {
+			// 	if (a.date_end) {
+			// 		console.log(
+			// 			date.format("YYYY-MM-DD"),
+			// 			" ",
+			// 			a.date,
+			// 			" ",
+			// 			a.date_end
+			// 		);
+			// 	}
+
+			// 	return (
+			// 		a.date_end !== null &&
+			// 		date.isSameOrAfter(dayjs(a.date)) &&
+			// 		date.isSameOrBefore(dayjs(a.date_end))
+			// 	);
+			// }),
 		});
 		current = current.add(1, "day");
 	}

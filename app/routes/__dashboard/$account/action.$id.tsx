@@ -39,7 +39,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 	const { account, id } = params;
 
 	const [
-		{ data: action, error: actionError },
+		{ data: action },
 		{ data: _account },
 		{ data: campaigns },
 		{ data: persons },
