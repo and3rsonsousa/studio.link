@@ -33,7 +33,7 @@ export default function AddAction({
 	const [endDate, setEndDate] = useState(false);
 	const [account, setAccount] = useState<string>(_account ? _account.id : "");
 	const [tag, setTag] = useState(tags[0].id);
-	const [status, setStatus] = useState(statuses[0].id);
+	const [status, setStatus] = useState(statuses[1].id);
 
 	const isAdding = fetcher.submission
 		? fetcher.submission.formData.get("action") === "create-action"

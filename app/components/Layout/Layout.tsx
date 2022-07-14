@@ -46,7 +46,7 @@ const Layout: React.FC = ({ children }) => {
 						<Logo size={3} />
 					</Link>
 					{/* Center */}
-					<div className="order-5 my-4 w-full lg:order-2 lg:w-auto">
+					<div className="order-5 my-4 w-full lg:order-2 lg:m-0 lg:w-auto">
 						<AccountsMenu />
 					</div>
 					<div className="order-3 w-1/2 lg:w-2/5 2xl:w-1/4">
@@ -215,7 +215,7 @@ const AccountsMenu: React.FC = () => {
 					account
 						? {
 								trigger:
-									"m-0 text-2xl font-bold tracking-tight",
+									"m-0 -my-2 text-2xl font-bold tracking-tight",
 						  }
 						: undefined
 				}
