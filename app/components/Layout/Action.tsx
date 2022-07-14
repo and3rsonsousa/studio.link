@@ -64,7 +64,18 @@ export const ActionCalendar = ({
 	return (
 		<motion.div
 			draggable={true}
-			{...scaleUp()}
+			// {...scaleUp()}
+			initial={{ opacity: 0, scale: 0.95 }}
+			animate={{
+				opacity: isDeleting ? 0.2 : 1,
+				scale: 1,
+				transition: { duration: isDeleting ? 0.2 : 0.4 },
+			}}
+			exit={{
+				opacity: 0,
+				scale: 0.95,
+				transition: { duration: 0.2 },
+			}}
 			onDragStart={(event) => {
 				setDragging(true);
 			}}
