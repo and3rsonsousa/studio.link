@@ -1,5 +1,11 @@
 import { Combobox } from "@headlessui/react";
-import { Link, useLoaderData, useMatches, useNavigate } from "@remix-run/react";
+import {
+	Link,
+	useLoaderData,
+	useMatches,
+	useNavigate,
+	useSearchParams,
+} from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
 import { BsCardChecklist, BsGrid3X3 } from "react-icons/bs";
@@ -202,13 +208,16 @@ const AccountsMenu: React.FC = () => {
 		  )[0].name
 		: undefined;
 
+	const [searchParams] = useSearchParams();
+	const date = searchParams.get("date");
+
 	return (
 		<div className="flex items-center justify-between gap-4">
 			<Dropdown
 				options={accounts.map(({ id, name, slug }) => ({
 					id,
 					text: name,
-					href: `/${slug}`,
+					href: `/${slug}/page/${date ? `?date=${date}` : ""}`,
 				}))}
 				text={account ?? "Escolha um cliente"}
 				className={

@@ -82,7 +82,7 @@ export const CalendarView = ({
 				{/* Mudar mês */}
 				<div className="flex items-center gap-4">
 					<Link
-						to={`/?date=${currentDate
+						to={`?date=${currentDate
 							.subtract(1, "month")
 							.format("YYYY-MM")}`}
 						className="button button-small button-ghost text-xl"
@@ -93,7 +93,7 @@ export const CalendarView = ({
 						{currentDate.format("MMMM")}
 					</h4>
 					<Link
-						to={`/?date=${currentDate
+						to={`?date=${currentDate
 							.add(1, "month")
 							.format("YYYY-MM")}`}
 						className="button button-small button-ghost text-xl"
