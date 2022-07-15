@@ -55,7 +55,12 @@ export default function () {
 							<div
 								className={`border-t dark:border-gray-800 ${
 									(index + 1) % 3 !== 0 ? "border-r" : ""
-								} relative flex aspect-square flex-col place-items-center justify-between p-2 `}
+								} relative flex aspect-square flex-col place-items-center justify-between p-2 ${
+									action.status ===
+									"a448e17d-05ba-4ad0-9990-773f9384d15e"
+										? "text-gray-700 dark:text-gray-300"
+										: "text-gray-300 dark:text-gray-700"
+								}`}
 								key={action.id}
 							>
 								<div className="text-xx">

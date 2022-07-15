@@ -86,6 +86,7 @@ export const ActionCalendar = ({
 			data-action-id={action.id}
 			data-action-date={action.date}
 			// style={isDeleting ? { opacity: 0.2 } : {}}
+			title={action.name}
 		>
 			<Context.Root onOpenChange={setShowContextMenu}>
 				<Context.Trigger>
