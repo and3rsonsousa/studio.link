@@ -1,4 +1,7 @@
 import { useMatches } from "@remix-run/react";
+import { BsPlay } from "react-icons/bs";
+import { HiOutlineUserCircle } from "react-icons/hi";
+import { MdGridOn } from "react-icons/md";
 import type { ActionModel, ItemModel } from "~/utils/models";
 
 export default function () {
@@ -18,10 +21,14 @@ export default function () {
 	);
 
 	if (filtered.length % 3 !== 0) {
-		filtered.push({
-			id: new Date().toDateString(),
-			date: "",
-			name: "support",
+		const support = Array(3 - (filtered.length % 3)).fill("support");
+
+		support.map((_) => {
+			filtered.push({
+				id: new Date().toDateString(),
+				date: "",
+				name: "support",
+			});
 		});
 	}
 	filtered = filtered.reverse();
@@ -30,13 +37,17 @@ export default function () {
 		<div className="mt-4 w-1/3">
 			<h3 className=" mb-3 text-gray-700 dark:text-gray-300">Grid</h3>
 			<div className="overflow-hidden rounded-xl border dark:border-gray-800">
-				<div className="p-2">ok</div>
+				<div className="flex h-10 items-center justify-around  px-4 text-gray-300 dark:text-gray-700">
+					<MdGridOn className="text-xl" />
+					<BsPlay className="text-2xl" />
+					<HiOutlineUserCircle className="text-xl" />
+				</div>
 				<div className="grid grid-cols-3 ">
 					{filtered.map((action: ActionModel, index: number) =>
 						action.name === "support" ? (
 							<div
 								key={action.id}
-								className={`border-t bg-gray-50 dark:border-gray-800 ${
+								className={`border-t bg-gray-50 dark:border-gray-800 dark:bg-black/20 ${
 									(index + 1) % 3 !== 0 ? "border-r" : ""
 								}`}
 							></div>

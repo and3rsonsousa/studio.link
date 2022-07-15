@@ -8,8 +8,9 @@ import {
 } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
-import { BsCardChecklist, BsGrid3X3 } from "react-icons/bs";
+import { BsCardChecklist } from "react-icons/bs";
 import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
+import { MdGridOn } from "react-icons/md";
 import type {
 	AccountModel,
 	ActionModel,
@@ -234,9 +235,9 @@ const AccountsMenu: React.FC = () => {
 				<div className="flex items-center gap-4">
 					<Link
 						to={`/${matches[1].params.account}/page/grid`}
-						className="button-ghost text-xl"
+						className="button-ghost text-2xl"
 					>
-						<BsGrid3X3 />
+						<MdGridOn />
 					</Link>
 					<Link
 						to={`/${matches[1].params.account}/page/campaigns`}
