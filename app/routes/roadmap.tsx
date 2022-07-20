@@ -13,6 +13,11 @@ export default function () {
 					Datas comemorativas estão aparecendo na busca como se fossem
 					ações.
 				</li>
+				<li>Incluir clientes na pesquisa</li>
+				<li>Incluir campanhas na pesquisa</li>
+				<li>
+					Rolagem independente no calendário e na grid ou campanhas
+				</li>
 			</ul>
 		</div>
 	);

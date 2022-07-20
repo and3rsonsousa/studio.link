@@ -46,11 +46,11 @@ const Layout: React.FC = ({ children }) => {
 
 	return (
 		<div className="flex h-screen flex-col bg-white dark:bg-gray-900">
-			<div className="header flex-auto text-sm font-semibold">
+			<div className="header flex-auto border-b text-sm font-semibold">
 				<div className="mx-auto flex flex-wrap items-center justify-between gap-4 py-4 px-8 xl:container">
 					{/* Left Side */}
 					<Link to={`/`} className="order-1">
-						<Logo size={3} holding={2} />
+						<Logo size={3} holding={1} />
 					</Link>
 					{/* Center */}
 					<div className="order-5 my-4 w-full lg:order-2 lg:m-0 lg:w-auto">
