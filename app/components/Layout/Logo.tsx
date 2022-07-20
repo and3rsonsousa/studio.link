@@ -1,9 +1,9 @@
 export default function Logo({
 	size = 2,
-	showHolding = false,
+	holding,
 }: {
 	size?: 1 | 2 | 3;
-	showHolding?: boolean;
+	holding?: 1 | 2;
 }) {
 	const imageSize = size === 1 ? "h-12" : size === 2 ? "h-8" : "h-5";
 	const bySize =
@@ -20,8 +20,10 @@ export default function Logo({
 				alt="STUDIO > Canivete"
 				className={`max-w-none ${imageSize}`}
 			/>
-			{showHolding && (
-				<div className={`font-bold leading-none ${bySize}`}>CNVT ™</div>
+			{holding && (
+				<div className={`font-bold leading-none ${bySize}`}>
+					{holding === 2 ? "MADE WITH A CANIVETE" : "CNVT"}
+				</div>
 			)}
 		</div>
 	);

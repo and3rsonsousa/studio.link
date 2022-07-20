@@ -1940,10 +1940,6 @@ select {
   line-height: 1;
 }
 
-.leading-tight {
-  line-height: 1.25;
-}
-
 .tracking-widest {
   letter-spacing: 0.1em;
 }
