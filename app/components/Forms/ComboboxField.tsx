@@ -14,6 +14,7 @@ export default function ComboboxField({
 	opaque,
 	callBack,
 	value,
+	autoComplete = true,
 }: {
 	options: Array<Option>;
 	label?: string;
@@ -23,6 +24,7 @@ export default function ComboboxField({
 	opaque?: boolean;
 	callBack?: (value: string) => void;
 	value?: string;
+	autoComplete?: boolean;
 }) {
 	const [selectedOption, setSelected] = useState<Option | undefined>(
 		value ? options.find((o) => o.id === value) : undefined
@@ -54,7 +56,7 @@ export default function ComboboxField({
 					<Combobox.Input
 						onChange={(event) => setQuery(event.target.value)}
 						className="field-input"
-						autoComplete="off"
+						autoComplete={autoComplete ? "off" : "on"}
 						name={name}
 						id={name}
 						displayValue={(option: Option) =>

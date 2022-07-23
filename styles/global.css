@@ -93,11 +93,11 @@
 	}
 
 	.field-input-holder:not(.field-disabled) {
-		@apply flex w-full  rounded-xl bg-gray-300/25 font-semibold text-gray-500 ring-brand-500 transition focus-within:ring-4 hover:ring-4 dark:bg-black/75 dark:ring-brand;
+		@apply flex w-full  rounded-xl bg-gray-300/25 font-semibold text-gray-500 ring-brand-500/50 transition focus-within:ring-4 focus-within:ring-brand hover:ring-4 focus-visible:ring-4 dark:bg-black/75 dark:ring-brand-500/50 dark:focus-within:ring-brand;
 	}
 
 	.field-input-holder.field-disabled {
-		@apply flex w-full  rounded-xl bg-gray-300/50 font-semibold text-gray-300  dark:bg-black/25 dark:text-gray-700;
+		@apply flex w-full  rounded-xl bg-gray-300/50 font-semibold text-gray-300   dark:bg-black/25 dark:text-gray-700;
 	}
 	.field-input-holder.field-disabled .field-input {
 		@apply text-gray-300 dark:text-gray-700;

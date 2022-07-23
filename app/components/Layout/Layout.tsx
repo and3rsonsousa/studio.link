@@ -1,29 +1,22 @@
-import { Combobox } from "@headlessui/react";
 import {
 	Link,
 	useLoaderData,
 	useMatches,
-	useNavigate,
 	useSearchParams,
 } from "@remix-run/react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCardChecklist } from "react-icons/bs";
-import { HiOutlineMoon, HiOutlineSearch, HiOutlineSun } from "react-icons/hi";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { MdGridOn } from "react-icons/md";
 import type {
 	AccountModel,
-	ActionModel,
-	ActionModelFull,
 	DropdownOptions,
 	PersonModel,
 } from "~/utils/models";
-import { supabaseClient } from "~/utils/supabase";
 
-import { scaleUp } from "~/utils/transitions";
 import Dropdown from "./Dropdown";
-import Loader from "./Loader";
 import Logo from "./Logo";
+import SearchBox from "./SearchBox";
 
 const Layout: React.FC = ({ children }) => {
 	useEffect(() => {
@@ -46,7 +39,7 @@ const Layout: React.FC = ({ children }) => {
 
 	return (
 		<div className="flex h-screen flex-col bg-white dark:bg-gray-900">
-			<div className="header flex-auto border-b text-sm font-semibold">
+			<div className="header flex-auto border-b text-sm font-semibold dark:border-gray-800">
 				<div className="mx-auto flex flex-wrap items-center justify-between gap-4 py-4 px-8 xl:container">
 					{/* Left Side */}
 					<Link to={`/`} className="order-1">
@@ -77,126 +70,6 @@ const Layout: React.FC = ({ children }) => {
 				</div>
 			</div>
 		</div>
-	);
-};
-
-const SearchBox: React.FC = () => {
-	const [query, setQuery] = useState("");
-	const [items, setItems] = useState<any>();
-	const [searching, setSearching] = useState(false);
-	const matches = useMatches();
-	const { accounts } = matches[1].data;
-
-	const search = async (str: string) => {
-		if (str.length > 2) {
-			setSearching(() => true);
-
-			const { data } = await supabaseClient.rpc("do_search", {
-				query: `%${str
-					.normalize("NFD")
-					.replace(/[\u0300-\u036f]/g, "")}%`,
-			});
-
-			if (data) setItems(data);
-			setSearching(() => false);
-		} else {
-			setItems([]);
-		}
-	};
-
-	useEffect(() => {
-		const keyDown = (e: KeyboardEvent) => {
-			if (e.metaKey && e.key === "/") {
-				const ele: HTMLElement = document.querySelector(
-					".search-box"
-				) as HTMLElement;
-				ele.focus();
-			}
-		};
-		window.addEventListener("keydown", keyDown);
-		return () => window.removeEventListener("keydown", keyDown);
-	}, []);
-
-	const navigate = useNavigate();
-
-	return (
-		<Combobox
-			as={"div"}
-			onChange={(value: ActionModel) => {
-				setQuery("");
-				navigate(
-					`/${
-						accounts.filter(
-							(account: AccountModel) =>
-								account.id === value.account
-						)[0].slug
-					}/action/${value.id}`
-				);
-			}}
-			value={undefined}
-			className={`relative`}
-		>
-			<div className="field-input-holder">
-				<Combobox.Input
-					className="field-input search-box"
-					placeholder="Busque por uma ação ou campanha"
-					onChange={(event) => {
-						setQuery(event.target.value);
-						search(event.target.value);
-					}}
-					onBlur={() => {
-						setQuery("");
-					}}
-				/>
-				<div className="field-icon field-button ">
-					<HiOutlineSearch />
-				</div>
-			</div>
-			<AnimatePresence>
-				{query.length > 2 && (
-					<Combobox.Options
-						static
-						className={`dropdown-content absolute top-12 max-h-[50vh] w-full origin-top overflow-y-auto`}
-						{...scaleUp()}
-						as={motion.div}
-					>
-						{items && items.length > 0 ? (
-							items.map(
-								(action: ActionModelFull, index: number) => (
-									<Combobox.Option
-										key={index}
-										value={action}
-										as={Fragment}
-									>
-										{({ active }) => (
-											<div
-												className={`dropdown-item flex items-center justify-between ${
-													active
-														? "bg-brand text-white"
-														: ""
-												}`}
-											>
-												<div className="flex items-center gap-2">
-													<div>{action.name}</div>
-												</div>
-											</div>
-										)}
-									</Combobox.Option>
-								)
-							)
-						) : searching ? (
-							<div className="flex items-center justify-center gap-2 p-4 text-gray-500 dark:text-gray-300">
-								<div>Buscando</div> <Loader />
-							</div>
-						) : (
-							<div className="p-4 text-gray-500 dark:text-gray-300">
-								Sem resultados {":("}
-							</div>
-						)}
-					</Combobox.Options>
-				)}
-			</AnimatePresence>
-		</Combobox>
 	);
 };
 

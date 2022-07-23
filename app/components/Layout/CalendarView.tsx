@@ -113,7 +113,8 @@ export const CalendarView = ({
 					</Link>
 				</div>
 			</div>
-			<div className="mt-2 flex-auto rounded-t-xl border border-b-0 border-gray-200  py-1 font-bold tracking-wider dark:border-gray-800 ">
+
+			<div className="mt-2 flex-auto rounded-t-xl border border-b  border-gray-200 py-1 font-bold tracking-wider shadow-gray-500/50 dark:border-gray-800 ">
 				<div className={`grid grid-cols-7`}>
 					{["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"].map(
 						(day) => (
@@ -127,8 +128,9 @@ export const CalendarView = ({
 					)}
 				</div>
 			</div>
+
 			<div
-				className={`no-scroll-bars grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
+				className={`no-scroll-bars -mt-px grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
 					days.length / 7
 				}`}
 			>

@@ -20,6 +20,16 @@ export type AccountModel = {
 	users: string[];
 };
 
+export type CampaignModel = {
+	id: string;
+	name: string;
+	description: string;
+	account: string;
+	date_start: string;
+	date_end: string;
+	actions: string[] | ActionModel[];
+};
+
 export type ActionModel = {
 	id: string;
 	name: string;
