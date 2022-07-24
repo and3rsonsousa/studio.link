@@ -1,14 +1,9 @@
 import { Combobox } from "@headlessui/react";
 import { useMatches, useNavigate } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect, Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
-import type {
-	ActionModel,
-	AccountModel,
-	ActionModelFull,
-	CampaignModel,
-} from "~/utils/models";
+import type { AccountModel, ActionModel, CampaignModel } from "~/utils/models";
 import { supabaseClient } from "~/utils/supabase";
 import { scaleUp } from "~/utils/transitions";
 import Loader from "./Loader";
@@ -74,16 +69,19 @@ export default function SearchBox() {
 				setQuery("");
 
 				navigate(
+					// Caso seja um cliente
 					"slug" in value
-						? `/${value.slug}`
-						: "actions" in value
+						? `/${value.slug}/page`
+						: // Caso seja campanha
+						"actions" in value
 						? `/${
 								_accounts.filter(
 									(account: AccountModel) =>
 										account.id === value.account
 								)[0].slug
 						  }/page/campaigns/${value.id}`
-						: `/${
+						: // Caso seja uma ação
+						  `/${
 								_accounts.filter(
 									(account: AccountModel) =>
 										account.id === value.account
