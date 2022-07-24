@@ -1318,40 +1318,24 @@ select {
   top: 3rem;
 }
 
-.top-20 {
-  top: 5rem;
+.top-\[6\.4rem\] {
+  top: 6.4rem;
 }
 
 .left-0 {
   left: 0px;
 }
 
-.top-24 {
-  top: 6rem;
-}
-
-.top-28 {
-  top: 7rem;
-}
-
-.top-\[6\.5rem\] {
-  top: 6.5rem;
-}
-
-.top-\[6\.4rem\] {
-  top: 6.4rem;
-}
-
 .bottom-0 {
   bottom: 0px;
 }
 
-.z-\[999\] {
-  z-index: 999;
-}
-
 .z-10 {
   z-index: 10;
+}
+
+.z-\[999\] {
+  z-index: 999;
 }
 
 .order-1 {
@@ -1610,21 +1594,6 @@ select {
   transform-origin: bottom;
 }
 
-.scale-y-100 {
-  --tw-scale-y: 1;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-y-50 {
-  --tw-scale-y: .5;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-y-0 {
-  --tw-scale-y: 0;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 @-webkit-keyframes spin {
   to {
     transform: rotate(360deg);
@@ -1874,12 +1843,6 @@ select {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
 
-.from-gray-600\/25 {
-  --tw-gradient-from: rgb(71 85 105 / 0.25);
-  --tw-gradient-to: rgb(71 85 105 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
 .from-gray-600\/10 {
   --tw-gradient-from: rgb(71 85 105 / 0.1);
   --tw-gradient-to: rgb(71 85 105 / 0);
@@ -1888,12 +1851,6 @@ select {
 
 .from-gray-600\/20 {
   --tw-gradient-from: rgb(71 85 105 / 0.2);
-  --tw-gradient-to: rgb(71 85 105 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.from-gray-600\/50 {
-  --tw-gradient-from: rgb(71 85 105 / 0.5);
   --tw-gradient-to: rgb(71 85 105 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
@@ -2111,12 +2068,12 @@ select {
   opacity: 0.5;
 }
 
-.opacity-0 {
-  opacity: 0;
-}
-
 .opacity-100 {
   opacity: 1;
+}
+
+.opacity-0 {
+  opacity: 0;
 }
 
 .shadow-gray-500\/50 {
@@ -2152,10 +2109,6 @@ select {
 
 .duration-200 {
   transition-duration: 200ms;
-}
-
-.duration-100 {
-  transition-duration: 100ms;
 }
 
 .default-spacing {

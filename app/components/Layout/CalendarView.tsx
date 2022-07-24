@@ -77,23 +77,29 @@ export const CalendarView = ({
 
 	const [shadowTop, setShadowTop] = useState(false);
 	const [shadowBottom, setShadowBottom] = useState(false);
-
 	const viewColor = searchParams.get("color") || "status";
+
 	useEffect(() => {
 		const ele = document.querySelector(".calendar-days");
-		ele?.addEventListener("scroll", (e) => {
-			if (ele.scrollTop === 0) {
-				setShadowTop(false);
-			} else {
-				setShadowTop(true);
+		const scrollCalendar = (ele: Element | null) => {
+			if (ele) {
+				if (ele.scrollTop === 0) {
+					setShadowTop(false);
+				} else {
+					setShadowTop(true);
+				}
+				if (ele.scrollHeight - ele.clientHeight === ele.scrollTop) {
+					setShadowBottom(false);
+				} else {
+					setShadowBottom(true);
+				}
 			}
-			if (ele.scrollHeight - ele.clientHeight === ele.scrollTop) {
-				setShadowBottom(false);
-			} else {
-				setShadowBottom(true);
-			}
-		});
-	});
+		};
+
+		ele?.addEventListener("scroll", () => scrollCalendar(ele));
+
+		scrollCalendar(ele);
+	}, []);
 
 	return (
 		<div className="relative flex h-full flex-col">
