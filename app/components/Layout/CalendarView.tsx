@@ -13,6 +13,7 @@ import {
 } from "react-icons/hi";
 import type { ActionModel } from "~/utils/models";
 import Day from "./Day";
+import { useEffect, useState } from "react";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -74,10 +75,28 @@ export const CalendarView = ({
 		current = current.add(1, "day");
 	}
 
+	const [shadowTop, setShadowTop] = useState(false);
+	const [shadowBottom, setShadowBottom] = useState(false);
+
 	const viewColor = searchParams.get("color") || "status";
+	useEffect(() => {
+		const ele = document.querySelector(".calendar-days");
+		ele?.addEventListener("scroll", (e) => {
+			if (ele.scrollTop === 0) {
+				setShadowTop(false);
+			} else {
+				setShadowTop(true);
+			}
+			if (ele.scrollHeight - ele.clientHeight === ele.scrollTop) {
+				setShadowBottom(false);
+			} else {
+				setShadowBottom(true);
+			}
+		});
+	});
 
 	return (
-		<div className="flex h-full flex-col">
+		<div className="relative flex h-full flex-col">
 			<div className="flex flex-auto items-center justify-between pt-2">
 				{/* Mudar mês */}
 				<div className="flex items-center gap-4">
@@ -130,9 +149,9 @@ export const CalendarView = ({
 			</div>
 
 			<div
-				className={`no-scroll-bars -mt-px grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
+				className={`calendar-days no-scroll-bars -mt-px grid h-full flex-auto grid-cols-7 overflow-x-hidden rounded-b-xl border-r border-b border-gray-200 dark:border-gray-800 grid-rows-${
 					days.length / 7
-				}`}
+				} z-100 relative`}
 			>
 				{days.map((day) => (
 					<Day
@@ -143,6 +162,18 @@ export const CalendarView = ({
 					/>
 				))}
 			</div>
+			<div
+				className={`pointer-events-none absolute top-[6.4rem] left-0 z-10 h-12 w-full origin-top bg-gradient-to-b from-gray-600/10 to-gray-600/0 transition  ${
+					shadowTop
+						? "opacity-100 duration-500"
+						: "opacity-0 duration-200"
+				}`}
+			></div>
+			<div
+				className={`pointer-events-none absolute bottom-0 left-0 z-10 h-12 w-full origin-bottom rounded-b-xl bg-gradient-to-t from-gray-600/20 to-gray-600/0 transition duration-500 ${
+					shadowBottom ? "opacity-100 " : "opacity-0 "
+				}`}
+			></div>
 		</div>
 	);
 };
