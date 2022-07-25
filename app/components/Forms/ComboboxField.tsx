@@ -32,7 +32,16 @@ export default function ComboboxField({
 	const [query, setQuery] = useState("");
 
 	const filteredOptions = options.filter((option) =>
-		option.text.toLowerCase().includes(query.toLowerCase())
+		option.text
+			.toLowerCase()
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.includes(
+				query
+					.toLowerCase()
+					.normalize("NFD")
+					.replace(/[\u0300-\u036f]/g, "")
+			)
 	);
 
 	return (
