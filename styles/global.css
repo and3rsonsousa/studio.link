@@ -189,6 +189,10 @@
 	.dropdown-item.disabled {
 		@apply default-spacing text-sm font-semibold text-gray-600 outline-none;
 	}
+
+	.popover {
+		@apply z-[999] overflow-x-hidden rounded-lg border border-black/10  bg-white py-2 shadow-2xl outline-none backdrop-blur-lg dark:bg-gray-800;
+	}
 }
 
 .no-scroll-bars {
