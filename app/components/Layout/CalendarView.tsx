@@ -149,6 +149,7 @@ export const CalendarView = ({
 			<ScrollShadows
 				element={".calendar-days"}
 				top={101}
+				topClassName={"border-t border-gray-300 dark:border-gray-800"}
 				bottomClassName={"rounded-b-xl"}
 			/>
 		</div>
