@@ -35,7 +35,9 @@ export default function () {
 
 	return (
 		<div className="mt-4 w-1/3">
-			<h3 className=" mb-3 text-gray-700 dark:text-gray-300">Grid</h3>
+			<h3 className=" mb-3 text-gray-700 dark:text-gray-300">
+				Instagram Feed
+			</h3>
 			<div className="overflow-hidden rounded-xl border dark:border-gray-800">
 				<div className="flex h-10 items-center justify-around  px-4 text-gray-300 dark:text-gray-700">
 					<MdGridOn className="text-xl" />
@@ -58,8 +60,8 @@ export default function () {
 								} relative flex aspect-square flex-col place-items-center justify-between p-2 ${
 									action.status ===
 									"a448e17d-05ba-4ad0-9990-773f9384d15e"
-										? "text-gray-700 dark:text-gray-300"
-										: "text-gray-300 dark:text-gray-700"
+										? "text-gray-300 dark:text-gray-700"
+										: "text-gray-700 dark:text-gray-300"
 								}`}
 								key={action.id}
 							>
