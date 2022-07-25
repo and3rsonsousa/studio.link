@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-export default function ContextMenu({ opaque }: { opaque?: boolean }) {
+export default function ContextMenu() {
 	return (
-		<div className={`dropdown-content${opaque ? " opaque" : ""}`}>
+		<div className={`dropdown-content`}>
 			<Link to="/teste" className="dropdown-item">
 				Teste
 			</Link>

@@ -159,7 +159,6 @@ export default function AddAction({
 							}))}
 							name="account-select"
 							required={full}
-							opaque
 							callBack={(value) => setAccount(value)}
 							value={account}
 						/>
@@ -191,7 +190,6 @@ export default function AddAction({
 													value: tag.id,
 												}))}
 												label="Tag"
-												opaque
 												value={tag}
 												callBack={(value) =>
 													setTag(value)
@@ -208,7 +206,6 @@ export default function AddAction({
 													})
 												)}
 												label="Status"
-												opaque
 												value={status}
 												callBack={(value) =>
 													setStatus(value)

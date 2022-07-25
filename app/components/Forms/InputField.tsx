@@ -20,8 +20,6 @@ type FieldType = {
 	error?: string;
 	value?: string;
 	disabled?: boolean;
-	opaque?: boolean;
-	darker?: boolean;
 };
 
 export default function InputField({
@@ -37,8 +35,6 @@ export default function InputField({
 	error,
 	value,
 	disabled,
-	opaque = false,
-	darker = false,
 }: FieldType) {
 	return (
 		<div className="field">
@@ -48,11 +44,9 @@ export default function InputField({
 				</label>
 			)}
 			<div
-				className={`field-input-holder${opaque ? " opaque" : ""}${
-					darker ? " darker" : ""
-				}${disabled ? " field-disabled" : ""}${
-					error ? " field-error" : ""
-				}`}
+				className={`field-input-holder${
+					disabled ? " field-disabled" : ""
+				}${error ? " field-error" : ""}`}
 			>
 				{before}
 				<input

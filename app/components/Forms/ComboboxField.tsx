@@ -11,7 +11,7 @@ export default function ComboboxField({
 	name,
 	placeholder,
 	required,
-	opaque,
+
 	callBack,
 	value,
 	autoComplete = true,
@@ -21,7 +21,7 @@ export default function ComboboxField({
 	name?: string;
 	placeholder?: string;
 	required?: boolean;
-	opaque?: boolean;
+
 	callBack?: (value: string) => void;
 	value?: string;
 	autoComplete?: boolean;
@@ -77,9 +77,7 @@ export default function ComboboxField({
 					<AnimatePresence>
 						{query.length > 0 && (
 							<Combobox.Options
-								className={`dropdown-content ${
-									opaque ? "opaque" : ""
-								} absolute top-12 w-full origin-top`}
+								className={`dropdown-content absolute top-12 w-full origin-top`}
 								as={motion.div}
 								{...scaleUp()}
 								static

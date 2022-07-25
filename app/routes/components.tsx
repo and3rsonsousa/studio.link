@@ -64,21 +64,6 @@ function Components() {
 						value="I am disabled"
 						disabled
 					/>
-
-					<InputField
-						name="name"
-						type="text"
-						label="Opaque Input"
-						value="I am opaque"
-						opaque
-					/>
-					<InputField
-						name="name"
-						type="text"
-						label="Darker Input"
-						value="I am darker than the others"
-						darker
-					/>
 				</div>
 			</div>
 		</>

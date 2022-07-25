@@ -13,7 +13,7 @@ const SelectField = ({
 	error,
 	value,
 	options,
-	opaque = false,
+
 	callBack,
 }: {
 	name?: string;
@@ -23,7 +23,7 @@ const SelectField = ({
 	error?: string;
 	value?: string;
 	options: { id: string; text: string; value: string }[];
-	opaque?: boolean;
+
 	callBack?: (value: string) => void;
 }) => {
 	const [selectedOption, setSelected] = useState(
@@ -66,9 +66,7 @@ const SelectField = ({
 										as={motion.div}
 										{...scaleUp()}
 										ref={floating}
-										className={`dropdown-content ${
-											opaque ? "opaque" : ""
-										} no-scroll-bars max-h-40 w-full ${
+										className={`dropdown-content no-scroll-bars max-h-40 w-full ${
 											y && y > 0
 												? "origin-top"
 												: "origin-bottom"

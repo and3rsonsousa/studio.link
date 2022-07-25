@@ -93,7 +93,7 @@
 	}
 
 	.field-input-holder:not(.field-disabled) {
-		@apply flex w-full  rounded-xl bg-gray-300/25 font-semibold text-gray-500 ring-brand-500/50 transition focus-within:ring-4 focus-within:ring-brand hover:ring-4 focus-visible:ring-4 dark:bg-black/75 dark:ring-brand-500/50 dark:focus-within:ring-brand;
+		@apply flex w-full  rounded-xl bg-gray-300/25 font-semibold text-gray-500 ring-brand-500/50 transition focus-within:ring-4 focus-within:ring-brand hover:ring-4 focus-visible:ring-4 dark:bg-black/50 dark:ring-brand-500/50 dark:focus-within:ring-brand;
 	}
 
 	.field-input-holder.field-disabled {
@@ -101,14 +101,6 @@
 	}
 	.field-input-holder.field-disabled .field-input {
 		@apply text-gray-300 dark:text-gray-700;
-	}
-
-	.field-input-holder.opaque {
-		@apply bg-gray-200;
-	}
-
-	.field-input-holder.darker {
-		@apply bg-gray-300/50;
 	}
 
 	.field-checkbox-holder {
@@ -171,9 +163,6 @@
 
 	.dropdown-content {
 		@apply z-50 overflow-x-hidden rounded-lg border border-black/10  bg-gray-100/75 py-2 shadow-2xl outline-none backdrop-blur-lg dark:bg-gray-700/50;
-	}
-	.dropdown-content.opaque {
-		@apply bg-gray-100 dark:bg-gray-900;
 	}
 
 	/* .dropdown-divider {

@@ -776,7 +776,7 @@ h5 {
 }
 
 .dark .field-input-holder:not(.field-disabled) {
-  background-color: rgb(0 0 0 / 0.75);
+  background-color: rgb(0 0 0 / 0.5);
   --tw-ring-color: rgb(139 92 246 / 0.5);
 }
 
@@ -809,15 +809,6 @@ h5 {
 .dark .field-input-holder.field-disabled .field-input {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
-}
-
-.field-input-holder.opaque {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
-}
-
-.field-input-holder.darker {
-  background-color: rgb(203 213 225 / 0.5);
 }
 
 .field-checkbox-holder {
@@ -1182,16 +1173,6 @@ select {
 
 .dark .dropdown-content {
   background-color: rgb(51 65 85 / 0.5);
-}
-
-.dropdown-content.opaque {
-  --tw-bg-opacity: 1;
-  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-
-.dark .dropdown-content.opaque {
-  --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
 /* .dropdown-divider {
