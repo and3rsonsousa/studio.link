@@ -14,6 +14,7 @@ import {
 import type { ActionModel } from "~/utils/models";
 import Day from "./Day";
 import { useEffect, useState } from "react";
+import ScrollShadows from "./ScrollShadows";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -75,31 +76,7 @@ export const CalendarView = ({
 		current = current.add(1, "day");
 	}
 
-	const [shadowTop, setShadowTop] = useState(false);
-	const [shadowBottom, setShadowBottom] = useState(false);
 	const viewColor = searchParams.get("color") || "status";
-
-	useEffect(() => {
-		const ele = document.querySelector(".calendar-days");
-		const scrollCalendar = (ele: Element | null) => {
-			if (ele) {
-				if (ele.scrollTop === 0) {
-					setShadowTop(false);
-				} else {
-					setShadowTop(true);
-				}
-				if (ele.scrollHeight - ele.clientHeight === ele.scrollTop) {
-					setShadowBottom(false);
-				} else {
-					setShadowBottom(true);
-				}
-			}
-		};
-
-		ele?.addEventListener("scroll", () => scrollCalendar(ele));
-
-		scrollCalendar(ele);
-	}, []);
 
 	return (
 		<div className="relative flex h-full flex-col">
@@ -168,18 +145,12 @@ export const CalendarView = ({
 					/>
 				))}
 			</div>
-			<div
-				className={`pointer-events-none absolute top-[101px] left-px right-px z-10 h-12  origin-top bg-gradient-to-b from-gray-400/25 to-gray-400/0 transition dark:from-black/75 dark:to-black/0 ${
-					shadowTop
-						? "opacity-100 duration-500"
-						: "opacity-0 duration-200"
-				}`}
-			></div>
-			<div
-				className={`pointer-events-none absolute bottom-0 left-px right-px z-10 h-20  origin-bottom rounded-b-xl bg-gradient-to-t from-gray-400/50 to-gray-400/0 transition duration-500 dark:from-black/50 dark:to-black/0 ${
-					shadowBottom ? "opacity-100 " : "opacity-0 "
-				}`}
-			></div>
+
+			<ScrollShadows
+				element={".calendar-days"}
+				top={101}
+				bottomClassName={"rounded-b-xl"}
+			/>
 		</div>
 	);
 };

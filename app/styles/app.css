@@ -2819,8 +2819,30 @@ select {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.dark .dark\:from-gray-900\/75 {
+  --tw-gradient-from: rgb(15 23 42 / 0.75);
+  --tw-gradient-to: rgb(15 23 42 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.dark .dark\:from-gray-900\/50 {
+  --tw-gradient-from: rgb(15 23 42 / 0.5);
+  --tw-gradient-to: rgb(15 23 42 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.dark .dark\:from-gray-900 {
+  --tw-gradient-from: #0f172a;
+  --tw-gradient-to: rgb(15 23 42 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .dark .dark\:to-black\/0 {
   --tw-gradient-to: rgb(0 0 0 / 0);
+}
+
+.dark .dark\:to-gray-900\/0 {
+  --tw-gradient-to: rgb(15 23 42 / 0);
 }
 
 .dark .dark\:text-white {
